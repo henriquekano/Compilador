@@ -32,7 +32,7 @@ typedef enum{
 	S9 = 9, //tudo exceto ' *
 	S10 = 10, //completa ''
 	S11 = 11, //separadores
-	S12 = 12, //desconhecidos
+	S12 = 12 //desconhecidos
 }States;
 
 extern const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES];

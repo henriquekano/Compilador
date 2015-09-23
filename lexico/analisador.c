@@ -16,12 +16,19 @@ Token find_possible_token(Automata *automata, FILE *file){
 	Lista l;
 	Token return_token;
 	constroi(&l);
-	int c, current_state, previous_state;
+	int c, current_state, next_state;
   
   do {
-  	c = fgetc(file);
+    //faz um lookahead - se nao for retornar para o S0 (=criar um token), 
+    //le um caracter, else: não le um caracter e cria o token
+    next_state = automata_next_state(automata, input_converter_function((char)c));
+    if(next_state != S0){
+      c = fgetc(file);
+    }else{
+      automata->state = S0;
+      break;
+    }
   	printf("%c", (char)c);
-		previous_state = automata_current_state(automata);
 		automata_goto_next_state(automata, input_converter_function((char)c));
 		current_state = automata_current_state(automata);
 
