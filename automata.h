@@ -2,7 +2,7 @@
   #define AUTOMATA_H_
 
   #define STATE_NUMBER 20; 
-  #include "token.h"
+  #include "./utils/token.h"
 
   /*
   Automato:
@@ -12,11 +12,10 @@
   */
   typedef struct{
     int state;
-    int **state_transition_table;
   }automata;
 
   // token automata_get_token(FILE *file, automata *a);
-  automata automata_create(int **state_transition_table);
+  automata automata_create(int state);
   void automata_goto_next_state(automata *a, int input);
   int automata_next_state(automata *a, int input);
   int automata_current_state(automata *a);

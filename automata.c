@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "automata.h"
-#include "token.h" 
+#include "./utils/token.h" 
+#include "transition_table.h"
 
-automata automata_create(int **state_transition_table){
-  automata a = {0, state_transition_table};
+automata automata_create(int state){
+  automata a = {state};
   return a;
 };
 
 int automata_next_state(automata *a, int input){
-  return a->state_transition_table[a->state][input];
+  return state_transition_table[a->state][input];
 }
 
 void automata_goto_next_state(automata *a, int input){

@@ -34,7 +34,7 @@ typedef enum{
 	S10 = 10, //completa ''
 	S11 = 11, //espaco
 	S12 = 12, //separadores
-	S13 = 13, //desconhecidos
+	S13 = 13 //desconhecidos
 }States;
 
 int state_transition_table[NUMBER_STATES][NUMBER_INPUTS_TYPES] =

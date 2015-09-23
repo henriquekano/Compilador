@@ -3,9 +3,9 @@
 #include "transition_table.h"
 
 int input_converter_function(char character){
-  if(isalpha(character)){
+  if(isalpha((int)character)){
     return LETTER;
-  }else if(isdigit(character)){
+  }else if(isdigit((int)character)){
     return NUMBER;
   }else if(character == '+' || character == '-' || character == '/' || character == '*'){
     return ARITH_SYMBOL;
@@ -21,7 +21,7 @@ int input_converter_function(char character){
     return COMPARATOR;
   }else if(character == '_'){
     return UNDERLINE;
-  }else if(isspace(character)){
+  }else if(isspace((int)character)){
     return UNDERLINE;
   }else{
     return UNKNOWN;
