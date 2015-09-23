@@ -3,6 +3,7 @@
 
   #define STATE_NUMBER 20; 
   #include "token.h"
+
   typedef struct{
     int state;
     int **state_transition_table;

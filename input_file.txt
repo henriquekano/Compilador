@@ -1,0 +1,51 @@
+begin
+	float var1 = 1;
+	float var2;
+	float var3;
+	bool var4;
+	char var5;
+	int var6;
+	int matrix[2][4];
+
+	// declaracoes de funcoes
+
+	function media(int nota1, int nota2) do
+		return (nota1 + nota2)/2;
+	endfunction
+
+	function operacoes() do
+		var1 = 43/2*5+1;
+		var2 = 12 + 3 - 12 / 43 * 1;
+		var3 = var1 + var2;
+		return var;
+	endfunction
+
+	// fim declaracao de f
+
+	if (var1 > 1) do
+		print "Maior que 1";
+	elsif (var1 < 1) do
+		print "Menor que 1";
+	endif
+
+	if (var1 <= 1) do
+		print "Menor igual a 1";
+	endif
+
+	if (var1 >= 1) do
+		print "Maior igual a 1";
+	endif
+
+	if (var1 == true) do
+		print "true";
+	endif
+
+	if !(var1 == false) do
+		print "not false";
+	endif
+
+	while (true) do
+		var1 = media(3,4);
+		print var1;
+	endwhile
+end

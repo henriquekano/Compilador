@@ -16,7 +16,7 @@ token automata_get_token(FILE *file, automata *a){
   }while(isspace(ch));
 
   do{
-    automata_next_state(a, ch);
+    // automata_next_state(a, ch);
     ch = (char)fgetc(file);
   }while(isspace(ch));
 
