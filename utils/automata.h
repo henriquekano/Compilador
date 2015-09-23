@@ -13,12 +13,11 @@
   typedef struct{
     int state;
     int **state_transition_table;
-    int (*input_converter_function)(char input);
   }automata;
 
   // token automata_get_token(FILE *file, automata *a);
-  automata automata_create(int **state_transition_table, int (*function_converter)(char));
+  automata automata_create(int **state_transition_table);
+  void automata_goto_next_state(automata *a, int input);
   int automata_next_state(automata *a, int input);
   int automata_current_state(automata *a);
-  void automata_run_machine(automata *a, char *input);
 #endif

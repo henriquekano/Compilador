@@ -3,8 +3,8 @@
 #include "automata.h"
 #include "token.h" 
 
-automata automata_create(int **state_transition_table, int (*function_converter)(char)){
-  automata a = {0, state_transition_table, function_converter};
+automata automata_create(int **state_transition_table){
+  automata a = {0, state_transition_table};
   return a;
 };
 
@@ -18,14 +18,4 @@ void automata_goto_next_state(automata *a, int input){
 
 int automata_current_state(automata *a){
   return a->state;
-}
-
-void automata_run_machine(automata *a, char *input){
-  char *ch = input;
-  //Ignora espacos e </br>s
-  while(*ch != '\0'){
-    automata_goto_next_state(a, a->input_converter_function(*ch));
-    ch++;
-  }
- 
 }
