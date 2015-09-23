@@ -1,4 +1,3 @@
-
 #ifndef TRANSITION_TABLE_H_INCLUDED
 #define TRANSITION_TABLE_H_INCLUDED
 #define NUMBER_STATES 14
@@ -37,24 +36,7 @@ typedef enum{
 	S13 = 13 //desconhecidos
 }States;
 
-int state_transition_table[NUMBER_STATES][NUMBER_INPUTS_TYPES] =
-{
-//Input: 
-	//Letter, number, arith.,d_quote,s_quote,  EOC 	, 	=	, comp 	, underl, blank , sep 	, unknown
-	{	S2	,	S5	,	S6	,	S7	,	S10	,	S1	,	S3	,	S3	,	S2	,	S11	,	S12	,	S13	}, //S0
-	{	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	}, //S1
-	{	S2	,	S2	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S2	,	S0	,	S0	,	S0	}, //S2
-	{	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S4	,	S0	,	S0	,	S0	,	S0	,	S0	}, //S3
-	{	S3	,	S3	,	S3	,	S3	,	S3	,	S3	,	S3	,	S3	,	S3	,	S3	,	S3	,	S3	}, //S4
-	{	S0	,	S5	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	}, //S5
-	{	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	}, //S6
-	{	S7	,	S7	,	S7	,	S8	,	S7	,	S7	,	S7	,	S7	,	S7	,	S7	,	S7	,	S7	}, //S7
-	{	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	}, //S8
-	{	S9	,	S9	,	S9	,	S9	,	S10	,	S9	,	S9	,	S9	,	S9	,	S9	,	S9	,	S9	}, //S9
-	{	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	}, //S10
-	{	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	}, //S11
-	{	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	,	S0	}, //S12
-};
+extern const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES];
 
 int input_converter_function(char character);
 

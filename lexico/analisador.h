@@ -5,7 +5,9 @@
   #include "utils/listaLigada.h"
   #include <stdio.h>
 
-  Lista tokenize(char *file);
-  token get_token(char *file);
+  // Lista tokenize(char *file);
+  // token get_token(char *file);
+
+	char tokenizer(int state);
 
 #endif

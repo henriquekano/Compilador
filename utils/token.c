@@ -1,10 +1,10 @@
 #include "token.h"
 
-token token_create(char *string, token_type type){
-  token t = {string,type};
+Token token_create(char *string, Token_type type){
+  Token t = {string,type};
   return t;
 }
 
-void token_pretty_print(token *t){
+void token_pretty_print(Token *t){
   printf("%s | %i", t->string, t->type);
 }

@@ -14,13 +14,13 @@
     TT_SEPARATOR,
     TT_END_OF_COMMAND,
     TT_UNKNOWN
-  }token_type;
+  }Token_type;
 
   typedef struct{
     char *string;
-    token_type type;
-  }token;
+    Token_type type;
+  }Token;
 
-  token token_create(char *string, token_type type);
-  void token_pretty_print(token *t);
+  Token token_create(char *string, Token_type type);
+  void token_pretty_print(Token *t);
 #endif
