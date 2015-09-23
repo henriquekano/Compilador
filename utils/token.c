@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "token.h"
 
 Token token_create(char *string, Token_type type){

@@ -48,9 +48,9 @@ void imprimeLista(Lista *l)
     if (vazia(l))
         printf("Lista vazia");
     else {
-        printf("\n\n");
+        // printf("\n\n");
         while (z != NULL) {
-            printf("\t%d\n", acessa(z, l));
+            printf("%c", (char)acessa(z, l));
             z = proximo(z, l);
         }
     }
@@ -119,8 +119,8 @@ void overflow(Lista *l)
 
 TipoDaPosicao primeiro(Lista *l)
 {
-    if(!vazia(l))
-        return l->cabeca;
+    // if(!vazia(l))
+    return l->cabeca;
 }
 
 TipoDaPosicao proximo(TipoDaPosicao p, Lista *l)
@@ -147,4 +147,15 @@ int ehPrimo(int numero)
             primo = 0;
     }
     return primo;
+}
+
+char *toArray(Lista *l){
+    No *p = l->cabeca;
+    char array[l->comp];
+
+    int i;
+    for(i = 0; i < l->comp; i++){
+        array[i] = p->info;
+    }
+    return array;
 }

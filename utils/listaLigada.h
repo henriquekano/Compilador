@@ -37,4 +37,6 @@ void imprimeLista(Lista *l);
 
 int ehPrimo(int numero);
 
+char *toArray(Lista *l);
+
 #endif // LISTALIGADA_H_INCLUDED

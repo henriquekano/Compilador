@@ -1,10 +1,6 @@
 #ifndef TOKEN_H_
   #define TOKEN_H_
 
-  #include <string.h>
-  #include <stdio.h>
-  #include <stdlib.h>
-
   typedef enum{
     TT_STRING,
     TT_ARITH_SYMBOL,
