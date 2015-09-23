@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include "./utils/automata.h"
+// #include "./utils/automata.h"
 
 #define FILENAME "input_file.txt"
 
