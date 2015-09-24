@@ -4,6 +4,8 @@
 #include "../automata.h"
 #include <ctype.h>
 #include <string.h>
+#include "../utils/token.h"
+#include "../transition_table.h"
 
 // Lista tokenize(char *file){
 
@@ -15,7 +17,9 @@
 
 void find_possible_token(Automata *automata, FILE *file){
   // constroi(&l);
-  int c, current_state;
+  Token return_token;
+  States current_state, previous_state;
+  int c;
   char buffer[50] = "\0";
   char temp[2] = "\0";
   do {
@@ -29,6 +33,7 @@ void find_possible_token(Automata *automata, FILE *file){
     //   break;
     // }
     c = fgetc(file);
+    previous_state = automata_current_state(automata);
     automata_goto_next_state(automata, input_converter_function((char)c));
     current_state = automata_current_state(automata);
 
@@ -42,8 +47,8 @@ void find_possible_token(Automata *automata, FILE *file){
   }while(current_state != S0 && c != EOF);
 
   fseek(file, -1, SEEK_CUR);
-  printf("%s", buffer);
-
+  return_token = token_create(buffer, state_converter_token_type(previous_state));
+  token_pretty_print(&return_token);
   // return_token = token_create(toArray(&l), 0);
   // destroi(&l);
   printf("\n");

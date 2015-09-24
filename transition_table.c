@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "transition_table.h"
+#include "utils/token.h"
 
 const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES] =
 {
@@ -42,9 +43,34 @@ int input_converter_function(char character){
 		return UNDERLINE;
 	}else if(isspace((int)character)){
 		return BLANK;
+	}else if(character == '(' || character == ')' || character == '[' || character == ']'){
+		return SEPARATOR;
 	}else{
 		return UNKNOWN;
 	}
 }
 
-
+Token_type state_converter_token_type(States state){
+	switch(state){
+		case S1:
+			return TT_END_OF_COMMAND;
+		case S2:
+			return TT_IDENT_RESERVED;
+		case S3:
+			return TT_COMPARATOR;
+		case S4:
+			return TT_COMPARATOR;
+		case S5:
+			return TT_NUMBER;
+		case S6:
+			return TT_ARITH_SYMBOL;
+		case S8:
+			return TT_STRING; 
+		case S10:
+			return TT_STRING;
+		case S11:
+			return TT_SEPARATOR;
+		default:
+			return TT_UNKNOWN;
+	}
+}
