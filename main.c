@@ -15,8 +15,7 @@ int main(){
 	if (file == NULL){
 		printf("Arquivo não existe!!!");
   } else {
-  	printf("%d\n\n", EOL);
-		Automata automata = automata_create(S0);
+	Automata automata = automata_create(S0);
     tokenize(&automata, file);
 	}
   return 0;

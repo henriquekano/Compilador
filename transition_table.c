@@ -4,7 +4,7 @@
 #include "transition_table.h"
 #include "utils/token.h"
 
-const char *RESERVED_WORDS[] = {"begin", "do", "end", "if", "elsif", "endif", "while", "endwhile", "function", "endfunction", "int", "char", "bool", "return", "true", "false"};
+const char *RESERVED_WORDS[] = {"begin", "do", "end", "if", "elsif", "endif", "while", "endwhile", "function", "endfunction", "int", "char", "float", "bool", "return", "true", "false", "print"};
 
 const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES] =
 {
@@ -46,7 +46,7 @@ int input_converter_function(char character){
 		return UNDERLINE;
 	}else if(isspace((int)character)){
 		return BLANK;
-	}else if(character == '(' || character == ')' || character == '[' || character == ']'){
+	}else if(character == '(' || character == ')' || character == '[' || character == ']' || character == ','){
 		return SEPARATOR;
 	}else{
 		return UNKNOWN;

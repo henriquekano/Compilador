@@ -1,6 +1,6 @@
 #ifndef TRANSITION_TABLE_H_INCLUDED
 #define TRANSITION_TABLE_H_INCLUDED
-#define NUMBER_STATES 14
+#define NUMBER_STATES 13
 #define NUMBER_INPUTS_TYPES 12
 
 #include "utils/token.h"
@@ -27,7 +27,7 @@ typedef enum{
 	S2 = 2, //identificador
 	S3 = 3, //comparador 1 caracter
 	S4 = 4, //comparador 2 caracteres
-	S5 = 5, //string
+	S5 = 5, //numero
 	S6 = 6, //operador aritmetico
 	S7 = 7, //tudo exceto " *
 	S8 = 8, //completa ""

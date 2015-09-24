@@ -1,0 +1,63 @@
+<variavel simples>::=<tipo> <identificador>|<tipo> <identificador>=<>
+
+
+<D> ::= 0|1|2|3|4|5|6|7|8|9
+<L> ::= a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z
+<*> ::= @|#|$|%|"|'|&|*|(|)|[|]|<|>|=|-|^|~||||\|/|,|.|:|;
+<operador arit> ::= +|-|*|/|^;
+<operador bool> ::= and|or;
+<espaco> ::= \n| |\t| 
+<L/D> ::= <L>|<D>
+<qualquer> ::= <L/D>|<*>|<espaco>
+<ID> ::= <L>|<ID><L/D>
+<lista de IDs> ::= <ID>|<lista de IDs>,<ID>
+<tipo> ::= int|float|string|bool
+<string> ::= <'string'><"string">
+<"string"> ::= "<qualquer>"|"<'string'><qualquer>"
+<'string'> ::= '<qualquer>'|'<"string"><qualquer>'
+<comparador bool> ::= ==|!=
+<comparador> ::= <|>|<=|>=|<comparador bool>
+<num natural> ::= <D>|<num natural><D>
+<num inteiro> ::= <num natural>|-<num natural>
+<num float> ::= <num natural>.<num natural>
+<numero> ::= <num inteiro>|<num float>
+<bool> ::= true|false
+<valor> ::= <numero>|<string>|<bool>|<ID>
+<expressao bool> ::= <expressao bool>and<termo>
+<termo> ::= <fator>|<termo>or<fator>
+
+
+<expressao arit> ::= <expressao arit>+<termo>|<expressao arit>-<termo>
+<termo> ::= <termo>*<fator2>|<termo>/<fator2>|<fator2>
+<fator2> ::= <fator>^<fator>
+<fator> ::= (<expressao arit>)|<ID>|<numero>|<function call>
+
+
+<condicao> ::= <expressao bool><comparador bool><expressao bool>|<expressao arit><comparador><expressao arit>
+<espressao> ::= <expressao bool>|<expressao arit>
+<lista de espressoes> ::= <expressao>|<lista de expressoes><expressao>
+<lista de comandos> ::= E|<lista de comandos><comando>;
+<comando> ::= <atribuicao>|<condicional>|<iteracao>|<entrada>|<saida>
+<parametro> ::= <tipo> <ID>
+<lista de parametros> ::= <parametro>|<lista de parametros><parametro>
+<argumento> ::= <ID>|<numero>|<chamada de funcao>
+<lista de argumentos> :: <argumento>|<lista de argumentos>,<argumento>
+
+<decl var simples> ::= <tipo> <lista de IDs>;
+<decl var 1D> ::= <tipo>[num natural] <lista de IDs>;
+<decl var 2D> ::= <tipo>[num natural][num natural] <lista de IDs>;
+<atribuicao> ::= <ID> = <valor>
+<programa> ::= begin do <comandos> end
+<argumentos de entrada> ::= AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+<argumentos de saida> ::= AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+<entrada> ::= scan(<argumentos de entrada>);
+<saida> ::= print(<argumentos de saida>);
+
+<function> ::= function <tipo> <ID>(<lista de parametros>) do <comandos> endfunction;
+<chamada de funcao> ::= <ID>(<lista de argumentos>)
+<condicional> ::= if <condicao> do <comandos> <else> endif;
+<else> ::= E|else <comandos>
+<iterativo> ::= while <condicao> do <comandos> endwhile;
+<selecao> ::= switch <ID> <lista de opcoes> default <comandos> endswitch;
+<lista de opcoes> ::= <opcao>;|<lista de opcoes><opcao>;
+<opcao> ::= case <valor> <comandos> continue;

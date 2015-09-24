@@ -21,7 +21,7 @@ char *token_type_to_string(Token_type token_type){
     case TT_COMPARATOR:
       return "COMPARATOR";
     case TT_RESERVED:
-      return "RESERVADA";
+      return "RESERVED";
     case TT_IDENTIFIER:
       return "IDENTIFIER";
     case TT_SEPARATOR:
