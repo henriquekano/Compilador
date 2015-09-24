@@ -1,6 +1,6 @@
 #ifndef TRANSITION_TABLE_H_INCLUDED
 #define TRANSITION_TABLE_H_INCLUDED
-#define NUMBER_STATES 13
+#define NUMBER_STATES 14
 #define NUMBER_INPUTS_TYPES 12
 
 #include "utils/token.h"
@@ -34,7 +34,8 @@ typedef enum{
 	S9 = 9, //tudo exceto ' *
 	S10 = 10, //completa ''
 	S11 = 11, //separadores
-	S12 = 12 //desconhecidos
+	S12 = 12, //desconhecidos
+	S13 = 13 //atribuicao
 }States;
 
 extern const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES];

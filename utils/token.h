@@ -10,7 +10,8 @@
     TT_IDENTIFIER,
     TT_SEPARATOR,
     TT_END_OF_COMMAND,
-    TT_UNKNOWN
+    TT_UNKNOWN,
+    TT_ASSIGNMENT
   }Token_type;
 
   typedef struct{

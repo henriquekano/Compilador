@@ -4,25 +4,26 @@
 #include "transition_table.h"
 #include "utils/token.h"
 
-const char *RESERVED_WORDS[] = {"begin", "do", "end", "if", "elsif", "endif", "while", "endwhile", "function", "endfunction", "int", "char", "float", "bool", "return", "true", "false", "print"};
+const char *RESERVED_WORDS[] = {"begin", "do", "end", "if", "elsif", "endif", "while", "endwhile", "function", "endfunction", "int", "char", "bool", "return", "true", "false"};
 
 const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES] =
-{
+{										
 //Input: 
 	//Letter, number, arith.,d_quote,s_quote,  EOC  ,   =  	, comp  , underl, blank , sep   , unknown
-	{	S2 	,	S5 	,	S6	,	S7 	,	S10 ,	S1 	,	S3 	, 	S3 	,	S2 	, 	S0 	,	S11 ,	S12	}, //S0 - inicial
-	{	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	}, //S1 - ;
-	{	S2 	,	S2 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S2 	,	S0 	,	S0 	,	S0 	}, //S2 - identificador
-	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S4 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	}, //S3 - comparador 1 caracter
-	{ 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	}, //S4 - comparador 2 caracteres
-	{ 	S0 	, 	S5 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	}, //S5 - string
-	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	}, //S6 - operador aritmetico
-	{ 	S7 	, 	S7 	, 	S7 	, 	S8 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	}, //S7 - tudo exceto " *
-	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	}, //S8 - completa ""
-	{ 	S9 	, 	S9 	, 	S9 	, 	S9 	, 	S1 	,	S9 	, 	S9 	, 	S9 	, 	S9 	, 	S9 	, 	S9 	, 	S9 	}, //S9 - tudo exceto ' *
-	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	}, //S10 - completa ''
-	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	}, //S11 - separadores
-	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	}  //S12 - desconhecidos
+	{		S2 	,		S5 	,		S6	,		S7 	,		S10 ,		S1 	,		S13	, 	S3 	,		S2 	,	 	S0 	,		S11 ,		S12	},	//S0 - inicial
+	{		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	}, 	//S1 - ;
+	{		S2 	,		S2 	,		S0	,		S12	,		S12	,		S0 	,		S0 	,		S0 	,		S2 	,		S0 	,		S0 	,		S12	}, 	//S2 - identificador
+	{ 	S0 	, 	S0 	, 	S0	, 	S0	, 	S0	, 	S0	, 	S4 	, 	S12	, 	S0	, 	S0 	, 	S0 	, 	S0	}, 	//S3 - comparador 1 caracter
+	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0	, 	S12	, 	S12	, 	S0	, 	S0 	, 	S0 	, 	S0 	}, 	//S4 - comparador 2 caracteres
+	{ 	S12	, 	S5 	, 	S0 	, 	S12	, 	S12	, 	S0 	, 	S0 	, 	S0 	, 	S12	, 	S0 	, 	S0 	, 	S12	},	//S5 - num
+	{ 	S0 	, 	S0 	, 	S12	, 	S0 	, 	S0 	, 	S0 	, 	S12	, 	S12	, 	S0	, 	S0 	, 	S0 	, 	S0	},	//S6 - operador aritmetico
+	{ 	S7 	, 	S7 	, 	S7 	, 	S8 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	},	//S7 - tudo exceto " *
+	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	},	//S8 - completa ""
+	{ 	S9 	, 	S9 	, 	S9 	, 	S9 	, 	S10	,		S9 	, 	S9 	, 	S9 	, 	S9 	, 	S9 	, 	S9 	, 	S9 	},	//S9 - tudo exceto ' *
+	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	},	//S10 - completa ''
+	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0	, 	S0	, 	S0 	, 	S0 	, 	S0 	, 	S0 	},	//S11 - separadores
+	{ 	S12	, 	S12	, 	S0	, 	S12	, 	S12	, 	S0 	, 	S0 	, 	S0 	, 	S12	, 	S0 	, 	S0 	, 	S12	},	//S12 - desconhecidos
+	{ 	S0 	, 	S0 	, 	S12	, 	S0 	, 	S0 	, 	S0	, 	S4 	, 	S12	, 	S0 	, 	S0 	, 	S0 	, 	S0 	}		//S13 - atribuicao (=)
 };
 
 int input_converter_function(char character){
@@ -77,6 +78,8 @@ Token_type state_converter_token_type(States state, char buffer[50]){
 			return TT_STRING;
 		case S11:
 			return TT_SEPARATOR;
+		case S13:
+			return TT_ASSIGNMENT;
 		default:
 			return TT_UNKNOWN;
 	}

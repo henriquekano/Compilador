@@ -28,6 +28,8 @@ char *token_type_to_string(Token_type token_type){
       return "SEPARATOR";
     case TT_END_OF_COMMAND:
       return "END_OF_COMMAND";
+    case TT_ASSIGNMENT:
+      return "ASSIGNMENT";
     case TT_UNKNOWN:
       return "UNKNOWN";
     default:

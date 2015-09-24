@@ -33,6 +33,9 @@ void find_possible_token(Automata *automata, FILE *file){
     //   break;
     // }
     c = fgetc(file);
+    if(c == EOF){
+      break;
+    }
     previous_state = automata_current_state(automata);
     automata_goto_next_state(automata, input_converter_function((char)c));
     current_state = automata_current_state(automata);
@@ -44,7 +47,7 @@ void find_possible_token(Automata *automata, FILE *file){
 
     // insereFim(c, &l);
 
-  }while(current_state != S0 && c != EOF);
+  }while(current_state != S0 && strcmp(buffer, "end") != 0);
 
   fseek(file, -1, SEEK_CUR);
   return_token = token_create(buffer, state_converter_token_type(previous_state, buffer));
