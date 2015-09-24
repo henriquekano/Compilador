@@ -1,22 +1,25 @@
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 #include "transition_table.h"
 #include "utils/token.h"
+
+const char *RESERVED_WORDS[] = {"begin", "do", "end", "if", "elsif", "endif", "while", "endwhile", "function", "endfunction", "int", "char", "bool", "return", "true", "false"};
 
 const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES] =
 {
 //Input: 
 	//Letter, number, arith.,d_quote,s_quote,  EOC  ,   =  	, comp  , underl, blank , sep   , unknown
-	{		S2 	,		S5 	,		S6	,		S7 	,		S10 ,		S1 	,		S3 	, 	S3 	,		S2 	, 	S0 	,		S11 ,		S12	}, //S0 - inicial
-	{		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	}, //S1 - ;
-	{		S2 	,		S2 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S0 	,		S2 	,		S0 	,		S0 	,		S0 	}, //S2 - identificador
+	{	S2 	,	S5 	,	S6	,	S7 	,	S10 ,	S1 	,	S3 	, 	S3 	,	S2 	, 	S0 	,	S11 ,	S12	}, //S0 - inicial
+	{	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	}, //S1 - ;
+	{	S2 	,	S2 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S2 	,	S0 	,	S0 	,	S0 	}, //S2 - identificador
 	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S4 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	}, //S3 - comparador 1 caracter
 	{ 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	, 	S3 	}, //S4 - comparador 2 caracteres
 	{ 	S0 	, 	S5 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	}, //S5 - string
 	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	}, //S6 - operador aritmetico
 	{ 	S7 	, 	S7 	, 	S7 	, 	S8 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	}, //S7 - tudo exceto " *
 	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	}, //S8 - completa ""
-	{ 	S9 	, 	S9 	, 	S9 	, 	S9 	, 	S1 	,		S9 	, 	S9 	, 	S9 	, 	S9 	, 	S9 	, 	S9 	, 	S9 	}, //S9 - tudo exceto ' *
+	{ 	S9 	, 	S9 	, 	S9 	, 	S9 	, 	S1 	,	S9 	, 	S9 	, 	S9 	, 	S9 	, 	S9 	, 	S9 	, 	S9 	}, //S9 - tudo exceto ' *
 	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	}, //S10 - completa ''
 	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	}, //S11 - separadores
 	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	}  //S12 - desconhecidos
@@ -50,12 +53,16 @@ int input_converter_function(char character){
 	}
 }
 
-Token_type state_converter_token_type(States state){
+Token_type state_converter_token_type(States state, char buffer[50]){
 	switch(state){
 		case S1:
 			return TT_END_OF_COMMAND;
 		case S2:
-			return TT_IDENT_RESERVED;
+			if (is_reserved(buffer) == 0){
+				return TT_RESERVED;
+			} else {
+				return TT_IDENTIFIER;
+			}
 		case S3:
 			return TT_COMPARATOR;
 		case S4:
@@ -73,4 +80,18 @@ Token_type state_converter_token_type(States state){
 		default:
 			return TT_UNKNOWN;
 	}
+}
+
+int is_reserved(char string[50]){
+	int result = -1;
+	int i = 0;
+
+	while(RESERVED_WORDS[i]) {
+		if(strcmp(RESERVED_WORDS[i], string) == 0) {
+			result = 0;
+			break;
+		}
+		i++;
+	}
+	return result;
 }

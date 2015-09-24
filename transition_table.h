@@ -39,9 +39,13 @@ typedef enum{
 
 extern const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES];
 
+extern const char *RESERVED_WORDS[];
+
 //converte um char p/ um InputType
 int input_converter_function(char character);
 //Converte um States p/ o Token_type que o estado gera
-Token_type state_converter_token_type(States state);
+Token_type state_converter_token_type(States state, char buffer[50]);
+//retorna 0 se string for uma palavra reservada, senão -1
+int is_reserved(char string[50]);
 
 #endif //TRANSITION_TABLE_H_INCLUDED

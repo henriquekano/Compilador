@@ -9,6 +9,6 @@
   // Lista tokenize(char *file);
   // token get_token(char *file);
 
-	void tokenizer(int state);
+	void tokenize(Automata *automata, FILE *file);
 	void find_possible_token(Automata *automata, FILE *file);
 #endif

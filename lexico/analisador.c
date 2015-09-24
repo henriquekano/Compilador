@@ -47,7 +47,7 @@ void find_possible_token(Automata *automata, FILE *file){
   }while(current_state != S0 && c != EOF);
 
   fseek(file, -1, SEEK_CUR);
-  return_token = token_create(buffer, state_converter_token_type(previous_state));
+  return_token = token_create(buffer, state_converter_token_type(previous_state, buffer));
   token_pretty_print(&return_token);
   // return_token = token_create(toArray(&l), 0);
   // destroi(&l);

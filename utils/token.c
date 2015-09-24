@@ -20,8 +20,10 @@ char *token_type_to_string(Token_type token_type){
       return "NUMBER";
     case TT_COMPARATOR:
       return "COMPARATOR";
-    case TT_IDENT_RESERVED:
-      return "IDENT_RESERVED";
+    case TT_RESERVED:
+      return "RESERVADA";
+    case TT_IDENTIFIER:
+      return "IDENTIFIER";
     case TT_SEPARATOR:
       return "SEPARATOR";
     case TT_END_OF_COMMAND:
