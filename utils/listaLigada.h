@@ -1,10 +1,10 @@
 #ifndef LISTALIGADA_H_INCLUDED
 #define LISTALIGADA_H_INCLUDED
 
-typedef int TipoDoElemento;
+typedef char TipoDoElemento;
 
 typedef struct No {
-    int info;
+    TipoDoElemento info;
     struct No *prox;
 } No;
 
@@ -28,6 +28,7 @@ TipoDaPosicao proximo(TipoDaPosicao p, Lista *l);
 TipoDaPosicao localizaAnterior(TipoDaPosicao p, Lista *l);
 TipoDaPosicao localiza(TipoDoElemento x, Lista *l);
 void insereInicio(TipoDoElemento x, Lista *l);
+void insereFim(TipoDoElemento x, Lista *l);
 void remova(TipoDaPosicao p, Lista *l);
 
 TipoDoElemento acessa(TipoDaPosicao p, Lista *l);

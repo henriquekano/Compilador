@@ -11,17 +11,12 @@
 
 int main(){
 	FILE *file = fopen(FILENAME, "r");
-	int count = 0;
-
-	if (file == NULL)
+	
+	if (file == NULL){
 		printf("Arquivo não existe!!!");
-	else {
+  } else {
 		Automata automata = automata_create(S0);
-		while(count < 10) {
-			find_possible_token(&automata, file);
-			count++;
-		}
-
+    tokenize(&automata, file);
 	}
   return 0;
 }

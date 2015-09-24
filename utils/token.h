@@ -19,4 +19,5 @@
 
   Token token_create(char *string, Token_type type);
   void token_pretty_print(Token *t);
+  char *token_type_to_string(Token_type token_type);
 #endif

@@ -3,6 +3,8 @@
 #define NUMBER_STATES 14
 #define NUMBER_INPUTS_TYPES 12
 
+#include "utils/token.h"
+//Tipos de entradas diferentes consideradas nas transicoes de estado
 typedef enum{
 	LETTER = 0,
 	NUMBER = 1,
@@ -37,6 +39,9 @@ typedef enum{
 
 extern const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES];
 
+//converte um char p/ um InputType
 int input_converter_function(char character);
+//Converte um States p/ o Token_type que o estado gera
+Token_type state_converter_token_type(States state);
 
 #endif //TRANSITION_TABLE_H_INCLUDED
