@@ -12,13 +12,15 @@
 int main(){
 	FILE *file = fopen(FILENAME, "r");
 
-
-	if (file == NULL)
+	if (file == NULL){
 		printf("Arquivo não existe!!!");
-	else {
+  }else {
 		Automata automata = automata_create(S0);
-		while(file)
-			find_possible_token(&automata, file);
+		// while(i <= 20){
+		// 	find_possible_token(&automata, file);
+  //     i++;
+  //   }
+    tokenize(&automata, file);
 
 	}
   return 0;

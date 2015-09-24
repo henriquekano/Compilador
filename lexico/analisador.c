@@ -3,6 +3,7 @@
 #include "../utils/listaLigada.h"
 #include "../automata.h"
 #include <ctype.h>
+#include <string.h>
 
 // Lista tokenize(char *file){
 
@@ -12,39 +13,64 @@
 //   return 0;
 // }
 
-Token find_possible_token(Automata *automata, FILE *file){
-	Lista l;
-	Token return_token;
-	constroi(&l);
-	int c, current_state, next_state;
-  
+void find_possible_token(Automata *automata, FILE *file){
+  // constroi(&l);
+  int c, current_state;
+  char buffer[50] = "\0";
+  char temp[2] = "\0";
   do {
     //faz um lookahead - se nao for retornar para o S0 (=criar um token), 
     //le um caracter, else: não le um caracter e cria o token
-    next_state = automata_next_state(automata, input_converter_function((char)c));
-    if(next_state != S0){
-      c = fgetc(file);
-    }else{
-      automata->state = S0;
-      break;
+    // next_state = automata_next_state(automata, input_converter_function((char)c));
+    // if(next_state != S0){
+    //   c = fgetc(file);
+    // }else{
+    //   automata->state = S0;
+    //   break;
+    // }
+    c = fgetc(file);
+    automata_goto_next_state(automata, input_converter_function((char)c));
+    current_state = automata_current_state(automata);
+
+    if(current_state != S0){
+      temp[0] = (char)c;
+      strcat(buffer, temp);
     }
-  	printf("%c", (char)c);
-		automata_goto_next_state(automata, input_converter_function((char)c));
-		current_state = automata_current_state(automata);
 
-		insereInicio(c, &l);
+    // insereFim(c, &l);
 
-  }while(current_state != S0);
+  }while(current_state != S0 && c != EOF);
 
-  return_token = token_create(toArray(&l), 0);
- 	destroi(&l);
+  fseek(file, -1, SEEK_CUR);
+  printf("%s", buffer);
+
+  // return_token = token_create(toArray(&l), 0);
+  // destroi(&l);
   printf("\n");
 
   // while ((c = fgetc(file)) != EOF) {
-
-  return return_token;
-
-  	
-
-  // }		
+  // }    
 }
+
+void tokenize(Automata *automata, FILE *file){
+  int c;
+  // Token t;
+
+  //Leia todo o arquivo!
+  do{
+    //pule os espacos!
+    do{
+      c = fgetc(file);
+      if(feof(file)){
+        return;
+      }
+    }while(isspace(c));
+    fseek(file, -1, SEEK_CUR);
+
+    find_possible_token(automata, file);
+    // token_pretty_print(&t);
+    fgetc(file);
+    c = fgetc(file);
+  }while(!feof(file) && !fseek(file, -2, SEEK_CUR));
+}
+

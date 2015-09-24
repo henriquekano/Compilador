@@ -79,6 +79,29 @@ void insereInicio(TipoDoElemento x, Lista *l)
         overflow(l);
 }
 
+void insereFim(TipoDoElemento x, Lista *l){
+    No *paux = NULL;
+    paux = (No *)malloc(sizeof(No));
+
+    No *ultimo_no = l->cabeca;
+
+    if (paux != NULL) {
+        paux->info = x;
+        paux->prox = NULL;
+
+        if(ultimo_no == NULL){
+            ultimo_no = paux;
+        }else{
+            while(ultimo_no->prox != NULL)
+                ultimo_no = ultimo_no->prox;
+            ultimo_no->prox = paux;
+        }
+
+        l->comp++;
+    } else
+        overflow(l);
+}
+
 TipoDaPosicao localiza(TipoDoElemento x, Lista *l)
 {
     No *p = l->cabeca;
@@ -155,7 +178,7 @@ char *toArray(Lista *l){
 
     int i;
     for(i = 0; i < l->comp; i++){
-        array[i] = p->info;
+        array[i] = (char)p->info;
     }
     return array;
 }
