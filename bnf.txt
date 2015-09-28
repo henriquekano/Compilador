@@ -1,20 +1,16 @@
-<variavel simples>::=<tipo> <identificador>|<tipo> <identificador>=<>
-
-
 <D> ::= 0|1|2|3|4|5|6|7|8|9
 <L> ::= a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z
 <*> ::= @|#|$|%|"|'|&|*|(|)|[|]|<|>|=|-|^|~||||\|/|,|.|:|;
 <operador arit> ::= +|-|*|/|^;
-<operador bool> ::= and|or;
-<espaco> ::= \n| |\t| 
+<operador bool> ::= &&||||!;
+<espaco> ::= \n| |\t
 <L/D> ::= <L>|<D>
 <qualquer> ::= <L/D>|<*>|<espaco>
 <ID> ::= <L>|<ID><L/D>
 <lista de IDs> ::= <ID>|<lista de IDs>,<ID>
 <tipo> ::= int|float|string|bool
-<string> ::= <'string'><"string">
-<"string"> ::= "<qualquer>"|"<'string'><qualquer>"
-<'string'> ::= '<qualquer>'|'<"string"><qualquer>'
+<string> ::= '<lista de caracter>'|"<lista de caracter>"
+<lista de caracter> ::= <qualquer>|<lista de caracter><qualquer>
 <comparador bool> ::= ==|!=
 <comparador> ::= <|>|<=|>=|<comparador bool>
 <num natural> ::= <D>|<num natural><D>
@@ -23,19 +19,19 @@
 <numero> ::= <num inteiro>|<num float>
 <bool> ::= true|false
 <valor> ::= <numero>|<string>|<bool>|<ID>
-<expressao bool> ::= <expressao bool>and<termo>
-<termo> ::= <fator>|<termo>or<fator>
 
+<expressao bool> ::= <termo bool>|<expressao bool>||<termo bool>
+<termo bool> ::= <fator bool>|<termo bool>&&<fator bool>
+<fator bool> ::= (<expressao bool>)|<ID>|<bool>|<function call>
 
-<expressao arit> ::= <expressao arit>+<termo>|<expressao arit>-<termo>
-<termo> ::= <termo>*<fator2>|<termo>/<fator2>|<fator2>
-<fator2> ::= <fator>^<fator>
-<fator> ::= (<expressao arit>)|<ID>|<numero>|<function call>
-
+<expressao arit> ::= <termo arit>|<expressao arit>+<termo arit>|<expressao arit>-<termo arit>
+<termo arit> ::= <fator2 arit>|<termo arit>*<fator2 arit>|<termo arit>/<fator2 arit>
+<fator2 arit> ::= <fator arit>|<fator arit>^<fator arit>
+<fator arit> ::= (<expressao arit>)|<ID>|<numero>|<function call>
 
 <condicao> ::= <expressao bool><comparador bool><expressao bool>|<expressao arit><comparador><expressao arit>
-<espressao> ::= <expressao bool>|<expressao arit>
-<lista de espressoes> ::= <expressao>|<lista de expressoes><expressao>
+<expressao> ::= <expressao bool>|<expressao arit>
+<lista de expressoes> ::= <expressao>|<lista de expressoes><expressao>
 <lista de comandos> ::= E|<lista de comandos><comando>;
 <comando> ::= <atribuicao>|<condicional>|<iteracao>|<entrada>|<saida>
 <parametro> ::= <tipo> <ID>
