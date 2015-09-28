@@ -45,6 +45,8 @@ int input_converter_function(char character){
 		return COMPARATOR;
 	}else if(character == '_'){
 		return UNDERLINE;
+	}else if(character == '\n'){
+		return NEWLINE;
 	}else if(isspace((int)character)){
 		return BLANK;
 	}else if(character == '(' || character == ')' || character == '[' || character == ']' || character == ','){

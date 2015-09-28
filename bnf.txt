@@ -44,9 +44,9 @@
 <decl var 2D> ::= <tipo>[num natural][num natural] <lista de IDs>;
 <atribuicao> ::= <ID> = <valor>
 <programa> ::= begin<comandos>end
-<argumentos de entrada> ::= AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-<argumentos de saida> ::= AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-<entrada> ::= scan(<argumentos de entrada>);
+<argumentos de saida> ::= <string>|<string>,<lista de valores>
+<lista de valores> ::= <valor>|<lista de valores>,<valor>
+<entrada> ::= scan(<lista de argumentos>);
 <saida> ::= print(<argumentos de saida>);
 
 <function> ::= function <tipo> <ID>(<lista de parametros>) do <comandos> endfunction;
