@@ -7,7 +7,7 @@
 #include "./lexico/analisador.h"
 
 
-#define FILENAME "input_file.txt"
+#define FILENAME "ENTRADA.txt"
 
 int main(){
 	FILE *file = fopen(FILENAME, "r");
