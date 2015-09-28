@@ -52,7 +52,7 @@
 <function> ::= function <tipo> <ID>(<lista de parametros>) do <comandos> endfunction;
 <chamada de funcao> ::= <ID>(<lista de argumentos>)
 <condicional> ::= if (<condicao>) do <comandos> <else> endif;
-<else> ::= E|else <comandos>
+<else> ::= E|elsif (condicao>) do <comandos> <else>|else do <comandos>
 <iterativo> ::= while (<condicao>) do <comandos> endwhile;
 <selecao> ::= switch (<ID>) <lista de opcoes> default <comandos> endswitch;
 <lista de opcoes> ::= <opcao>;|<lista de opcoes><opcao>;
