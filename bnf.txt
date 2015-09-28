@@ -35,7 +35,7 @@
 <lista de comandos> ::= E|<lista de comandos><comando>;
 <comando> ::= <atribuicao>|<condicional>|<iteracao>|<entrada>|<saida>
 <parametro> ::= <tipo> <ID>
-<lista de parametros> ::= <parametro>|<lista de parametros><parametro>
+<lista de parametros> ::= <parametro>|<lista de parametros>,<parametro>
 <argumento> ::= <ID>|<numero>|<chamada de funcao>
 <lista de argumentos> :: <argumento>|<lista de argumentos>,<argumento>
 
@@ -43,7 +43,7 @@
 <decl var 1D> ::= <tipo>[num natural] <lista de IDs>;
 <decl var 2D> ::= <tipo>[num natural][num natural] <lista de IDs>;
 <atribuicao> ::= <ID> = <valor>
-<programa> ::= begin do <comandos> end
+<programa> ::= begin<comandos>end
 <argumentos de entrada> ::= AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 <argumentos de saida> ::= AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 <entrada> ::= scan(<argumentos de entrada>);
@@ -51,9 +51,9 @@
 
 <function> ::= function <tipo> <ID>(<lista de parametros>) do <comandos> endfunction;
 <chamada de funcao> ::= <ID>(<lista de argumentos>)
-<condicional> ::= if <condicao> do <comandos> <else> endif;
+<condicional> ::= if (<condicao>) do <comandos> <else> endif;
 <else> ::= E|else <comandos>
-<iterativo> ::= while <condicao> do <comandos> endwhile;
-<selecao> ::= switch <ID> <lista de opcoes> default <comandos> endswitch;
+<iterativo> ::= while (<condicao>) do <comandos> endwhile;
+<selecao> ::= switch (<ID>) <lista de opcoes> default <comandos> endswitch;
 <lista de opcoes> ::= <opcao>;|<lista de opcoes><opcao>;
-<opcao> ::= case <valor> <comandos> continue;
+<opcao> ::= case (<valor>) <comandos> continue;

@@ -17,7 +17,8 @@ typedef enum{
 	UNDERLINE = 8,
 	BLANK = 9,
 	SEPARATOR = 10,
-	UNKNOWN = 11
+	UNKNOWN = 11,
+	NEWLINE = 12
 }InputTypes;
 
 //Ver no relatorio o que significa cada estado
