@@ -1,0 +1,48 @@
+D = "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
+L = "a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"|"t"|"u"|"v"|"w"|"x"|"y"|"z"|"A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z"
+* = "@"|"#"|"$"|"%"|"""|"'"|"&"|"*"|"("|")"|"["|"]"|"<"|">"|"="|"-"|"^"|"~""|""|""|"|"\"|"/"|","|"."|":"|";"
+OPERADOR_ARIT = "+"|"-"|"*"|"/"|"^"
+OPERADOR_BOOL = "&&" | "||" | "!"
+ESPACO = "\n" | "\t" | " "
+ANY = L | D | * | ESPACO
+ID = (L | "_"){L | D | "_"}
+LISTA_IDS = {ID","}ID
+TIPO = "int"|"float"|"string"|"bool"
+STRING = """{ANY}""" | "'"{ANY}"'"
+COMPARADOR_BOOL = "=="|"!="
+COMPARADOR = "<"|">"|<"="|>"="|COMPARADOR_BOOL
+NUM = [-]{D}["."{D}]
+BOOL = "true" | "false"
+ARRAY = ID"["{D}D"]"
+MATRIX = ID"["{D}D"]""["{D}D"]"
+VALOR = NUM | STRING | BOOL | ID | ARRAY | MATRIX
+
+EXPRESSAO_BOOL = TERMO_BOOL | EXPRESSAO_BOOL "||" FATOR_BOOL
+TERMO_BOOL = FATOR_BOOL | TERMO_BOOL "&&" FATOR_BOOL
+FATOR_BOOL = "("EXPRESSAO_BOOL")" | ID | BOOL | CHAMADA_FUNC
+EXPRESSAO_ARIT = TERMO_ARIT | EXPRESSAO_ARIT "+" TERMO_ARIT | EXPRESSAO_ARIT "-" TERMO_ARIT
+TERMO_ARIT = FATOR_ARIT2 | TERMO_ARIT "*" FATOR_ARIT2 | TERMO_ARIT "/" FATOR_ARIT2
+FATOR_ARIT2 = FATOR_ARIT | FATOR_ARIT "^" FATOR_ARIT
+FATOR_ARIT = "("EXPRESSAO_ARIT")" | ID | NUM | CHAMADA_FUNC
+
+CONDICAO = EXPRESSAO_ARIT COMPARADOR EXPRESSAO_ARIT | EXPRESSAO_BOOL COMPARADOR_BOOL EXPRESSAO_BOOL
+EXPRESSAO = EXPRESSAO_BOOL | EXPRESSAO_ARIT
+COMANDO = ATRIBUICAO | CONDICIONAL | ITERACAO | ENTRADA | SAIDA
+PARAMETRO = TIPO ID | TIPO ARRAY | TIPO MATRIX
+ARGUMENTO = ID | NUM | CHAMADA_FUNC | ARRAY | MATRIX
+
+VARIAVEIS = ID | ARRAY | MATRIX
+DECLARACAO = TIPO {VARIAVEIS","}VARIAVEIS";"
+ATRIBUICAO = VARIAVEIS "=" <valor>
+PROGRAMA = "begin" COMANDOS "end"
+ENTRADA = "scan(" {VARIAVEIS","}VARIAVEIS ")"
+SAIDA = "print(" ({ARGUMENTO","}ARGUMENTO) ")"
+
+FUNCTION = "function" TIPO ID "(" [{PARAMETRO","}PARAMETRO]")"
+CHAMADA_FUNC = <ID>"("[{VALOR","}VALOR]")"
+CONDICIONAL = "if(" CONDICAO ") do" [{COMANDO","}COMANDO] <ELSE> "endif;"
+ELSE = [{"elsif("CONDICAO") do" [{COMANDO","}COMANDO]}"else do" [{COMANDO","}COMANDO]]
+ITERACAO = "while(" CONDICAO ") do" [{COMANDO","}COMANDO]] "endwhile;"
+CASES = "is(" VALOR ") do" [{COMANDO","}COMANDO]] "continue;"
+SELECAO = "when(" VALOR ")" {CASES}CASES "endswitch;"
+

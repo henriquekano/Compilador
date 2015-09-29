@@ -2,7 +2,6 @@
   #define ANALISADOR_LEXICO_H_
 
   #include "../utils/token.h"
-  #include "../utils/listaLigada.h"
   #include "../automata.h"
   #include <stdio.h>
 

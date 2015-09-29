@@ -1,6 +1,5 @@
 #include "analisador.h"
 #include "../transition_table.h"
-#include "../utils/listaLigada.h"
 #include "../automata.h"
 #include <ctype.h>
 #include <string.h>
