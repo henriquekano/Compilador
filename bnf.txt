@@ -6,7 +6,7 @@
 <espaco> ::= \n| |\t
 <L/D> ::= <L>|<D>
 <qualquer> ::= <L/D>|<*>|<espaco>
-<ID> ::= <L>|<ID><L/D>
+<ID> ::= _<L>|<ID><L/D>
 <lista de IDs> ::= <ID>|<lista de IDs>,<ID>
 <tipo> ::= int|float|string|bool
 <string> ::= '<lista de caracter>'|"<lista de caracter>"
@@ -25,10 +25,10 @@
 <float value> ::= <num float>|<ID>|<array value>|<matrix value>|<function call>
 <string value> ::= <string>|<ID>|<array value>|<matrix value>|<function call>
 <bool value> ::= <bool>|<ID>|<array value>|<matrix value>|<function call>
-<lista de int value> ::= <int value>|<lista de int value>,<int value>
-<lista de float value> ::= <float value>|<lista de float value>,<float value>
-<lista de string value> ::= <string value>|<lista de string value>,<string value>
-<lista de bool value> ::= <bool value>|<lista de bool value>,<bool value>
+<lista de int value> ::= <ID> = <int value>|<int value>|<lista de int value>,<int value>
+<lista de float value> ::= <ID> = <float value>|<float value>|<lista de float value>,<float value>
+<lista de string value> ::= <ID> = <string value>|<string value>|<lista de string value>,<string value>
+<lista de bool value> ::= <ID> = <bool value>|<bool value>|<lista de bool value>,<bool value>
 
 <array> ::= [<lista de valores>]
 <array int> ::= [<lista de int value>]
@@ -59,6 +59,8 @@
 					float <matrix value> = <matrix float>|
 					string <matrix value> = <matrix string>|
 					bool <matrix value> = <matrix bool>
+
+
 
 <atribuicao> ::= <L-value> = <R-value>|<array value> = <array>|<matrix value> = <matrix>
 
