@@ -16,8 +16,8 @@ char *token_type_to_string(Token_type token_type){
       return "STRING";
     case TT_ARITH_SYMBOL:
       return "ARITH_SYMBOL";
-    case TT_NUMBER:
-      return "NUMBER";
+    case TT_INT:
+      return "INT";
     case TT_COMPARATOR:
       return "COMPARATOR";
     case TT_RESERVED:
@@ -32,6 +32,8 @@ char *token_type_to_string(Token_type token_type){
       return "ASSIGNMENT";
     case TT_UNKNOWN:
       return "UNKNOWN";
+    case TT_FLOAT:
+      return "FLOAT";
     default:
       return "UNKNOWN";
   }

@@ -4,14 +4,15 @@
   typedef enum{
     TT_STRING,
     TT_ARITH_SYMBOL,
-    TT_NUMBER,
+    TT_INT,
     TT_COMPARATOR,
     TT_RESERVED,
     TT_IDENTIFIER,
     TT_SEPARATOR,
     TT_END_OF_COMMAND,
     TT_UNKNOWN,
-    TT_ASSIGNMENT
+    TT_ASSIGNMENT,
+    TT_FLOAT
   }Token_type;
 
   typedef struct{
