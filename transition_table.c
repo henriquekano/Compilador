@@ -4,7 +4,7 @@
 #include "transition_table.h"
 #include "utils/token.h"
 
-const char *RESERVED_WORDS[] = {"begin", "do", "end", "if", "elsif", "endif", "while", "endwhile", "function", "endfunction", "int", "char", "bool", "return", "true", "false"};
+const char *RESERVED_WORDS[] = {"begin", "do", "end", "if", "elsif", "endif", "while", "endwhile", "switch", "case", "endswitch", "function", "endfunction", "int", "string", "bool", "return", "true", "false"};
 
 const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES] =
 {										

@@ -1,6 +1,6 @@
 <D> ::= 0|1|2|3|4|5|6|7|8|9
 <L> ::= a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z
-<*> ::= @|#|$|%|"|'|&|*|(|)|[|]|<|>|=|-|^|~||||\|/|,|.|:|;
+<*> ::= @|#|$|%|"|'|&|*|(|)|[|]|<|>|=|-|^|~||||\|/|,|.|:|;|_
 <operador arit> ::= +|-|*|/|^;
 <operador bool> ::= &&||||!;
 <espaco> ::= \n| |\t
@@ -15,7 +15,7 @@
 <comparador> ::= <|>|<=|>=|<comparador bool>
 <num natural> ::= <D>|<num natural><D>
 <num inteiro> ::= <num natural>|-<num natural>
-<num float> ::= <num natural>.<num natural>
+<num float> ::= <num natural>.<num natural>|-<num natural>.<num natural>
 <numero> ::= <num inteiro>|<num float>
 <bool> ::= true|false
 <array value> ::= <ID>[<num inteiro>]
@@ -25,17 +25,18 @@
 <float value> ::= <num float>|<ID>|<array value>|<matrix value>|<function call>
 <string value> ::= <string>|<ID>|<array value>|<matrix value>|<function call>
 <bool value> ::= <bool>|<ID>|<array value>|<matrix value>|<function call>
-<lista de int value> ::= <int value>|<lista de int value><int value>
-<lista de float value> ::= <float value>|<lista de float value><float value>
-<lista de string value> ::= <string value>|<lista de string value><string value>
-<lista de bool value> ::= <bool value>|<lista de bool value><bool value>
+<lista de int value> ::= <int value>|<lista de int value>,<int value>
+<lista de float value> ::= <float value>|<lista de float value>,<float value>
+<lista de string value> ::= <string value>|<lista de string value>,<string value>
+<lista de bool value> ::= <bool value>|<lista de bool value>,<bool value>
 
 <array> ::= [<lista de valores>]
 <array int> ::= [<lista de int value>]
 <array float> ::= [<lista de float value>]
 <array string> ::= [<lista de string value>]
 <array bool> ::= [<lista de bool value>]
-<matrix> ::= <array>|<matrix><array>
+<array list> ::= <array>|<array list>,<array>
+<matrix> ::= [<array list>]
 <matrix int> ::= <array int>|<matrix int><array int>
 <matrix float> ::= <array float>|<matrix float><array float>
 <matrix string> ::= <array string>|<matrix string><array string>
@@ -46,6 +47,10 @@
 					float <ID> = <float value>|
 					string <ID> = <string value>|
 					bool <ID> = <bool value>|
+					int <ID> = <lista de int value>|
+					float <ID> = <lista de float value>|
+					string <ID> = <lista de string value>|
+					bool <ID> = <lista de bool value>|
 					int <array value> = <array int>|
 					float <array value> = <array float>|
 					string <array value> = <array string>|
@@ -79,9 +84,8 @@
 <lista de parametros> ::= <parametro>|<lista de parametros>,<parametro>
 
 <programa> ::= begin<comandos>end
-<argumentos de saida> ::= <string>|<string>,<lista de valores>
 <entrada> ::= scan(<lista de valores>);
-<saida> ::= print(<argumentos de saida>);
+<saida> ::= print(<lista de valores>);
 
 <function> ::= function <tipo> <ID>(<lista de parametros>) do <comandos> endfunction;
 <function call> ::= <ID>(<lista de valores>)
