@@ -4,11 +4,11 @@
 <operador arit> ::= +|-|*|/|^;
 <operador bool> ::= &&||||!;
 <espaco> ::= \n| |\t
-<L/D> ::= <L>|<D>
-<qualquer> ::= <L/D>|<*>|<espaco>
-<ID> ::= _<L>|<ID><L/D>
+<L/D/_> ::= <L>|<D>|_
+<qualquer> ::= <L>|<D>|<*>|<espaco>
+<ID> ::= _|<L>|<ID><L/D/_>
 <lista de IDs> ::= <ID>|<lista de IDs>,<ID>
-<tipo> ::= int|float|string|bool
+<tipo> ::= int|float|string|bool|<ID>
 <string> ::= '<lista de caracter>'|"<lista de caracter>"
 <lista de caracter> ::= <qualquer>|<lista de caracter><qualquer>
 <comparador bool> ::= ==|!=
@@ -18,6 +18,9 @@
 <num float> ::= <num natural>.<num natural>|-<num natural>.<num natural>
 <numero> ::= <num inteiro>|<num float>
 <bool> ::= true|false
+<R-value> ::= <numero>|<string>|<bool>|<ID>|<array value>|<matrix value>|<function call>
+<L-value> ::= <ID>|<array value>|<matrix value>
+<lista de valores> ::= <R-value>|<lista de valores>,<R-value>
 <array value> ::= <ID>[<num inteiro>]
 <matrix value> ::= <ID>[<num inteiro>][<num inteiro>]
 
@@ -60,13 +63,9 @@
 					string <matrix value> = <matrix string>|
 					bool <matrix value> = <matrix bool>
 
-
-
+<lista de declaracoes> ::= <declaracao>;|<lista de declaracoes><declaracao>;
+<struct> ::= struct <ID> do <lista de declaracoes> endstruct;
 <atribuicao> ::= <L-value> = <R-value>|<array value> = <array>|<matrix value> = <matrix>
-
-<R-value> ::= <numero>|<string>|<bool>|<ID>|<array value>|<matrix value>|<function call>
-<L-value> ::= <ID>|<array value>|<matrix value>
-<lista de valores> ::= <R-value>|<lista de valores>,<R-value>
 
 <expressao bool> ::= <termo bool>|<expressao bool>||<termo bool>
 <termo bool> ::= <fator bool>|<termo bool>&&<fator bool>
@@ -77,23 +76,23 @@
 <fator2 arit> ::= <fator arit>|<fator arit>^<fator arit>
 <fator arit> ::= (<expressao arit>)|<ID>|<numero>|<function call>|<array value>|<matrix value>
 
+<comando> ::= <retorno>|<atribuicao>|<condicional>|<iteracao>|<entrada>|<saida>
 <condicao> ::= <expressao bool><comparador bool><expressao bool>|<expressao arit><comparador><expressao arit>
 <expressao> ::= <expressao bool>|<expressao arit>
 <lista de expressoes> ::= <expressao>|<lista de expressoes><expressao>
 <lista de comandos> ::= E|<lista de comandos><comando>;
-<comando> ::= <atribuicao>|<condicional>|<iteracao>|<entrada>|<saida>
 <parametro> ::= <tipo> <ID>|<tipo> <array value>|<tipo> <matrix value>
 <lista de parametros> ::= <parametro>|<lista de parametros>,<parametro>
 
-<programa> ::= begin<comandos>end
+<programa> ::= begin<lista de comandos>end;
 <entrada> ::= scan(<lista de valores>);
 <saida> ::= print(<lista de valores>);
-
-<function> ::= function <tipo> <ID>(<lista de parametros>) do <comandos> endfunction;
+<function> ::= function <tipo> <ID>(<lista de parametros>) do <lista de comandos> endfunction;
 <function call> ::= <ID>(<lista de valores>)
-<condicional> ::= if (<condicao>) do <comandos> <else> endif;
-<else> ::= E|elsif (condicao>) do <comandos> <else>|else do <comandos>
-<iterativo> ::= while (<condicao>) do <comandos> endwhile;
-<selecao> ::= switch (<ID>) <lista de opcoes> default <comandos> endswitch;
+<condicional> ::= if (<condicao>) do <lista de comandos> <else> endif;
+<else> ::= E|elsif (condicao>) do <lista de comandos> <else>|else do <lista de comandos>
+<iterativo> ::= while (<condicao>) do <lista de comandos> endwhile;
+<selecao> ::= switch (<ID>) <lista de opcoes> default <lista de comandos> endswitch;
 <lista de opcoes> ::= <opcao>;|<lista de opcoes><opcao>;
-<opcao> ::= case (<R-value>) <comandos> continue;
+<opcao> ::= case (<R-value>) <lista de comandos> break;
+<retorno> ::= return;|return <R-value>;
