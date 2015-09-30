@@ -18,42 +18,73 @@
 <num float> ::= <num natural>.<num natural>
 <numero> ::= <num inteiro>|<num float>
 <bool> ::= true|false
-<array> ::= <ID>[<num inteiro>]
-<matrix> ::= <ID>[<num inteiro>][<num inteiro>]
-<R-value> ::= <numero>|<string>|<bool>|<ID> | <array> | <matrix> | <function call>
-<L-value> ::= <ID> | <array> | <matrix>
+<array value> ::= <ID>[<num inteiro>]
+<matrix value> ::= <ID>[<num inteiro>][<num inteiro>]
+
+<int value> ::= <num inteiro>|<ID>|<array value>|<matrix value>|<function call>
+<float value> ::= <num float>|<ID>|<array value>|<matrix value>|<function call>
+<string value> ::= <string>|<ID>|<array value>|<matrix value>|<function call>
+<bool value> ::= <bool>|<ID>|<array value>|<matrix value>|<function call>
+<lista de int value> ::= <int value>|<lista de int value><int value>
+<lista de float value> ::= <float value>|<lista de float value><float value>
+<lista de string value> ::= <string value>|<lista de string value><string value>
+<lista de bool value> ::= <bool value>|<lista de bool value><bool value>
+
+<array> ::= [<lista de valores>]
+<array int> ::= [<lista de int value>]
+<array float> ::= [<lista de float value>]
+<array string> ::= [<lista de string value>]
+<array bool> ::= [<lista de bool value>]
+<matrix> ::= <array>|<matrix><array>
+<matrix int> ::= <array int>|<matrix int><array int>
+<matrix float> ::= <array float>|<matrix float><array float>
+<matrix string> ::= <array string>|<matrix string><array string>
+<matrix bool> ::= <array bool>|<matrix bool><array bool>
+
+<declaracao> ::= <tipo> <ID>|
+					int <ID> = <int value>|
+					float <ID> = <float value>|
+					string <ID> = <string value>|
+					bool <ID> = <bool value>|
+					int <array value> = <array int>|
+					float <array value> = <array float>|
+					string <array value> = <array string>|
+					bool <array value> = <array bool>|
+					int <matrix value> = <matrix int>|
+					float <matrix value> = <matrix float>|
+					string <matrix value> = <matrix string>|
+					bool <matrix value> = <matrix bool>
+
+<atribuicao> ::= <L-value> = <R-value>|<array value> = <array>|<matrix value> = <matrix>
+
+<R-value> ::= <numero>|<string>|<bool>|<ID>|<array value>|<matrix value>|<function call>
+<L-value> ::= <ID>|<array value>|<matrix value>
+<lista de valores> ::= <R-value>|<lista de valores>,<R-value>
 
 <expressao bool> ::= <termo bool>|<expressao bool>||<termo bool>
 <termo bool> ::= <fator bool>|<termo bool>&&<fator bool>
-<fator bool> ::= (<expressao bool>)|<ID>|<bool>|<function call>|<array>|<matrix>
+<fator bool> ::= (<expressao bool>)|<ID>|<bool>|<function call>|<array value>|<matrix value>
 
 <expressao arit> ::= <termo arit>|<expressao arit>+<termo arit>|<expressao arit>-<termo arit>
 <termo arit> ::= <fator2 arit>|<termo arit>*<fator2 arit>|<termo arit>/<fator2 arit>
 <fator2 arit> ::= <fator arit>|<fator arit>^<fator arit>
-<fator arit> ::= (<expressao arit>)|<ID>|<numero>|<function call>|<array>|<matrix>
+<fator arit> ::= (<expressao arit>)|<ID>|<numero>|<function call>|<array value>|<matrix value>
 
 <condicao> ::= <expressao bool><comparador bool><expressao bool>|<expressao arit><comparador><expressao arit>
 <expressao> ::= <expressao bool>|<expressao arit>
 <lista de expressoes> ::= <expressao>|<lista de expressoes><expressao>
 <lista de comandos> ::= E|<lista de comandos><comando>;
 <comando> ::= <atribuicao>|<condicional>|<iteracao>|<entrada>|<saida>
-<parametro> ::= <tipo> <ID> | <tipo> <array> | <tipo> <matrix>
+<parametro> ::= <tipo> <ID>|<tipo> <array value>|<tipo> <matrix value>
 <lista de parametros> ::= <parametro>|<lista de parametros>,<parametro>
-<argumento> ::= <R-value>
-<lista de argumentos> :: <argumento>|<lista de argumentos>,<argumento>
 
-<decl var simples> ::= <tipo> <lista de IDs>;
-<decl var 1D> ::= <tipo>[num natural] <lista de IDs>;
-<decl var 2D> ::= <tipo>[num natural][num natural] <lista de IDs>;
-<atribuicao> ::= <ID> = <R-value>
 <programa> ::= begin<comandos>end
 <argumentos de saida> ::= <string>|<string>,<lista de valores>
-<lista de valores> ::= <R-value>|<lista de valores>,<R-value>
-<entrada> ::= scan(<lista de argumentos>);
+<entrada> ::= scan(<lista de valores>);
 <saida> ::= print(<argumentos de saida>);
 
 <function> ::= function <tipo> <ID>(<lista de parametros>) do <comandos> endfunction;
-<function call> ::= <ID>(<lista de argumentos>)
+<function call> ::= <ID>(<lista de valores>)
 <condicional> ::= if (<condicao>) do <comandos> <else> endif;
 <else> ::= E|elsif (condicao>) do <comandos> <else>|else do <comandos>
 <iterativo> ::= while (<condicao>) do <comandos> endwhile;
