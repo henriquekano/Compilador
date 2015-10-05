@@ -12,7 +12,9 @@
     TT_END_OF_COMMAND,
     TT_UNKNOWN,
     TT_ASSIGNMENT,
-    TT_FLOAT
+    TT_FLOAT,
+    TT_ARRAY,
+    TT_MATRIX
   }Token_type;
 
   typedef struct{

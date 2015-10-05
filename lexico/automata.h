@@ -3,7 +3,7 @@
 
   #define STATE_NUMBER 20; 
   #define BUFFER_MAX 50; 
-  #include "./utils/token.h"
+  #include "../utils/token.h"
 
   /*
   Automato:

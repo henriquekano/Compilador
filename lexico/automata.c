@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <ctype.h>
-#include "./utils/token.h" 
+#include "../utils/token.h" 
 #include "transition_table.h"
 #include "automata.h"
 

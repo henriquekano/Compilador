@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include "automata.h"
-#include "transition_table.h"
 #include "./lexico/analisador.h"
 #include "./utils/list.h"
 

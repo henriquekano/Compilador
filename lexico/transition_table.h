@@ -1,9 +1,9 @@
 #ifndef TRANSITION_TABLE_H_INCLUDED
 #define TRANSITION_TABLE_H_INCLUDED
-#define NUMBER_STATES 25
-#define NUMBER_INPUTS_TYPES 16
+#define NUMBER_STATES 19
+#define NUMBER_INPUTS_TYPES 15
 
-#include "utils/token.h"
+#include "../utils/token.h"
 //Tipos de entradas diferentes consideradas nas transicoes de estado
 typedef enum{
 	LETTER = 0,
@@ -20,9 +20,7 @@ typedef enum{
 	UNKNOWN = 11,
 	NEWLINE = 12,
 	HASHTAG = 13,
-	POINT = 14,
-	L_SQ_BRACKET = 15,
-	R_SQ_BRACKET = 16
+	POINT = 14
 }InputTypes;
 
 //Ver no relatorio o que significa cada estado
@@ -45,13 +43,7 @@ typedef enum{
 	S15 = 15, //comentario de linha
 	S16 = 16, //possivel comentario de bloco
 	S17 = 17, //abertura de comentario de bloco
-	S18 = 18, //fechando comentario de bloco
-	S19 = 19, 
-	S20 = 20, 
-	S21 = 21, 
-	S22 = 22, 
-	S23 = 23, 
-	S24 = 24  //vetor
+	S18 = 18 //fechando comentario de bloco
 }States;
 
 extern const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES];
