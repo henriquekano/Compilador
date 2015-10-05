@@ -81,7 +81,7 @@ void list_head(List *list, void *element, bool removeFromList){
     list->logicalLength--;
 
     if(list->freeFn) {
-      list->freeFn(current->data);
+      list->freeFn(node->data);
     }
  
     free(node->data);

@@ -2,8 +2,8 @@ begin
 	float var1 = 1;
 	float var2 = 12.90;
 	float var3;
-	bool var4;
-	char var5;
+	bool var_4;
+	char _var5;
 	int var6;
 	int matrix[2][4];
 
