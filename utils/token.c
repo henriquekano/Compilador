@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "token.h"
 
 Token token_create(char *string, Token_type type){
@@ -7,7 +8,7 @@ Token token_create(char *string, Token_type type){
 }
 
 void token_pretty_print(Token *t){
-  printf("%s \t\t\t | %s (%i)", t->string, token_type_to_string(t->type), t->type);
+  printf("%s \t\t\t | %s (%i)\n", t->string, token_type_to_string(t->type), t->type);
 }
 
 char *token_type_to_string(Token_type token_type){
@@ -35,6 +36,6 @@ char *token_type_to_string(Token_type token_type){
     case TT_FLOAT:
       return "FLOAT";
     default:
-      return "UNKNOWN";
+      return "";
   }
 }

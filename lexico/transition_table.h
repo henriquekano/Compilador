@@ -1,7 +1,7 @@
 #ifndef TRANSITION_TABLE_H_INCLUDED
 #define TRANSITION_TABLE_H_INCLUDED
-#define NUMBER_STATES 19
-#define NUMBER_INPUTS_TYPES 15
+#define NUMBER_STATES 25
+#define NUMBER_INPUTS_TYPES 17
 
 #include "../utils/token.h"
 //Tipos de entradas diferentes consideradas nas transicoes de estado
