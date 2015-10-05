@@ -1,10 +1,9 @@
-#include "analisador.h"
-#include "../transition_table.h"
-#include "../automata.h"
 #include <ctype.h>
 #include <string.h>
+#include "analisador.h"
+#include "transition_table.h"
+#include "automata.h"
 #include "../utils/token.h"
-#include "../transition_table.h"
 
 // Lista tokenize(char *file){
 

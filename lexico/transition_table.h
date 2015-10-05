@@ -20,7 +20,9 @@ typedef enum{
 	UNKNOWN = 11,
 	NEWLINE = 12,
 	HASHTAG = 13,
-	POINT = 14
+	POINT = 14, 
+	L_SQ_BRACKET = 15,
+	R_SQ_BRACKET = 16
 }InputTypes;
 
 //Ver no relatorio o que significa cada estado
@@ -40,10 +42,16 @@ typedef enum{
 	S12 = 12, //desconhecidos
 	S13 = 13, //atribuicao
 	S14 = 14, //float
-	S15 = 15, //comentario de linha
-	S16 = 16, //possivel comentario de bloco
-	S17 = 17, //abertura de comentario de bloco
-	S18 = 18 //fechando comentario de bloco
+	S15 = 15, //line comment
+	S16 = 16, //block comment?
+	S17 = 17, //block comment begin
+	S18 = 18, //block comment end?
+	S19 = 19, //primeiro [
+	S20 = 20, //vetor
+	S21 = 21, //segundo [
+	S22 = 22, //matriz
+	S23 = 23, //fecho de comentario bloco
+	S24 = 24 //fecho de comentario de linha 
 }States;
 
 extern const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES];

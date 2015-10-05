@@ -2,7 +2,7 @@
   #define ANALISADOR_LEXICO_H_
 
   #include "../utils/token.h"
-  #include "../automata.h"
+  #include "automata.h"
   #include <stdio.h>
 
   // Lista tokenize(char *file);
