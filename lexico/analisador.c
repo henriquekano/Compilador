@@ -2,6 +2,7 @@
 #include <string.h>
 #include "analisador.h"
 #include "transition_table.h"
+#include "../utils/list.h"
 
 // Lista tokenize(char *file){
 
@@ -15,26 +16,26 @@ void find_possible_token(Automata *automata, FILE *file){
   // constroi(&l);
   Token return_token;
   States current_state, previous_state;
-  int c;
-  char buffer[50] = "\0";
-  char temp[2] = "\0";
+  char c;
+  List buffer;
+  list_new(&buffer, sizeof(char), NULL);
+  // list_append(buffer, "\0");
   do {
     //faz um lookahead - se nao for retornar para o S0 (=criar um token), 
     //le um caracter, else: não le um caracter e cria o token
 
-    c = fgetc(file);
+    c = (char)fgetc(file);
 
-    if(c == EOF){
+    if(c == (char)EOF){
       break;
     }
     
     previous_state = automata_current_state(automata);
-    automata_goto_next_state(automata, input_converter_function((char)c));
+    automata_goto_next_state(automata, input_converter_function(c));
     current_state = automata_current_state(automata);
 
     if(current_state != S0){
-      temp[0] = (char)c;
-      strcat(buffer, temp);
+      list_append(&buffer, &c);
     }
 
 
@@ -43,10 +44,12 @@ void find_possible_token(Automata *automata, FILE *file){
   fseek(file, -1, SEEK_CUR);
 
   if (can_create_token(previous_state)){
-    return_token = token_create(buffer, state_converter_token_type(previous_state, buffer));
+    char *token_value = list_to_char_array(&buffer);
+    return_token = token_create(token_value, state_converter_token_type(previous_state, token_value));
     token_pretty_print(&return_token);
   }
   
+  list_destroy(&buffer);
 }
 
 void tokenize(Automata *automata, FILE *file){

@@ -99,11 +99,15 @@ int list_size(List *list){
   return list->logicalLength;
 }
 
-void *list_get_n(List *list, int n){
+char *list_to_char_array(List *list){
   int i;
   listNode *node = list->head;
-  for(i = 0; i < n; i++){
+  char *array = (char *)malloc(sizeof(char) * (list->logicalLength + 1));
+  for(i = 0; i < list->logicalLength; i++){
+    memcpy(&array[i], node->data, sizeof(char));
     node = node->next;
   }
-  return node->data;
+  array[list->logicalLength] = '\0';
+
+  return array;
 }
