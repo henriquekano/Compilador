@@ -1,3 +1,1 @@
-
-gcc -Wall main.c ./utils/*.c ./lexico/*.c 
-a 
+gcc -Wall main.c ./utils/*.c ./lexico/*.c

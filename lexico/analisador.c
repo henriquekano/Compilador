@@ -1,9 +1,7 @@
 #include <ctype.h>
 #include <string.h>
-#include "../utils/token.h"
 #include "analisador.h"
 #include "transition_table.h"
-#include "automata.h"
 
 // Lista tokenize(char *file){
 
@@ -23,58 +21,36 @@ void find_possible_token(Automata *automata, FILE *file){
   do {
     //faz um lookahead - se nao for retornar para o S0 (=criar um token), 
     //le um caracter, else: não le um caracter e cria o token
-    // next_state = automata_next_state(automata, input_converter_function((char)c));
-    // if(next_state != S0){
-    //   c = fgetc(file);
-    // }else{
-    //   automata->state = S0;
-    //   break;
-    // }
+
     c = fgetc(file);
-    // printf("AAAA: %c", (char)c);
 
     if(c == EOF){
       break;
     }
-    // if((char)c == ";")
-      // printf("YAYA\n");
-    // printf("%d\n", current_state);
     
     previous_state = automata_current_state(automata);
     automata_goto_next_state(automata, input_converter_function((char)c));
     current_state = automata_current_state(automata);
-    // printf("[%s] %d -> %d\n", buffer, previous_state, current_state);
-    // printf("current: %d", current_state);
-
 
     if(current_state != S0){
       temp[0] = (char)c;
       strcat(buffer, temp);
     }
 
-    // insereFim(c, &l);
 
   }while(current_state != S0);
 
   fseek(file, -1, SEEK_CUR);
 
-  // if (can_create_token(previous_state) == 0){
-  // if (strcmp(buffer, ";")){
-    // printf("\n");
-    // printf("%d", previous_state);
-    
-  // }
+  if (can_create_token(previous_state)){
     return_token = token_create(buffer, state_converter_token_type(previous_state, buffer));
     token_pretty_print(&return_token);
-  // }
-
-
-  // while ((c = fgetc(file)) != EOF) {
-  // }    
+  }
+  
 }
 
 void tokenize(Automata *automata, FILE *file){
-  int c;
+  int c, ft;
   // Token t;
 
   //Leia todo o arquivo!
@@ -92,16 +68,25 @@ void tokenize(Automata *automata, FILE *file){
 
     find_possible_token(automata, file);
 
-    fgetc(file);
+    ft = ftell(file);
     c = fgetc(file);
-  }while(!feof(file) && !fseek(file, -2, SEEK_CUR));
+    c = fgetc(file);
+    if(c != EOF){
+      fseek(file, ft, SEEK_SET);
+      continue;
+    }else{
+      fseek(file, ft, SEEK_SET);
+      break;
+    }
+    
+  }while(TRUE);
 }
 
-int can_create_token(int previous_state){
+bool can_create_token(int previous_state){
   if (state_converter_token_type(previous_state, "") == TT_IGNORE){
-    return -1;
+    return FALSE;
   } else {
-    return 0;
+    return TRUE;
   }
 }
 

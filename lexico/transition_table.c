@@ -2,7 +2,6 @@
 #include <ctype.h>
 #include <string.h>
 #include "transition_table.h"
-#include "../utils/token.h"
 
 // "end" must come after every reserved word beginning with "end"
 const char *RESERVED_WORDS[] = {"begin", "do", "if", "elsif", "endif", "while", "endwhile", "switch", 
