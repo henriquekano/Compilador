@@ -1,6 +1,6 @@
 <D> ::= 0|1|2|3|4|5|6|7|8|9
 <L> ::= a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z
-<*> ::= @|#|$|%|"|'|&|*|(|)|[|]|<|>|=|-|^|~||||\|/|,|.|:|;|_
+<*> ::= @|#|$|%|&|*|(|)|[|]|<|>|=|-|^|~||||\|/|,|.|:|;|_
 <operador arit> ::= +|-|*|/|^;
 <operador bool> ::= &&||||!;
 <espaco> ::= \n| |\t
@@ -18,34 +18,42 @@
 <num float> ::= <num natural>.<num natural>|-<num natural>.<num natural>
 <numero> ::= <num inteiro>|<num float>
 <bool> ::= true|false
-<R-value> ::= <numero>|<string>|<bool>|<ID>|<array value>|<matrix value>|<function call>
-<L-value> ::= <ID>|<array value>|<matrix value>
+<R-value> ::= <numero>|<string>|<bool>|<ID>|<array>|<matrix>|<function call>
+<L-value> ::= <ID>|<array>|<matrix>
 <lista de valores> ::= <R-value>|<lista de valores>,<R-value>
-<array value> ::= <ID>[<num inteiro>]
-<matrix value> ::= <ID>[<num inteiro>][<num inteiro>]
+<array> ::= <ID>[<num inteiro>]
+<matrix> ::= <ID>[<num inteiro>][<num inteiro>]
+<acesso struct> ::= <ID>-><ID>
 
-<int value> ::= <num inteiro>|<ID>|<array value>|<matrix value>|<function call>
-<float value> ::= <num float>|<ID>|<array value>|<matrix value>|<function call>
-<string value> ::= <string>|<ID>|<array value>|<matrix value>|<function call>
-<bool value> ::= <bool>|<ID>|<array value>|<matrix value>|<function call>
-<lista de int value> ::= <ID> = <int value>|<int value>|<lista de int value>,<int value>
-<lista de float value> ::= <ID> = <float value>|<float value>|<lista de float value>,<float value>
-<lista de string value> ::= <ID> = <string value>|<string value>|<lista de string value>,<string value>
-<lista de bool value> ::= <ID> = <bool value>|<bool value>|<lista de bool value>,<bool value>
+<var value> ::= <ID>|<array>|<matrix>|<function call>|<acesso struct>
+<int value> ::= <num inteiro>|<var value>
+<float value> ::= <num float>|<var value>
+<string value> ::= <string>|<var value>
+<bool value> ::= <bool>|<var value>
 
-<array> ::= [<lista de valores>]
+<lista de int value> ::= <int value>|<lista de int value>,<int value>
+<lista de float value> ::= <float value>|<lista de float value>,<float value>
+<lista de string value> ::= <string value>|<lista de string value>,<string value>
+<lista de bool value> ::= <bool value>|<lista de bool value>,<bool value>
+
+<multideclaracao int> ::= <ID> = <int value>|<multideclaracao>,<ID> = <int value>
+<multideclaracao float> ::= <ID> = <float value>|<multideclaracao>,<ID> = <float value>
+<multideclaracao string> ::= <ID> = <string value>|<multideclaracao>,<ID> = <string value>
+<multideclaracao bool> ::= <ID> = <bool value>|<multideclaracao>,<ID> = <bool value>
+
+<literal array> ::= <array int>|<array float>|<array string>|<array bool>
 <array int> ::= [<lista de int value>]
 <array float> ::= [<lista de float value>]
 <array string> ::= [<lista de string value>]
 <array bool> ::= [<lista de bool value>]
-<array list> ::= <array>|<array list>,<array>
-<matrix> ::= [<array list>]
-<matrix int> ::= <array int>|<matrix int><array int>
-<matrix float> ::= <array float>|<matrix float><array float>
-<matrix string> ::= <array string>|<matrix string><array string>
-<matrix bool> ::= <array bool>|<matrix bool><array bool>
+<array list> ::= <literal array>|<array list>,<literal array>
+<literal matrix> ::= [<matrix int>|<matrix float>|<matrix string>|<matrix bool>]
+<matrix int> ::= <array int>|<matrix int>,<array int>
+<matrix float> ::= <array float>|<matrix float>,<array float>
+<matrix string> ::= <array string>|<matrix string>,<array string>
+<matrix bool> ::= <array bool>|<matrix bool>,<array bool>
 
-<declaracao> ::= <tipo> <ID>|
+<declaracao> ::= 
 					int <ID> = <int value>|
 					float <ID> = <float value>|
 					string <ID> = <string value>|
@@ -54,34 +62,38 @@
 					float <ID> = <lista de float value>|
 					string <ID> = <lista de string value>|
 					bool <ID> = <lista de bool value>|
-					int <array value> = <array int>|
-					float <array value> = <array float>|
-					string <array value> = <array string>|
-					bool <array value> = <array bool>|
-					int <matrix value> = <matrix int>|
-					float <matrix value> = <matrix float>|
-					string <matrix value> = <matrix string>|
-					bool <matrix value> = <matrix bool>
+					int <array> = <array int>|
+					float <array> = <array float>|
+					string <array> = <array string>|
+					bool <array> = <array bool>|
+					int <matrix> = [<matrix int>]|
+					float <matrix> = [<matrix float>]|
+					string <matrix> = [<matrix string>]|
+					bool <matrix> = [<matrix bool>]|
+					int <multideclaracao int>|
+					float <multideclaracao float>|
+					string <multideclaracao string>|
+					bool <multideclaracao bool>
 
 <lista de declaracoes> ::= <declaracao>;|<lista de declaracoes><declaracao>;
 <struct> ::= struct <ID> do <lista de declaracoes> endstruct;
-<atribuicao> ::= <L-value> = <R-value>|<array value> = <array>|<matrix value> = <matrix>
+<atribuicao> ::= <L-value> = <R-value>|<array> = <literal array>|<matrix> = <literal matrix>
 
 <expressao bool> ::= <termo bool>|<expressao bool>||<termo bool>
 <termo bool> ::= <fator bool>|<termo bool>&&<fator bool>
-<fator bool> ::= (<expressao bool>)|<ID>|<bool>|<function call>|<array value>|<matrix value>
+<fator bool> ::= (<expressao bool>)|<ID>|<bool>|<function call>|<array>|<matrix>
 
 <expressao arit> ::= <termo arit>|<expressao arit>+<termo arit>|<expressao arit>-<termo arit>
 <termo arit> ::= <fator2 arit>|<termo arit>*<fator2 arit>|<termo arit>/<fator2 arit>
 <fator2 arit> ::= <fator arit>|<fator arit>^<fator arit>
-<fator arit> ::= (<expressao arit>)|<ID>|<numero>|<function call>|<array value>|<matrix value>
+<fator arit> ::= (<expressao arit>)|<ID>|<numero>|<function call>|<array>|<matrix>
 
 <comando> ::= <retorno>|<atribuicao>|<condicional>|<iteracao>|<entrada>|<saida>
 <condicao> ::= <expressao bool><comparador bool><expressao bool>|<expressao arit><comparador><expressao arit>
 <expressao> ::= <expressao bool>|<expressao arit>
 <lista de expressoes> ::= <expressao>|<lista de expressoes><expressao>
 <lista de comandos> ::= E|<lista de comandos><comando>;
-<parametro> ::= <tipo> <ID>|<tipo> <array value>|<tipo> <matrix value>
+<parametro> ::= <tipo> <ID>|<tipo> <array>|<tipo> <matrix>
 <lista de parametros> ::= <parametro>|<lista de parametros>,<parametro>
 
 <programa> ::= begin<lista de comandos>end;
