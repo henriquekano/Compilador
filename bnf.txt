@@ -36,10 +36,10 @@
 <lista de string value> ::= <string value>|<lista de string value>,<string value>
 <lista de bool value> ::= <bool value>|<lista de bool value>,<bool value>
 
-<multideclaracao int> ::= <ID> = <int value>|<multideclaracao>,<ID> = <int value>
-<multideclaracao float> ::= <ID> = <float value>|<multideclaracao>,<ID> = <float value>
-<multideclaracao string> ::= <ID> = <string value>|<multideclaracao>,<ID> = <string value>
-<multideclaracao bool> ::= <ID> = <bool value>|<multideclaracao>,<ID> = <bool value>
+<multideclaracao int> ::= <ID> = <int value>|<multideclaracao int>,<ID> = <int value>|<ID>|<multideclaracao int>,<ID>
+<multideclaracao float> ::= <ID> = <float value>|<multideclaracao float>,<ID> = <float value>|<ID>|<multideclaracao float>,<ID>
+<multideclaracao string> ::= <ID> = <string value>|<multideclaracao string>,<ID> = <string value>|<ID>|<multideclaracao string>,<ID>
+<multideclaracao bool> ::= <ID> = <bool value>|<multideclaracao bool>,<ID> = <bool value>|<ID>|<multideclaracao bool>,<ID>
 
 <literal array> ::= <array int>|<array float>|<array string>|<array bool>
 <array int> ::= [<lista de int value>]
