@@ -1,10 +1,10 @@
 D = "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9".
 L = "a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"|"t"|"u"|"v"|"w"|"x"|"y"|"z"|"A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z".
-* = "@"|"#"|"$"|"%"|"""|"'"|"&"|"*"|"("|")"|"["|"]"|"<"|">"|"="|"-"|"^"|"~""|"\"|"/"|","|"."|":"|";".
+SPECIAL = "@"|"#"|"$"|"%"|"""|"'"|"&"|"*"|"("|")"|"["|"]"|"<"|">"|"="|"-"|"^"|"~""|"\"|"/"|","|"."|":"|";".
 OPERADOR_ARIT = "+"|"-"|"*"|"/"|"^".
-OPERADOR_BOOL = "&&" | "||" | "!".
+OPERADOR_BOOL = "&&" | "||".
 ESPACO = "\n" | "\t" | " ".
-ANY = L | D | * | ESPACO.
+ANY = L | D | SPECIAL | ESPACO.
 ID = (L | "_"){L | D | "_"}.
 LISTA_IDS = {ID","}ID.
 TIPO = "int"|"float"|"string"|"bool".
@@ -25,7 +25,7 @@ VAR_VALUE = ID | ARRAY | MATRIX | CHAMADA_FUNC.
 INT_VALUE = INTEGER | VAR_VALUE.
 FLOAT_VALUE = NUM | VAR_VALUE.
 STRING_VALUE = STRING | VAR_VALUE.
-BOOL_VALUE = BOOL | VAR_VALUE.
+BOOL_VALUE = BOOL | VAR_VALUE | "!"BOOL_VALUE.
 
 ARRAY_INTEGER = "["[INT_VALUE{","INT_VALUE}]"]".
 ARRAY_FLOAT = "["[FLOAT_VALUE{","FLOAT_VALUE}]"]".
@@ -83,4 +83,3 @@ ITERACAO = "while(" CONDICAO ") do" [COMANDOS] "endwhile;".
 CASES = "is(" VALOR ") do" [{COMANDO","}COMANDO]] "continue;".
 SELECAO = "when(" VALOR ")" {CASES}CASES "endswitch;".
 RETURN = "return" | "return" R-VALUE.
-
