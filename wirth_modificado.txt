@@ -1,0 +1,50 @@
+D = "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9".
+L = "a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"|"t"|"u"|"v"|"w"|"x"|"y"|"z"|"A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z".
+SPECIAL = "@"|"#"|"$"|"%"|"""|"'"|"&"|"*"|"("|")"|"["|"]"|"<"|">"|"="|"-"|"^"|"~""|"\"|"/"|","|"."|":"|";".
+OPERADOR_ARIT = "+"|"-"|"*"|"/"|"^".
+OPERADOR_BOOL = "&&" | "||".
+ESPACO = "\n" | "\t" | " ".
+ANY = L | D | SPECIAL | ESPACO.
+ID = (L | "_"){L | D | "_"}.
+TIPO = "int"|"float"|"string"|"bool".
+STRING = """{ANY}""" | "'"{ANY}"'".
+COMPARADOR_BOOL = "=="|"!=".
+COMPARADOR = "<"|">"|"<="|">="|COMPARADOR_BOOL.
+INT = D{D}.
+NUM = INT["."{D}].
+BOOL = "true" | "false".
+ELEM_VETOR = ID"["INT"]".
+ELEM_MATRIZ = ID"["INT"]["INT"]".
+ACESSO_STRUCT = ID"->"ID.
+CHAMADA_FUNC = ID"("[{ARGUMENTO","}ARGUMENTO]")".
+VALOR_GENERICO = ID | ELEM_VETOR | ELEM_MATRIZ | CHAMADA_FUNC | ACESSO_STRUCT.
+VALOR = NUM | STRING | BOOL | VALOR_GENERICO.
+ARGUMENTO = VALOR.
+VARIAVEL = ID | ELEM_VETOR | ELEM_MATRIZ.
+
+EXPRESSAO_BOOL = TERMO_BOOL { "||" TERMO_BOOL }.
+TERMO_BOOL = FATOR_BOOL { "&&" FATOR_BOOL }.
+FATOR_BOOL = "("EXPRESSAO_BOOL")" | BOOL | VALOR_GENERICO.
+EXPRESSAO_ARIT = TERMO_ARIT { ("+"|"-") TERMO_ARIT }.
+TERMO_ARIT = FATOR_ARIT_POT { ("*"|"/") FATOR_ARIT_POT }.
+FATOR_ARIT_POT = FATOR_ARIT { "^" FATOR_ARIT }.
+FATOR_ARIT = "("EXPRESSAO_ARIT")" | NUM | VALOR_GENERICO.
+
+PROGRAMA = "begin" COMANDOS "end".
+COMANDOS = COMANDO";"{ COMANDO";"}.
+COMANDO = ATRIBUICAO | DECLARACAO | CONDICIONAL | ITERACAO | SELECAO | ENTRADA | SAIDA.
+ATRIBUICAO = VARIAVEL "=" VALOR.
+DECLARACAO = DECLARACAO_VARIAVEL | DECLARACAO_FUNCAO.
+DECLARACAO_VARIAVEL = TIPO VARIAVEL{","VARIAVEL}.
+DECLARACAO_SIMPLES = TIPO ID.
+DECLARACAO_FUNCAO = "function" TIPO ID"("[DECLARACAO_SIMPLES{","DECLARACAO_SIMPLES}]") do" COMANDOS [RETORNO] "endfunction;".
+RETORNO = "return;" | "return" VALOR ";".
+CONDICIONAL = "if(" CONDICAO ") do" COMANDOS ELSE "endif".
+ELSE = {"elsif(" CONDICAO ") do" COMANDOS }["else do" COMANDOS].
+CONDICAO = BOOL | EXPRESSAO_ARIT COMPARADOR EXPRESSAO_ARIT | EXPRESSAO_BOOL COMPARADOR_BOOL EXPRESSAO_BOOL | VALOR_GENERICO.
+EXPRESSAO = EXPRESSAO_BOOL | EXPRESSAO_ARIT.
+ITERACAO = "while(" CONDICAO ") do" COMANDOS "endwhile".
+SELECAO = "when(" VALOR ")" CASO{CASO} "endswitch".
+CASO = "is(" VALOR ")do" COMANDOS "continue;".
+ENTRADA = "scan(" VARIAVEL{","VARIAVEL} ")".
+SAIDA = "print(" ARGUMENTO{","ARGUMENTO} ")".
