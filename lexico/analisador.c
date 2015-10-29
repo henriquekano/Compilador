@@ -12,7 +12,7 @@
 //   return 0;
 // }
 
-void find_possible_token(Automata *automata, FILE *file){
+Token find_possible_token(Automata *automata, FILE *file){
   // constroi(&l);
   Token return_token;
   States current_state, previous_state;

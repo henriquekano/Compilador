@@ -46,12 +46,8 @@ typedef enum{
 	S16 = 16, //block comment?
 	S17 = 17, //block comment begin
 	S18 = 18, //block comment end?
-	S19 = 19, //primeiro [
-	S20 = 20, //vetor
-	S21 = 21, //segundo [
-	S22 = 22, //matriz
-	S23 = 23, //fecho de comentario bloco
-	S24 = 24 //fecho de comentario de linha 
+	S23 = 19, //fecho de comentario bloco
+	S24 = 20 //fecho de comentario de linha 
 }States;
 
 extern const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES];

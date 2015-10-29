@@ -12,12 +12,12 @@ const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES] =
 {										
 //Input: 
 	//Letter, number, arith.,d_quote,s_quote,  EOC  ,   =  	, comp  , underl, blank , sep   , unknown 	,	NEWLINE ,	HASHTAG, 	point 	, [		,	]	
-	{	S2 	,	S5 	,	S6	,	S7 	,	S10 ,	S1 	,	S13	, 	S3 	,	S2 	,	S0 	,	S11 ,	S12 	,	S0  	,	S16		,	S12		,	S12	, 	S12	},	//S0 - inicial
+	{	S2 	,	S5 	,	S6	,	S7 	,	S10 ,	S1 	,	S13	, 	S3 	,	S2 	,	S0 	,	S11 ,	S12 	,	S0  	,	S16		,	S12		,	S11	, 	S11	},	//S0 - inicial
 	{	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 		,	S0		,	S0		,	S0		,	S0	, 	S0	}, 	//S1 - ;
-	{	S2 	,	S2 	,	S0	,	S12	,	S12	,	S0 	,	S0 	,	S0 	,	S2 	,	S0 	,	S0 	,	S12		,	S0		,	S0		,	S0		,	S19	, 	S12	}, 	//S2 - identificador
+	{	S2 	,	S2 	,	S0	,	S12	,	S12	,	S0 	,	S0 	,	S0 	,	S2 	,	S0 	,	S0 	,	S12		,	S0		,	S0		,	S0		,	S0	, 	S12	}, 	//S2 - identificador
 	{ 	S0 	, 	S0 	, 	S0	, 	S0	, 	S0	, 	S0	, 	S4 	, 	S12	, 	S0	, 	S0 	, 	S0 	, 	S0		,	S0		,	S0		,	S0		,	S12	, 	S12	}, 	//S3 - comparador 1 caracter
 	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0	, 	S12	, 	S12	, 	S0	, 	S0 	, 	S0 	, 	S0 		,	S0		,	S0		,	S0		,	S12	, 	S12	}, 	//S4 - comparador 2 caracteres
-	{ 	S12	, 	S5 	, 	S0 	, 	S12	, 	S12	, 	S0 	, 	S0 	, 	S0 	, 	S12	, 	S0 	, 	S0 	, 	S12		,	S0		,	S0		,	S14		,	S12	, 	S12	},	//S5 - num
+	{ 	S12	, 	S5 	, 	S0 	, 	S12	, 	S12	, 	S0 	, 	S0 	, 	S0 	, 	S12	, 	S0 	, 	S0 	, 	S12		,	S0		,	S0		,	S14		,	S0	, 	S0	},	//S5 - num
 	{ 	S0 	, 	S0 	, 	S12	, 	S0 	, 	S0 	, 	S0 	, 	S12	, 	S12	, 	S0	, 	S0 	, 	S0 	, 	S0		,	S0		,	S0		,	S0		,	S12	, 	S12	},	//S6 - operador aritmetico
 	{ 	S7 	, 	S7 	, 	S7 	, 	S8 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 	, 	S7 		,	S7		,	S7		,	S7		,	S7	, 	S7	},	//S7 - tudo exceto "
 	{ 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 	, 	S0 		,	S0		,	S0		,	S0		,	S0	, 	S0	},	//S8 - completa ""
@@ -32,10 +32,6 @@ const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES] =
 	{ 	S15	, 	S15	, 	S15	, 	S15	, 	S15	, 	S15	, 	S15 , 	S15	, 	S15	, 	S15	, 	S15	, 	S15		,	S0		,	S17		,	S15		,	S15	, 	S15	},	//S16 - block comment?
 	{ 	S17	, 	S17	, 	S17	, 	S17	, 	S17	, 	S17	, 	S17	, 	S17	, 	S17	, 	S17	, 	S17	, 	S17		,	S17		,	S18		,	S17		,	S17	, 	S17	},	//S17 - block comment begin
 	{ 	S17	, 	S17	, 	S17	, 	S17 , 	S17	, 	S17	, 	S17	, 	S17	, 	S17	, 	S17	, 	S17	, 	S17		,	S17		,	S23		,	S17		,	S17	, 	S17	},	//S18 - block comment end?
-	{   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000    ,   0000    ,   0000    ,   0000    ,	0000, 	0000},   //S19 - primeiro [
-	{   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000   	,   0000   	,   0000    ,   0000  	,	0000, 	0000},   //S20 - vetor
-	{   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000    ,   0000    ,   0000    ,   0000    ,	0000, 	0000},   //S21 - segundo [
-	{   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000,   0000    ,   0000    ,   0000    ,   0000    ,	0000, 	0000},   //S22 - matriz
 	{   S0  ,   S0  ,   S0  ,   S0  ,   S0  ,   S0  ,   S0  ,   S0  ,   S0  ,   S0  ,   S0  ,   S0      ,   S0      ,   S0      ,   S0      ,	S0	, 	S0	},   //S23 - fecho de comentario bloco
 	{   S0  ,   S0  ,   S0  ,   S0  ,   S0  ,   S0  ,   S0  ,   S0  ,   S0  ,   S0  ,   S0  ,   S0      ,   S0      ,   S0      ,   S0      ,	S0	, 	S0	}   //S24 - fecho de comentario de linha
 };
@@ -107,10 +103,6 @@ Token_type state_converter_token_type(States state, char buffer[50]){
 			return TT_ASSIGNMENT;
 		case S14:
 			return TT_FLOAT;
-		case S20:
-			return TT_ARRAY;
-		case S22:
-			return TT_MATRIX;
 		case S23:
 			return TT_IGNORE;
 		case S24:
