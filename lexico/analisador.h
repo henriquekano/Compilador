@@ -10,7 +10,7 @@
   // token get_token(char *file);
 
 	void tokenize(Automata *automata, FILE *file);
-	void find_possible_token(Automata *automata, FILE *file);
+	Token find_possible_token(Automata *automata, FILE *file);
 	bool can_create_token(int previous_state);
 	void lexical_analysis(FILE *file);
 #endif

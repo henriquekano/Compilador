@@ -12,13 +12,13 @@ typedef struct _listNode {
   struct _listNode *next;
 } listNode;
  
-typedef struct {
+typedef struct List{
   int logicalLength;
   int elementSize;
   listNode *head;
   listNode *tail;
   freeFunction freeFn;
-} List;
+}List;
  
 void list_new(List *list, int elementSize, freeFunction freeFn);
 void list_destroy(List *list);

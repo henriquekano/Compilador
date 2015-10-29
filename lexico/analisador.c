@@ -19,6 +19,18 @@ void find_possible_token(Automata *automata, FILE *file){
   char c;
   List buffer;
   list_new(&buffer, sizeof(char), NULL);
+
+  //pule os espacos!
+  do{
+    c = fgetc(file);
+
+    if(feof(file)){
+      return;
+    }
+  }while(isspace(c));
+  
+  fseek(file, -1, SEEK_CUR);
+
   // list_append(buffer, "\0");
   do {
     //faz um lookahead - se nao for retornar para o S0 (=criar um token), 
@@ -50,6 +62,8 @@ void find_possible_token(Automata *automata, FILE *file){
   }
   
   list_destroy(&buffer);
+
+  return return_token;
 }
 
 void tokenize(Automata *automata, FILE *file){
@@ -58,17 +72,7 @@ void tokenize(Automata *automata, FILE *file){
 
   //Leia todo o arquivo!
   do{
-    //pule os espacos!
-    do{
-      c = fgetc(file);
-
-      if(feof(file)){
-        return;
-      }
-    }while(isspace(c));
     
-    fseek(file, -1, SEEK_CUR);
-
     find_possible_token(automata, file);
 
     ft = ftell(file);

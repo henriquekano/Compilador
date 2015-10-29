@@ -11,6 +11,14 @@ void token_pretty_print(Token *t){
   printf("%s \t\t\t | %s (%i)\n", t->string, token_type_to_string(t->type), t->type);
 }
 
+bool token_is_empty(Token *t){
+  if(strcmp(t->string, "\0") == 0 || strcmp(t->string, "") == 0){
+    return TRUE;
+  }else{
+    return FALSE;
+  }
+}
+
 char *token_type_to_string(Token_type token_type){
   switch(token_type){
     case TT_STRING:

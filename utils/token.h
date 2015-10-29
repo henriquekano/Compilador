@@ -1,6 +1,8 @@
 #ifndef TOKEN_H_
   #define TOKEN_H_
 
+  #include "bool.h"
+
   typedef enum{
     TT_STRING = 0,
     TT_ARITH_SYMBOL = 1,
@@ -25,5 +27,6 @@
 
   Token token_create(char *string, Token_type type);
   void token_pretty_print(Token *t);
+  bool token_is_empty(Token *t);
   char *token_type_to_string(Token_type token_type);
 #endif
