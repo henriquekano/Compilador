@@ -42,39 +42,39 @@ const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES] =
 
 int input_converter_function(char character){
 	if(isalpha((int)character)){
-		return TOKEN_TYPE_LETTER;
+		return INPUT_TYPE_LETTER;
 	}else if(isdigit((int)character)){
-		return TOKEN_TYPE_NUMBER;
+		return INPUT_TYPE_NUMBER;
 	}else if(character == '+' || character == '-' || character == '/' || character == '*'){
-		return TOKEN_TYPE_ARITH_SYMBOL;
+		return INPUT_TYPE_ARITH_SYMBOL;
 	}else if(character == '\"'){
-		return TOKEN_TYPE_DOUBLE_QUOTE;
+		return INPUT_TYPE_DOUBLE_QUOTE;
 	}else if(character == '\''){
-		return TOKEN_TYPE_SINGLE_QUOTE;
+		return INPUT_TYPE_SINGLE_QUOTE;
 	}else if(character == ';'){
-		return TOKEN_TYPE_END_OF_COMMAND;
+		return INPUT_TYPE_END_OF_COMMAND;
 	}else if(character == '='){
-		return TOKEN_TYPE_EQUALS;
+		return INPUT_TYPE_EQUALS;
 	}else if(character == '<' || character == '>' || character == '!' ){
-		return TOKEN_TYPE_COMPARATOR;
+		return INPUT_TYPE_COMPARATOR;
 	}else if(character == '_'){
-		return TOKEN_TYPE_UNDERLINE;
+		return INPUT_TYPE_UNDERLINE;
 	}else if(character == '\n'){
-		return TOKEN_TYPE_NEWLINE;
+		return INPUT_TYPE_NEWLINE;
 	}else if(character == '#'){
-		return TOKEN_TYPE_HASHTAG;
+		return INPUT_TYPE_HASHTAG;
 	}else if(character == '.'){
-		return TOKEN_TYPE_POINT;
+		return INPUT_TYPE_POINT;
 	}else if(character == ' ' || character == '\t' || character == '\v' || character == '\f' || character == '\r'){
-		return TOKEN_TYPE_BLANK;
+		return INPUT_TYPE_BLANK;
 	}else if(character == '(' || character == ')' || character == ','){
-		return TOKEN_TYPE_SEPARATOR;
+		return INPUT_TYPE_SEPARATOR;
 	}else if(character == '['){
-		return TOKEN_TYPE_L_SQ_BRACKET;
+		return INPUT_TYPE_L_SQ_BRACKET;
 	}else if(character == ']'){
-		return TOKEN_TYPE_R_SQ_BRACKET;
+		return INPUT_TYPE_R_SQ_BRACKET;
 	}else{
-		return TOKEN_TYPE_UNKNOWN;
+		return INPUT_TYPE_UNKNOWN;
 	}
 }
 
