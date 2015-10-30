@@ -5,6 +5,7 @@
   #define FINAL_STATE INT_MAX
   #define ERROR_STATE INT_MIN
 
+  #include "table.h"
   /*
   Automato:
     state: o estado atual;
@@ -13,13 +14,12 @@
   */
   typedef struct Automata2{
     int state;
-    int **table;
-    int tableRows;
-    int tableColumns;
+    Table table;
     
   }Automata2;
 
   Automata2 automata_create2(int state, int row, int column, int table[row][column]);
+  
   void automata_destroy2(Automata2 *a);
   void automata_goto_next_state2(Automata2 *a, int input);
   int automata_next_state2(Automata2 *a, int input);

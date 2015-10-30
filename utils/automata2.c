@@ -2,35 +2,22 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include "automata2.h"
+#include "table.h"
 
 Automata2 automata_create2(int state, int row, int column, int table[row][column]){
-  int i = 0;
-  int j = 0;
+  Table transitionTable = table_create(row, column, table);
 
-  int **transitionTable = (int **)malloc(sizeof(int*));
-  for(i = 0; i < row; i++){
-    transitionTable[i] = (int *)malloc(column * sizeof(int));
-
-    for(j = 0; j < column; j++){
-      transitionTable[i][j] = table[i][j];
-    }
-  }
-
-  Automata2 a = {state, transitionTable, row, column};
+  Automata2 a = {state, transitionTable};
   return a;
 };
 
 void automata_destroy2(Automata2 *a){
-  int i = 0, j = 0;
-
-  for(i = 0; i < a->tableRows; i++){
-    free(a->table[i]);
-  }
+  table_destroy(&(a->table));
 
 };
 
 int automata_next_state2(Automata2 *a, int input){
-  return a->table[a->state][input];
+  return table_get(&(a->table), a->state, input);
 }
 
 void automata_goto_next_state2(Automata2 *a, int input){
@@ -42,11 +29,5 @@ int automata_current_state2(Automata2 *a){
 }
 
 void automata_print_table(Automata2 *a){
-  int i, j;
-  for(i = 0; i < a->tableRows; i++){
-    for(j = 0; j < a->tableColumns; j++){
-      printf("%d ", a->table[i][j]);
-    }
-    printf("\n");
-  }
+  table_print_table(&(a->table));
 }

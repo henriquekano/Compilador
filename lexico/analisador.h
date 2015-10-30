@@ -9,6 +9,10 @@
   // Lista tokenize(char *file);
   // token get_token(char *file);
 
+  typedef struct Lexic{
+    Automata a;
+  } Lexic;
+
 	void tokenize(Automata *automata, FILE *file);
 	Token find_possible_token(Automata *automata, FILE *file);
 	bool can_create_token(int previous_state);

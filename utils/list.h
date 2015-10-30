@@ -25,6 +25,9 @@ void list_destroy(List *list);
  
 void list_prepend(List *list, void *element);
 void list_append(List *list, void *element);
+
+void *list_get_first(List *list);
+
 int list_size(List *list);
  
 void list_for_each(List *list, listIterator iterator);

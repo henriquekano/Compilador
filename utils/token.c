@@ -1,10 +1,16 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "token.h"
 
-Token token_create(char *string, Token_type type){
-  Token t = {string,type};
+Token token_create(char *string, Token_type type, tokenFreeFunction freeFn){
+  Token t = {string,type,freeFn};
   return t;
+}
+
+void token_destroy(Token *t){
+  if(t->freeFn)
+    t->freeFn(t->string);
 }
 
 void token_pretty_print(Token *t){

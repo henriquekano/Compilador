@@ -13,7 +13,6 @@
   */
   typedef struct{
     int state;
-    char buffer[];
   }Automata;
 
   Automata automata_create(int state);
