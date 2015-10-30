@@ -17,8 +17,9 @@ void destroy_token_string(char *string){
   free(string);
 } 
 
-Token find_possible_token(Automata *automata, FILE *file){
+Token find_possible_token(FILE *file){
   // constroi(&l);
+  Automata automata = automata_create(S0);
   Token return_token;
   States current_state, previous_state;
   char c;
@@ -49,9 +50,9 @@ Token find_possible_token(Automata *automata, FILE *file){
         break;
       }
       
-      previous_state = automata_current_state(automata);
-      automata_goto_next_state(automata, input_converter_function(c));
-      current_state = automata_current_state(automata);
+      previous_state = automata_current_state(&automata);
+      automata_goto_next_state(&automata, input_converter_function(c));
+      current_state = automata_current_state(&automata);
 
       if(current_state != S0){
         list_append(&buffer, &c);
@@ -75,28 +76,28 @@ Token find_possible_token(Automata *automata, FILE *file){
   return return_token;
 }
 
-void tokenize(Automata *automata, FILE *file){
-  int c, ft;
-  // Token t;
+// void tokenize(FILE *file){
+//   int c, ft;
+//   // Token t;
 
-  //Leia todo o arquivo!
-  do{
+//   //Leia todo o arquivo!
+//   do{
     
-    find_possible_token(automata, file);
+//     find_possible_token(file);
 
-    ft = ftell(file);
-    c = fgetc(file);
-    c = fgetc(file);
-    if(c != EOF){
-      fseek(file, ft, SEEK_SET);
-      continue;
-    }else{
-      fseek(file, ft, SEEK_SET);
-      break;
-    }
+//     ft = ftell(file);
+//     c = fgetc(file);
+//     c = fgetc(file);
+//     if(c != EOF){
+//       fseek(file, ft, SEEK_SET);
+//       continue;
+//     }else{
+//       fseek(file, ft, SEEK_SET);
+//       break;
+//     }
     
-  }while(TRUE);
-}
+//   }while(TRUE);
+// }
 
 bool reached_eof(FILE *file){
   int c, ft;
@@ -120,7 +121,7 @@ bool can_create_token(int previous_state){
   }
 }
 
-void lexical_analysis(FILE *file){
-  Automata automata = automata_create(S0);
-  tokenize(&automata, file);
-}
+// void lexical_analysis(FILE *file){
+//   Automata automata = automata_create(S0);
+//   tokenize(&automata, file);
+// }

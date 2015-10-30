@@ -19,7 +19,7 @@
 int main(){
 	FILE *file = fopen(FILENAME, "r");
   Token t;
-  Automata automata = automata_create(S0);
+  // Automata automata = automata_create(S0);
 
   printf("Changed!\n");
 
@@ -27,7 +27,7 @@ int main(){
 		printf("Arquivo não existe!!!");
   } else {
     do{
-      t = find_possible_token(&automata, file);
+      t = find_possible_token(file);
       token_destroy(&t);
     }while(!reached_eof(file));
 	}

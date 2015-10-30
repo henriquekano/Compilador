@@ -4,10 +4,10 @@
 #include "automata2.h"
 #include "table.h"
 
-Automata2 automata_create2(int state, Table *table){
+Automata2 automata_create2(int id, int state, Table *table){
   // Table transitionTable = table_create(row, column, table);
 
-  Automata2 a = {state, table};
+  Automata2 a = {id, state, table};
   return a;
 }
 
