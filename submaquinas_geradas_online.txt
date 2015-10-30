@@ -106,77 +106,48 @@ final: 3, 15
 Sub-maquina CONDICAO: 
 Minimized DFA: 
 initial: 0
-final: 1, 4
+final: 1, 3
 (0, BOOL) -> 1
-(0, EXPRESSAO_ARIT) -> 2
-(0, EXPRESSAO_BOOL) -> 3
-(0, ID) -> 4
+(0, EXPRESSAO) -> 2
+(0, ID) -> 3
 (0, ELEM_VETOR) -> 1
 (0, ELEM_MATRIZ) -> 1
-(2, COMPARADOR) -> 5
-(3, COMPARADOR_BOOL) -> 8
-(4, "(") -> 6
-(4, ".") -> 7
-(5, EXPRESSAO_ARIT) -> 1
-(6, VALOR) -> 9
-(6, ")") -> 1
-(7, ID) -> 1
-(8, EXPRESSAO_BOOL) -> 1
-(9, ",") -> 10
-(9, ")") -> 1
-(10, VALOR) -> 9
+(2, COMPARADOR) -> 4
+(3, "(") -> 5
+(3, ".") -> 6
+(4, EXPRESSAO) -> 1
+(5, VALOR) -> 7
+(5, ")") -> 1
+(6, ID) -> 1
+(7, ",") -> 8
+(7, ")") -> 1
+(8, VALOR) -> 7
 
 Sub-maquina EXPRESSAO: 
-Minimized DFA: 
-initial: 0
-final: 1
-(0, EXPRESSAO_BOOL) -> 1
-(0, EXPRESSAO_ARIT) -> 1
-
-Sub-maquina EXPRESSAO_ARIT: 
 Minimized DFA: 
 initial: 0
 final: 2, 3
 (0, "(") -> 1
 (0, INT) -> 2
 (0, FLOAT) -> 2
-(0, ID) -> 3
-(0, ELEM_VETOR) -> 2
-(0, ELEM_MATRIZ) -> 2
-(1, EXPRESSAO_ARIT) -> 4
-(2, "*") -> 0
-(2, "/") -> 0
-(2, "+") -> 0
-(2, "-") -> 0
-(3, "(") -> 5
-(3, ".") -> 6
-(3, "*") -> 0
-(3, "/") -> 0
-(3, "+") -> 0
-(3, "-") -> 0
-(4, ")") -> 2
-(5, ")") -> 2
-(5, VALOR) -> 7
-(6, ID) -> 2
-(7, ")") -> 2
-(7, ",") -> 8
-(8, VALOR) -> 7
-
-Sub-maquina EXPRESSAO_BOOL: 
-Minimized DFA: 
-initial: 0
-final: 2, 3
-(0, "(") -> 1
 (0, BOOL) -> 2
 (0, ID) -> 3
 (0, ELEM_VETOR) -> 2
 (0, ELEM_MATRIZ) -> 2
-(1, EXPRESSAO_BOOL) -> 4
+(1, EXPRESSAO) -> 4
+(2, "*") -> 0
+(2, "/") -> 0
 (2, "&&") -> 0
+(2, "+") -> 0
+(2, "-") -> 0
 (2, "||") -> 0
 (3, "(") -> 5
 (3, ".") -> 6
+(3, "*") -> 0
+(3, "/") -> 0
 (3, "&&") -> 0
+(3, "+") -> 0
+(3, "-") -> 0
 (3, "||") -> 0
 (4, ")") -> 2
 (5, ")") -> 2

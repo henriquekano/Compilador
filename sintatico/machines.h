@@ -59,25 +59,27 @@ typedef enum{
 	MTTYPE_SINGLE_QUOTE 		= 31 	,// '
 	MTTYPE_DOUBLE_QUOTE 		= 32 	,// "
 	MTTYPE_ID 					= 33 	,// identificador
-	MTTYPE_D 					= 34 	,// digito numerico
-	MTTYPE_ANY 					= 35 	,// letra, numero
-	MTTYPE_TYPE 				= 36 	,// int, float, string, bool
-	MTTYPE_BOOL 				= 37 	,// true, false
-	MTTYPE_COMPARATOR 			= 38 	,// <, >, <=, >=, ==, !=
-	MTTYPE_COMPARATOR_BOOL 		= 39 	 // ==, !=
+	MTTYPE_INT 					= 34 	,// inteiro
+	MTTYPE_FLOAT				= 35 	,// float
+	MTTYPE_STRING 				= 36 	,// string
+	MTTYPE_VECTOR 				= 37 	,// vetor
+	MTTYPE_ARRAY 				= 38 	,// ARRAY
+	MTTYPE_TYPE 				= 39 	,// int, float, string, bool
+	MTTYPE_BOOL 				= 40 	,// true, false
+	MTTYPE_COMPARATOR 			= 41 	// <, >, <=, >=, ==, !=
 } MachineTokenTypes;
 
-typedef struct machine {
-	int id;
-	int current_state;
-	int final_state[MAX_FINAL_STATES];
-	int transition_table[MAX_STATES][N_MACHINE_TOKEN_TYPES];
-	int submachine_call[MAX_STATES][N_MACHINE_TYPES];
-} Machine;
+// typedef struct machine {
+// 	int id;
+// 	int current_state;
+// 	int final_state[MAX_FINAL_STATES];
+// 	int transition_table[MAX_STATES][N_MACHINE_TOKEN_TYPES];
+// 	int submachine_call[MAX_STATES][N_MACHINE_TYPES];
+// } Machine;
 
-Machine machines[8];
+// Machine machines[8];
 
-void init_machines();
-void machine_in_final_state(int machineId);
+void init_machines(AutomataPE *automata);
+// void machine_in_final_state(int machineId);
 
 #endif /* MACHINES_H_ */

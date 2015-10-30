@@ -9,8 +9,7 @@ FLOAT = INT"."INT.
 ELEM_VETOR = ID"["INT"]".
 ELEM_MATRIZ = ID"["INT"]" "["INT"]".
 BOOL = "true" | "false".
-COMPARADOR_BOOL = "=="|"!=".
-COMPARADOR = "<"|">"|"<="|">="|COMPARADOR_BOOL.
+COMPARADOR = "<"|">"|"<="|">="|"=="|"!=".
 
 PROGRAMA = "begin" COMANDO";"{ COMANDO";"} "end".
 
@@ -18,12 +17,8 @@ COMANDO = ((ID | ELEM_VETOR | ELEM_MATRIZ) "=" VALOR) | DECLARACAO | ("if" "(" C
 
 DECLARACAO = (TIPO (ID | ELEM_VETOR | ELEM_MATRIZ){","(ID | ELEM_VETOR | ELEM_MATRIZ)}) | ("function" TIPO ID"("[(TIPO ID){","(TIPO ID)}]")" "do" (COMANDO";"{ COMANDO";"}) [("return" ";" | "return" VALOR ";")] "endfunction" ";").
 
-CONDICAO = BOOL | EXPRESSAO_ARIT COMPARADOR EXPRESSAO_ARIT | EXPRESSAO_BOOL COMPARADOR_BOOL EXPRESSAO_BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID).
+CONDICAO = BOOL | EXPRESSAO COMPARADOR EXPRESSAO | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID).
 
-EXPRESSAO = EXPRESSAO_BOOL | EXPRESSAO_ARIT.
-
-EXPRESSAO_ARIT = (("("EXPRESSAO_ARIT")" | INT | FLOAT | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) { ("*"|"/") ("("EXPRESSAO_ARIT")" | INT | FLOAT | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) }) { ("+"|"-") (("("EXPRESSAO_ARIT")" | INT | FLOAT | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) { ("*"|"/") ("("EXPRESSAO_ARIT")" | INT | FLOAT | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) }) }.
-
-EXPRESSAO_BOOL = (("("EXPRESSAO_BOOL")" | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) { "&&" ("("EXPRESSAO_BOOL")" | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) }) { "||" (("("EXPRESSAO_BOOL")" | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) { "&&" ("("EXPRESSAO_BOOL")" | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) }) }.
+EXPRESSAO = (("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) { ("*"|"/"|"&&") ("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) }) { ("+"|"-"|"||") (("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) { ("*"|"/"|"&&") ("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) }) }.
 
 VALOR = INT | FLOAT | STRING | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID).
