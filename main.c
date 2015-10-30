@@ -21,14 +21,15 @@ int main(){
   Token t;
   Automata automata = automata_create(S0);
 
+  printf("Changed!\n");
+
 	if (file == NULL){
 		printf("Arquivo não existe!!!");
   } else {
-    while(!strcmp(t.string, "END")){
+    do{
       t = find_possible_token(&automata, file);
       token_destroy(&t);
-    }
-    lexical_analysis(file);
+    }while(!reached_eof(file));
 	}
 
   fclose(file);
