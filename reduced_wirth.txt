@@ -2,14 +2,23 @@ D = "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9".
 L = "a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"|"t"|"u"|"v"|"w"|"x"|"y"|"z"|"A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z".
 ANY = L | D | "@"|"#"|"$"|"%"|"""|"'"|"&"|"*"|"("|")"|"["|"]"|"<"|">"|"="|"-"|"^"|"~""|"\"|"/"|","|"."|":"|";" | "\n" | "\t" | " ".
 ID = (L | "_"){L | D | "_"}.
-VALOR = D{D}["."{D}] | """{ANY}""" | "'"{ANY}"'" | ("true" | "false") | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID].
-
-EXPRESSAO_BOL = ("("EXPRESSAO_BOL")" | ("true" | "false") | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID] { "&&" "("EXPRESSAO_BOL")" | ("true" | "false") | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID] }) { "||" ("("EXPRESSAO_BOL")" | ("true" | "false") | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID] { "&&" "("EXPRESSAO_BOL")" | ("true" | "false") | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID] }) }.
-
-EXPRESSAO_ARIT = ((("("EXPRESSAO_ARIT")" | D{D}["."{D}] | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID]) { "^" ("("EXPRESSAO_ARIT")" | D{D}["."{D}] | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID]) }) { ("*"|"/") (("("EXPRESSAO_ARIT")" | D{D}["."{D}] | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID]) { "^" ("("EXPRESSAO_ARIT")" | D{D}["."{D}] | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID]) }) }) { ("+"|"-") ((("("EXPRESSAO_ARIT")" | D{D}["."{D}] | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID]) { "^" ("("EXPRESSAO_ARIT")" | D{D}["."{D}] | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID]) }) { ("*"|"/") (("("EXPRESSAO_ARIT")" | D{D}["."{D}] | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID]) { "^" ("("EXPRESSAO_ARIT")" | D{D}["."{D}] | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID]) }) }) }.
-
-EXPRESSAO = EXPRESSAO_BOL | EXPRESSAO_ARIT.
+TIPO = "int"|"float"|"string"|"bool".
+COMPARADOR_BOOL = "=="|"!=".
+COMPARADOR = "<"|">"|"<="|">="|COMPARADOR_BOOL.
+BOOL = "true" | "false".
 
 PROGRAMA = "begin" (COMANDO";"{ COMANDO";"}) "end".
 
-COMANDO = ((ID["["D{D}"]" | "["D{D}"]["D{D}"]"]) "=" VALOR) | (("int"|"float"|"string"|"bool") (ID["["D{D}"]" | "["D{D}"]["D{D}"]"]){","(ID["["D{D}"]" | "["D{D}"]["D{D}"]"])} | ("function" ("int"|"float"|"string"|"bool") ID"("[("int"|"float"|"string"|"bool") ID{","("int"|"float"|"string"|"bool") ID}]") do" (COMANDO";"{ COMANDO";"}) ["return;" | "return" VALOR ";"] "endfunction;")) | ("if(" (("true" | "false") | EXPRESSAO_ARIT ("<"|">"|"<="|">="|"=="|"!=") EXPRESSAO_ARIT | EXPRESSAO_BOL ("=="|"!=") EXPRESSAO_BOL | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID]) ") do" (COMANDO";"{ COMANDO";"}) ({"elsif(" (("true" | "false") | EXPRESSAO_ARIT ("<"|">"|"<="|">="|"=="|"!=") EXPRESSAO_ARIT | EXPRESSAO_BOL ("=="|"!=") EXPRESSAO_BOL | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID]) ") do" (COMANDO";"{ COMANDO";"}) }["else do" (COMANDO";"{ COMANDO";"})]) "endif") | ("while(" (("true" | "false") | EXPRESSAO_ARIT ("<"|">"|"<="|">="|"=="|"!=") EXPRESSAO_ARIT | EXPRESSAO_BOL ("=="|"!=") EXPRESSAO_BOL | ID["["D{D}"]" | "["D{D}"]["D{D}"]" | "("[VALOR{","VALOR}]")" | "->"ID]) ") do" (COMANDO";"{ COMANDO";"}) "endwhile") | ("when(" VALOR ")" ("is(" VALOR ")do" (COMANDO";"{ COMANDO";"}) "continue;"){("is(" VALOR ")do" (COMANDO";"{ COMANDO";"}) "continue;")} "endswitch") | ("scan(" (ID["["D{D}"]" | "["D{D}"]["D{D}"]"]){","(ID["["D{D}"]" | "["D{D}"]["D{D}"]"])} ")") | ("print(" VALOR{","VALOR} ")").
+COMANDO = (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]")) "=" VALOR | DECLARACAO | ("if" "(" CONDICAO ")" "do" (COMANDO";"{ COMANDO";"}) {"elsif" "(" CONDICAO ")" "do" (COMANDO";"{ COMANDO";"}) }["else" "do" (COMANDO";"{ COMANDO";"})] "endif") | ("while" "(" CONDICAO ")" "do" (COMANDO";"{ COMANDO";"}) "endwhile") | ("when" "(" VALOR ")" ("is" "(" VALOR ")" "do" (COMANDO";"{ COMANDO";"}) "continue" ";"){("is" "(" VALOR ")" "do" (COMANDO";"{ COMANDO";"}) "continue" ";")} "endwhen") | "scan" "(" (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]")){","(ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]"))} ")" | "print" "(" VALOR{","VALOR} ")".
+
+DECLARACAO = (TIPO (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]")){","(ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]"))}) | ("function" TIPO ID"("[TIPO ID{","TIPO ID}]")" "do" (COMANDO";"{ COMANDO";"}) [("return" ";" | "return" VALOR ";")] "endfunction" ";").
+
+CONDICAO = BOOL | EXPRESSAO_ARIT COMPARADOR EXPRESSAO_ARIT | EXPRESSAO_BOOL COMPARADOR_BOOL EXPRESSAO_BOOL | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID)).
+
+EXPRESSAO = EXPRESSAO_BOOL | EXPRESSAO_ARIT.
+
+EXPRESSAO_ARIT = (("("EXPRESSAO_ARIT")" | (D{D})["."{D}] | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) { ("*"|"/") ("("EXPRESSAO_ARIT")" | (D{D})["."{D}] | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) }) { ("+"|"-") (("("EXPRESSAO_ARIT")" | (D{D})["."{D}] | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) { ("*"|"/") ("("EXPRESSAO_ARIT")" | (D{D})["."{D}] | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) }) }.
+
+EXPRESSAO_BOOL = (("("EXPRESSAO_BOOL")" | BOOL | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) { "&&" ("("EXPRESSAO_BOOL")" | BOOL | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) }) { "||" (("("EXPRESSAO_BOOL")" | BOOL | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) { "&&" ("("EXPRESSAO_BOOL")" | BOOL | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) }) }.
+
+VALOR = (D{D})["."{D}] | """{ANY}""" | "'"{ANY}"'" | BOOL | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID)).
