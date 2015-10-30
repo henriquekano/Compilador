@@ -9,11 +9,11 @@ Automata2 automata_create2(int state, Table *table){
 
   Automata2 a = {state, table};
   return a;
-};
+}
 
 void automata_destroy2(Automata2 *a){
   table_destroy(&(a->table));
-};
+}
 
 int automata_next_state2(Automata2 *a, int input){
   return table_get(&(a->table), a->state, input);

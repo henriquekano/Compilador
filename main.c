@@ -33,6 +33,13 @@ int main(){
 	}
 
   fclose(file);
+
+  AutomataPE aPE;
+  init_machines(&aPE);
+
+  // int qualquercoisa = aPE->numberOfMachines;
+  // printf("numberOfMachines: %d", qualquercoisa);
+
   // int i, j;
 //   int table1[4][4] = 
 //   {
@@ -124,11 +131,7 @@ int main(){
   // table_destroy(&t1);
   // table_destroy(&t2);
 
-  AutomataPE aPE;
-  init_machines(&aPE);
 
-  int qualquercoisa = aPE->numberOfMachines;
-  printf("numberOfMachines: %d", qualquercoisa);
   // automataPE_destroy(&aPe);
   
   // automata_print_table(&a);

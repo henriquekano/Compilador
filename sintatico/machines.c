@@ -3,20 +3,20 @@
 
 void init_machines(AutomataPE *automata) {
 	int initialMachine = MTYPE_PROGRAM;
-	int n, i, j	
+	int n, i, j;
 	int rawTransitionTables[N_MACHINE_TYPES][MAX_STATES][N_MACHINE_TOKEN_TYPES];
 	int rawFinalStatesTables[N_MACHINE_TYPES][MAX_FINAL_STATES];
-	int rawSubmachineCallTables[N_MACHINE_TYPES][MAX_STATES][N_MACHINE_TOKEN_TYPES];
+	int rawSubmachineCallTables[N_MACHINE_TYPES][MAX_STATES];
 	int rawAfterCallTables[N_MACHINE_TYPES][MAX_STATES][N_MACHINE_TOKEN_TYPES];
 
 	for (n = 0; n < N_MACHINE_TYPES; n++) {
 		for(i = 0; i < MAX_FINAL_STATES; i++) {
 			rawFinalStatesTables[n][i] = MINVALID_STATE;
+			rawSubmachineCallTables[n][i] = MINVALID_STATE;
 		}
 		for(i=0; i < MAX_STATES; i++){
 			for(j=0; j < N_MACHINE_TOKEN_TYPES; j++){
 				rawTransitionTables[n][i][j] = MINVALID_STATE;
-				rawSubmachineCallTables[n][i][j] = MINVALID_STATE;
 				rawAfterCallTables[n][i][j] = MINVALID_STATE;
 			}
 		}
@@ -269,10 +269,10 @@ void init_machines(AutomataPE *automata) {
 
 	for (n = 0; n < N_MACHINE_TYPES; n++) {
 		allTransitionsTables[n] = table_create(MAX_STATES, N_MACHINE_TOKEN_TYPES, rawTransitionTables[n]);
-		allSubMachineCallTables[n] = table_create(MAX_STATES, 1, rawSubmachineCallTables[n]);
+		allSubMachineCallTables[n] = table_create(MAX_STATES, 1, &rawSubmachineCallTables[n]);
 		allAfterCallTables[n] = table_create(MAX_STATES, N_MACHINE_TOKEN_TYPES, rawAfterCallTables[n]);
-		allFinalStatesTables[n] = table_create(MAX_STATES, 1, rawFinalStatesTables[n]);
+		allFinalStatesTables[n] = table_create(MAX_STATES, 1, &rawFinalStatesTables[n]);
 	}
 
-	AutomataPE automataPE_create(initialMachine, N_MACHINE_TYPES, allTransitionsTables, allSubMachineCallTables, allAfterCallTables)
+	AutomataPE automataPE_create(initialMachine, N_MACHINE_TYPES, allTransitionsTables, allSubMachineCallTables, allAfterCallTables);
 }

@@ -2,6 +2,7 @@
 #define MACHINES_H_
 
 #include <stdlib.h>
+#include "automataPE.h"
 
 #define MAX_FINAL_STATES 10
 #define MAX_STATES 60
@@ -62,8 +63,8 @@ typedef enum{
 	MTTYPE_INT 					= 34 	,// inteiro
 	MTTYPE_FLOAT				= 35 	,// float
 	MTTYPE_STRING 				= 36 	,// string
-	MTTYPE_VECTOR 				= 37 	,// vetor
-	MTTYPE_ARRAY 				= 38 	,// ARRAY
+	MTTYPE_ARRAY 				= 37 	,// array
+	MTTYPE_MATRIX 				= 38 	,// matriz
 	MTTYPE_TYPE 				= 39 	,// int, float, string, bool
 	MTTYPE_BOOL 				= 40 	,// true, false
 	MTTYPE_COMPARATOR 			= 41 	// <, >, <=, >=, ==, !=
