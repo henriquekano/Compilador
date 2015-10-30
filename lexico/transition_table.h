@@ -6,24 +6,25 @@
 #include "../utils/token.h"
 //Tipos de entradas diferentes consideradas nas transicoes de estado
 typedef enum{
-	INPUT_TYPE_LETTER = 0,
-	INPUT_TYPE_NUMBER = 1,
-	INPUT_TYPE_ARITH_SYMBOL = 2,
-	INPUT_TYPE_DOUBLE_QUOTE = 3,
-	INPUT_TYPE_SINGLE_QUOTE = 4,
-	INPUT_TYPE_END_OF_COMMAND = 5,
-	INPUT_TYPE_EQUALS = 6,
-	INPUT_TYPE_COMPARATOR = 7,
-	INPUT_TYPE_UNDERLINE = 8,
-	INPUT_TYPE_BLANK = 9,
-	INPUT_TYPE_SEPARATOR = 10,
-	INPUT_TYPE_UNKNOWN = 11,
-	INPUT_TYPE_NEWLINE = 12,
-	INPUT_TYPE_HASHTAG = 13,
-	INPUT_TYPE_POINT = 14, 
-	INPUT_TYPE_L_SQ_BRACKET = 15,
-	INPUT_TYPE_R_SQ_BRACKET = 16
-}TokenTypes;
+	IT_LETTER = 0,
+	IT_NUMBER = 1,
+	IT_ARITH_SYMBOL = 2,
+	IT_DOUBLE_QUOTE = 3,
+	IT_SINGLE_QUOTE = 4,
+	IT_END_OF_COMMAND = 5,
+	IT_EQUALS = 6,
+	IT_COMPARATOR = 7,
+	IT_UNDERLINE = 8,
+	IT_BLANK = 9,
+	IT_SEPARATOR = 10,
+	IT_UNKNOWN = 11,
+	IT_NEWLINE = 12,
+	IT_HASHTAG = 13,
+	IT_POINT = 14, 
+	IT_L_SQ_BRACKET = 15,
+	IT_R_SQ_BRACKET = 16
+	
+}InputType;
 
 //Ver no relatorio o que significa cada estado
 typedef enum{
@@ -46,12 +47,8 @@ typedef enum{
 	S16 = 16, //block comment?
 	S17 = 17, //block comment begin
 	S18 = 18, //block comment end?
-	S19 = 19, //primeiro [
-	S20 = 20, //vetor
-	S21 = 21, //segundo [
-	S22 = 22, //matriz
-	S23 = 23, //fecho de comentario bloco
-	S24 = 24 //fecho de comentario de linha 
+	S23 = 19, //fecho de comentario bloco
+	S24 = 20 //fecho de comentario de linha 
 }States;
 
 extern const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES];

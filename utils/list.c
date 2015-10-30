@@ -99,6 +99,17 @@ int list_size(List *list){
   return list->logicalLength;
 }
 
+void *list_get_first(List *list){
+  listNode *listHead = list->head;
+  if(listHead == NULL){
+    return NULL;
+  }else{
+    list->head = listHead->next;
+    list->logicalLength -= 1;
+    return listHead->data;
+  }
+}
+
 char *list_to_char_array(List *list){
   int i;
   listNode *node = list->head;

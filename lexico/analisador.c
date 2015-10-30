@@ -1,5 +1,6 @@
 #include <ctype.h>
 #include <string.h>
+#include <stdlib.h>
 #include "analisador.h"
 #include "transition_table.h"
 #include "../utils/list.h"
@@ -12,13 +13,29 @@
 //   return 0;
 // }
 
-void find_possible_token(Automata *automata, FILE *file){
+void destroy_token_string(char *string){
+  free(string);
+} 
+
+Token find_possible_token(Automata *automata, FILE *file){
   // constroi(&l);
   Token return_token;
   States current_state, previous_state;
   char c;
   List buffer;
   list_new(&buffer, sizeof(char), NULL);
+
+  //pule os espacos!
+  do{
+    c = fgetc(file);
+
+    if(feof(file)){
+      return token_create("\0", TT_UNKNOWN, NULL);
+    }
+  }while(isspace(c));
+  
+  fseek(file, -1, SEEK_CUR);
+
   // list_append(buffer, "\0");
   do {
     //faz um lookahead - se nao for retornar para o S0 (=criar um token), 
@@ -45,11 +62,13 @@ void find_possible_token(Automata *automata, FILE *file){
 
   if (can_create_token(previous_state)){
     char *token_value = list_to_char_array(&buffer);
-    return_token = token_create(token_value, state_converter_token_type(previous_state, token_value));
+    return_token = token_create(token_value, state_converter_token_type(previous_state, token_value), destroy_token_string);
     token_pretty_print(&return_token);
   }
   
   list_destroy(&buffer);
+
+  return return_token;
 }
 
 void tokenize(Automata *automata, FILE *file){
@@ -58,17 +77,7 @@ void tokenize(Automata *automata, FILE *file){
 
   //Leia todo o arquivo!
   do{
-    //pule os espacos!
-    do{
-      c = fgetc(file);
-
-      if(feof(file)){
-        return;
-      }
-    }while(isspace(c));
     
-    fseek(file, -1, SEEK_CUR);
-
     find_possible_token(automata, file);
 
     ft = ftell(file);
