@@ -42,39 +42,39 @@ const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES] =
 
 int input_converter_function(char character){
 	if(isalpha((int)character)){
-		return LETTER;
+		return TOKEN_TYPE_LETTER;
 	}else if(isdigit((int)character)){
-		return NUMBER;
+		return TOKEN_TYPE_NUMBER;
 	}else if(character == '+' || character == '-' || character == '/' || character == '*'){
-		return ARITH_SYMBOL;
+		return TOKEN_TYPE_ARITH_SYMBOL;
 	}else if(character == '\"'){
-		return DOUBLE_QUOTE;
+		return TOKEN_TYPE_DOUBLE_QUOTE;
 	}else if(character == '\''){
-		return SINGLE_QUOTE;
+		return TOKEN_TYPE_SINGLE_QUOTE;
 	}else if(character == ';'){
-		return END_OF_COMMAND;
+		return TOKEN_TYPE_END_OF_COMMAND;
 	}else if(character == '='){
-		return EQUALS;
+		return TOKEN_TYPE_EQUALS;
 	}else if(character == '<' || character == '>' || character == '!' ){
-		return COMPARATOR;
+		return TOKEN_TYPE_COMPARATOR;
 	}else if(character == '_'){
-		return UNDERLINE;
+		return TOKEN_TYPE_UNDERLINE;
 	}else if(character == '\n'){
-		return NEWLINE;
+		return TOKEN_TYPE_NEWLINE;
 	}else if(character == '#'){
-		return HASHTAG;
+		return TOKEN_TYPE_HASHTAG;
 	}else if(character == '.'){
-		return POINT;
+		return TOKEN_TYPE_POINT;
 	}else if(character == ' ' || character == '\t' || character == '\v' || character == '\f' || character == '\r'){
-		return BLANK;
+		return TOKEN_TYPE_BLANK;
 	}else if(character == '(' || character == ')' || character == ','){
-		return SEPARATOR;
+		return TOKEN_TYPE_SEPARATOR;
 	}else if(character == '['){
-		return L_SQ_BRACKET;
+		return TOKEN_TYPE_L_SQ_BRACKET;
 	}else if(character == ']'){
-		return R_SQ_BRACKET;
+		return TOKEN_TYPE_R_SQ_BRACKET;
 	}else{
-		return UNKNOWN;
+		return TOKEN_TYPE_UNKNOWN;
 	}
 }
 

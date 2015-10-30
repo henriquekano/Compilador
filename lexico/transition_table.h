@@ -6,24 +6,24 @@
 #include "../utils/token.h"
 //Tipos de entradas diferentes consideradas nas transicoes de estado
 typedef enum{
-	LETTER = 0,
-	NUMBER = 1,
-	ARITH_SYMBOL = 2,
-	DOUBLE_QUOTE = 3,
-	SINGLE_QUOTE = 4,
-	END_OF_COMMAND = 5,
-	EQUALS = 6,
-	COMPARATOR = 7,
-	UNDERLINE = 8,
-	BLANK = 9,
-	SEPARATOR = 10,
-	UNKNOWN = 11,
-	NEWLINE = 12,
-	HASHTAG = 13,
-	POINT = 14, 
-	L_SQ_BRACKET = 15,
-	R_SQ_BRACKET = 16
-}InputTypes;
+	TOKEN_TYPE_LETTER = 0,
+	TOKEN_TYPE_NUMBER = 1,
+	TOKEN_TYPE_ARITH_SYMBOL = 2,
+	TOKEN_TYPE_DOUBLE_QUOTE = 3,
+	TOKEN_TYPE_SINGLE_QUOTE = 4,
+	TOKEN_TYPE_END_OF_COMMAND = 5,
+	TOKEN_TYPE_EQUALS = 6,
+	TOKEN_TYPE_COMPARATOR = 7,
+	TOKEN_TYPE_UNDERLINE = 8,
+	TOKEN_TYPE_BLANK = 9,
+	TOKEN_TYPE_SEPARATOR = 10,
+	TOKEN_TYPE_UNKNOWN = 11,
+	TOKEN_TYPE_NEWLINE = 12,
+	TOKEN_TYPE_HASHTAG = 13,
+	TOKEN_TYPE_POINT = 14, 
+	TOKEN_TYPE_L_SQ_BRACKET = 15,
+	TOKEN_TYPE_R_SQ_BRACKET = 16
+}TokenTypes;
 
 //Ver no relatorio o que significa cada estado
 typedef enum{
