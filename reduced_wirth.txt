@@ -1,24 +1,28 @@
 D = "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9".
 L = "a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"|"t"|"u"|"v"|"w"|"x"|"y"|"z"|"A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z".
-ANY = L | D | "@"|"#"|"$"|"%"|"""|"'"|"&"|"*"|"("|")"|"["|"]"|"<"|">"|"="|"-"|"^"|"~""|"\"|"/"|","|"."|":"|";" | "\n" | "\t" | " ".
 ID = (L | "_"){L | D | "_"}.
 TIPO = "int"|"float"|"string"|"bool".
+STRING = """{L | D | "@"|"#"|"$"|"%"|"""|"'"|"&"|"*"|"("|")"|"["|"]"|"<"|">"|"="|"-"|"^"|"~""|"\"|"/"|","|"."|":"|";" | "\n" | "\t" | " "}""" | "'"{L | D | "@"|"#"|"$"|"%"|"""|"'"|"&"|"*"|"("|")"|"["|"]"|"<"|">"|"="|"-"|"^"|"~""|"\"|"/"|","|"."|":"|";" | "\n" | "\t" | " "}"'".
+INT = D{D}.
+FLOAT = INT"."INT.
+ELEM_VETOR = ID"["INT"]".
+ELEM_MATRIZ = ID"["INT"]" "["INT"]".
+BOOL = "true" | "false".
 COMPARADOR_BOOL = "=="|"!=".
 COMPARADOR = "<"|">"|"<="|">="|COMPARADOR_BOOL.
-BOOL = "true" | "false".
 
 PROGRAMA = "begin" (COMANDO";"{ COMANDO";"}) "end".
 
-COMANDO = (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]")) "=" VALOR | DECLARACAO | ("if" "(" CONDICAO ")" "do" (COMANDO";"{ COMANDO";"}) {"elsif" "(" CONDICAO ")" "do" (COMANDO";"{ COMANDO";"}) }["else" "do" (COMANDO";"{ COMANDO";"})] "endif") | ("while" "(" CONDICAO ")" "do" (COMANDO";"{ COMANDO";"}) "endwhile") | ("when" "(" VALOR ")" ("is" "(" VALOR ")" "do" (COMANDO";"{ COMANDO";"}) "continue" ";"){("is" "(" VALOR ")" "do" (COMANDO";"{ COMANDO";"}) "continue" ";")} "endwhen") | "scan" "(" (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]")){","(ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]"))} ")" | "print" "(" VALOR{","VALOR} ")".
+COMANDO = ((ID | ELEM_VETOR | ELEM_MATRIZ) "=" VALOR) | DECLARACAO | CONDICIONAL | ("while" "(" CONDICAO ")"  "do" (COMANDO";"{ COMANDO";"}) "endwhile") | ("when" "(" VALOR ")" ("is" "(" VALOR ")" "do" (COMANDO";"{ COMANDO";"}) "continue" ";"){("is" "(" VALOR ")" "do" (COMANDO";"{ COMANDO";"}) "continue" ";")} "endswitch") | ("scan" "(" (ID | ELEM_VETOR | ELEM_MATRIZ){","(ID | ELEM_VETOR | ELEM_MATRIZ)} ")") | ("print" "(" VALOR{","VALOR} ")").
 
-DECLARACAO = (TIPO (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]")){","(ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]"))}) | ("function" TIPO ID"("[TIPO ID{","TIPO ID}]")" "do" (COMANDO";"{ COMANDO";"}) [("return" ";" | "return" VALOR ";")] "endfunction" ";").
-
-CONDICAO = BOOL | EXPRESSAO_ARIT COMPARADOR EXPRESSAO_ARIT | EXPRESSAO_BOOL COMPARADOR_BOOL EXPRESSAO_BOOL | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID)).
+EXPRESSAO_ARIT = (("("EXPRESSAO_ARIT")" | INT | FLOAT | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) { ("*"|"/") ("("EXPRESSAO_ARIT")" | INT | FLOAT | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) }) { ("+"|"-") (("("EXPRESSAO_ARIT")" | INT | FLOAT | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) { ("*"|"/") ("("EXPRESSAO_ARIT")" | INT | FLOAT | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) }) }.
 
 EXPRESSAO = EXPRESSAO_BOOL | EXPRESSAO_ARIT.
 
-EXPRESSAO_ARIT = (("("EXPRESSAO_ARIT")" | (D{D})["."{D}] | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) { ("*"|"/") ("("EXPRESSAO_ARIT")" | (D{D})["."{D}] | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) }) { ("+"|"-") (("("EXPRESSAO_ARIT")" | (D{D})["."{D}] | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) { ("*"|"/") ("("EXPRESSAO_ARIT")" | (D{D})["."{D}] | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) }) }.
+EXPRESSAO_BOOL = (("("EXPRESSAO_BOOL")" | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) { "&&" ("("EXPRESSAO_BOOL")" | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) }) { "||" (("("EXPRESSAO_BOOL")" | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) { "&&" ("("EXPRESSAO_BOOL")" | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) }) }.
 
-EXPRESSAO_BOOL = (("("EXPRESSAO_BOOL")" | BOOL | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) { "&&" ("("EXPRESSAO_BOOL")" | BOOL | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) }) { "||" (("("EXPRESSAO_BOOL")" | BOOL | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) { "&&" ("("EXPRESSAO_BOOL")" | BOOL | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID))) }) }.
+DECLARACAO = (TIPO (ID | ELEM_VETOR | ELEM_MATRIZ){","(ID | ELEM_VETOR | ELEM_MATRIZ)}) | ("function" TIPO ID"("[(TIPO ID){","(TIPO ID)}]")" "do" (COMANDO";"{ COMANDO";"}) [("return" ";" | "return" VALOR ";")] "endfunction" ";").
 
-VALOR = (D{D})["."{D}] | """{ANY}""" | "'"{ANY}"'" | BOOL | (ID("["(D{D})"]" | "["(D{D})"]" "["(D{D})"]" | "("[{VALOR","}VALOR]")" | "."ID)).
+CONDICIONAL = "if" "(" CONDICAO ")" "do" (COMANDO";"{ COMANDO";"}) ({"elsif" "(" (BOOL | EXPRESSAO_ARIT COMPARADOR EXPRESSAO_ARIT | EXPRESSAO_BOOL COMPARADOR_BOOL EXPRESSAO_BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) ")" "do" (COMANDO";"{ COMANDO";"}) }["else" "do" (COMANDO";"{ COMANDO";"})]) "endif".
+
+VALOR = INT | FLOAT | STRING | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID).

@@ -10,7 +10,7 @@ def main(argv):
 
 	machine_output = "machine_generator_for_c_output.txt"
 
-	dont_replace = ["ID", "D", "ANY", "TIPO", "COMPARADOR_BOOL", "BOOL"]
+	dont_replace = ["ID", "FLOAT", "INT", "TIPO", "STRING", "COMPARADOR", "COMPARADOR_BOOL", "BOOL", "ELEM_VETOR", "ELEM_MATRIZ"]
 
 	machine_translations = {}
 	machine_translations["PROGRAMA"] = "program"
@@ -68,12 +68,15 @@ def main(argv):
 	machine_token_types["'"] = "MTTYPE_SINGLE_QUOTE" 		
 	machine_token_types['"'] = "MTTYPE_DOUBLE_QUOTE" 		
 	machine_token_types["ID"] = "MTTYPE_ID" 					
-	machine_token_types["D"] = "MTTYPE_D" 					
-	machine_token_types["ANY"] = "MTTYPE_ANY" 					
+	machine_token_types["FLOAT"] = "MTTYPE_FLOAT" 					
+	machine_token_types["INT"] = "MTTYPE_INT" 					
 	machine_token_types["TIPO"] = "MTTYPE_TYPE" 				
-	machine_token_types["BOOL"] = "MTTYPE_BOOL" 				
+	machine_token_types["STRING"] = "MTTYPE_STRING" 					
 	machine_token_types["COMPARADOR"] = "MTTYPE_COMPARATOR" 			
 	machine_token_types["COMPARADOR_BOOL"] = "MTTYPE_COMPARATOR_BOOL" 		
+	machine_token_types["BOOL"] = "MTTYPE_BOOL" 				
+	machine_token_types["ELEM_VETOR"] = "MTTYPE_ARRAY" 				
+	machine_token_types["ELEM_MATRIZ"] = "MTTYPE_MATRIX" 				
 
 	transition_table_file = open(transition_table_input, "r")
 
