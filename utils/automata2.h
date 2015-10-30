@@ -14,12 +14,13 @@
     input_converter_function: funcao que converte um char para um int
   */
   typedef struct Automata2{
+    int id;
     int state;
     Table table;
     
   }Automata2;
 
-  Automata2 automata_create2(int state, Table *table);
+  Automata2 automata_create2(int id,int state, Table *table);
   
   void automata_destroy2(Automata2 *a);
   void automata_goto_next_state2(Automata2 *a, int input);

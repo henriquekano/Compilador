@@ -13,8 +13,8 @@
     Automata a;
   }Lexic;
 
-	void tokenize(Automata *automata, FILE *file);
-	Token find_possible_token(Automata *automata, FILE *file);
+	void tokenize(FILE *file);
+	Token find_possible_token(FILE *file);
 	bool can_create_token(int previous_state);
 	void lexical_analysis(FILE *file);
 

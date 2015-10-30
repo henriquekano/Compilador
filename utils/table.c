@@ -47,7 +47,7 @@ void table_print_table(Table *t){
 
   for(i = 0; i < rows; i++){
     for(j = 0; j < columns; j++){
-      printf("%d ", table_get(t, i, j));
+      printf("%d ", t->table[i][j]);
     }
     printf("\n");
   }
