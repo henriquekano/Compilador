@@ -23,50 +23,54 @@ Token find_possible_token(Automata *automata, FILE *file){
   States current_state, previous_state;
   char c;
   List buffer;
-  list_new(&buffer, sizeof(char), NULL);
+  bool gotToken = FALSE;
 
-  //pule os espacos!
   do{
-    c = fgetc(file);
+    list_new(&buffer, sizeof(char), NULL);
+    //pule os espacos!
+    do{
+      c = fgetc(file);
 
-    if(feof(file)){
-      return token_create("\0", TT_UNKNOWN, NULL);
-    }
-  }while(isspace(c));
-  
-  fseek(file, -1, SEEK_CUR);
+      if(feof(file)){
+        return token_create("\0", TT_UNKNOWN, NULL);
+      }
+    }while(isspace((int)c));
+    
+    fseek(file, -1, SEEK_CUR);
 
-  // list_append(buffer, "\0");
-  do {
-    //faz um lookahead - se nao for retornar para o S0 (=criar um token), 
-    //le um caracter, else: não le um caracter e cria o token
+    // list_append(buffer, "\0");
+    do {
+      //faz um lookahead - se nao for retornar para o S0 (=criar um token), 
+      //le um caracter, else: não le um caracter e cria o token
 
-    c = (char)fgetc(file);
+      c = (char)fgetc(file);
 
-    if(c == (char)EOF){
-      break;
+      if(c == (char)EOF){
+        break;
+      }
+      
+      previous_state = automata_current_state(automata);
+      automata_goto_next_state(automata, input_converter_function(c));
+      current_state = automata_current_state(automata);
+
+      if(current_state != S0){
+        list_append(&buffer, &c);
+      }
+
+
+    }while(current_state != S0);
+
+    fseek(file, -1, SEEK_CUR);
+
+    if (can_create_token(previous_state)){
+      gotToken = TRUE;
+      char *token_value = list_to_char_array(&buffer);
+      return_token = token_create(token_value, state_converter_token_type(previous_state, token_value), destroy_token_string);
+      token_pretty_print(&return_token);
     }
     
-    previous_state = automata_current_state(automata);
-    automata_goto_next_state(automata, input_converter_function(c));
-    current_state = automata_current_state(automata);
-
-    if(current_state != S0){
-      list_append(&buffer, &c);
-    }
-
-
-  }while(current_state != S0);
-
-  fseek(file, -1, SEEK_CUR);
-
-  if (can_create_token(previous_state)){
-    char *token_value = list_to_char_array(&buffer);
-    return_token = token_create(token_value, state_converter_token_type(previous_state, token_value), destroy_token_string);
-    token_pretty_print(&return_token);
-  }
-  
-  list_destroy(&buffer);
+    list_destroy(&buffer);
+  }while(!gotToken);
 
   return return_token;
 }
@@ -92,6 +96,20 @@ void tokenize(Automata *automata, FILE *file){
     }
     
   }while(TRUE);
+}
+
+bool reached_eof(FILE *file){
+  int c, ft;
+  ft = ftell(file);
+  c = fgetc(file);
+  c = fgetc(file);
+  if(c != EOF){
+    fseek(file, ft, SEEK_SET);
+    return FALSE;
+  }else{
+    fseek(file, ft, SEEK_SET);
+    return TRUE;
+  }
 }
 
 bool can_create_token(int previous_state){
