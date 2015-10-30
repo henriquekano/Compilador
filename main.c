@@ -6,7 +6,7 @@
 #include "./utils/token.h"
 #include "./lexico/transition_table.h"
 #include "./sintatico/automataPE.h"
-
+#include "./sintatico/machines.h"
 
 #include "./utils/list.h"
 
@@ -124,7 +124,11 @@ int main(){
   // table_destroy(&t1);
   // table_destroy(&t2);
 
-  // AutomataPE aPe = automataPE_create(0, 2, ts1, ts2, ts3);
+  AutomataPE aPE;
+  init_machines(&aPE);
+
+  int qualquercoisa = aPE->numberOfMachines;
+  printf("numberOfMachines: %d", qualquercoisa);
   // automataPE_destroy(&aPe);
   
   // automata_print_table(&a);

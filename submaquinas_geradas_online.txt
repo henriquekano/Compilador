@@ -16,106 +16,61 @@ final: 2
 (0, ELEM_VETOR) -> 1
 (0, ELEM_MATRIZ) -> 1
 (0, DECLARACAO) -> 2
-(0, CONDICIONAL) -> 2
-(0, "while") -> 3
-(0, "when") -> 4
-(0, "scan") -> 5
-(0, "print") -> 6
-(1, "=") -> 7
+(0, "if") -> 3
+(0, "while") -> 4
+(0, "when") -> 5
+(0, "scan") -> 6
+(0, "print") -> 7
+(1, "=") -> 8
 (3, "(") -> 11
-(4, "(") -> 18
-(5, "(") -> 10
-(6, "(") -> 8
-(7, VALOR) -> 2
-(8, VALOR) -> 9
-(9, ")") -> 2
-(9, ",") -> 8
-(10, ID) -> 12
-(10, ELEM_VETOR) -> 12
-(10, ELEM_MATRIZ) -> 12
+(4, "(") -> 35
+(5, "(") -> 23
+(6, "(") -> 12
+(7, "(") -> 9
+(8, VALOR) -> 2
+(9, VALOR) -> 10
+(10, ")") -> 2
+(10, ",") -> 9
 (11, CONDICAO) -> 13
-(12, ")") -> 2
-(12, ",") -> 10
-(13, ")") -> 14
-(14, "do") -> 15
-(15, COMANDO) -> 16
-(16, ";") -> 17
-(17, COMANDO) -> 16
-(17, "endwhile") -> 2
-(18, VALOR) -> 19
-(19, ")") -> 20
-(20, "is") -> 21
-(21, "(") -> 22
-(22, VALOR) -> 23
-(23, ")") -> 24
-(24, "do") -> 25
-(25, COMANDO) -> 26
-(26, ";") -> 27
-(27, COMANDO) -> 26
-(27, "continue") -> 28
-(28, ";") -> 29
-(29, "is") -> 21
-(29, "endswitch") -> 2
-
-Sub-maquina EXPRESSAO_ARIT: 
-Minimized DFA: 
-initial: 0
-final: 2, 3
-(0, "(") -> 1
-(0, INT) -> 2
-(0, FLOAT) -> 2
-(0, ID) -> 3
-(0, ELEM_VETOR) -> 2
-(0, ELEM_MATRIZ) -> 2
-(1, EXPRESSAO_ARIT) -> 4
-(2, "*") -> 0
-(2, "/") -> 0
-(2, "+") -> 0
-(2, "-") -> 0
-(3, "(") -> 5
-(3, ".") -> 6
-(3, "*") -> 0
-(3, "/") -> 0
-(3, "+") -> 0
-(3, "-") -> 0
-(4, ")") -> 2
-(5, ")") -> 2
-(5, VALOR) -> 7
-(6, ID) -> 2
-(7, ")") -> 2
-(7, ",") -> 8
-(8, VALOR) -> 7
-
-Sub-maquina EXPRESSAO: 
-Minimized DFA: 
-initial: 0
-final: 1
-(0, EXPRESSAO_BOOL) -> 1
-(0, EXPRESSAO_ARIT) -> 1
-
-Sub-maquina EXPRESSAO_BOOL: 
-Minimized DFA: 
-initial: 0
-final: 2, 3
-(0, "(") -> 1
-(0, BOOL) -> 2
-(0, ID) -> 3
-(0, ELEM_VETOR) -> 2
-(0, ELEM_MATRIZ) -> 2
-(1, EXPRESSAO_BOOL) -> 4
-(2, "&&") -> 0
-(2, "||") -> 0
-(3, "(") -> 5
-(3, ".") -> 6
-(3, "&&") -> 0
-(3, "||") -> 0
-(4, ")") -> 2
-(5, ")") -> 2
-(5, VALOR) -> 7
-(6, ID) -> 2
-(7, ")") -> 2
-(7, ",") -> 8
-(8, VALOR) -> 7
+(12, ID) -> 14
+(12, ELEM_VETOR) -> 14
+(12, ELEM_MATRIZ) -> 14
+(13, ")") -> 15
+(14, ")") -> 2
+(14, ",") -> 12
+(15, "do") -> 16
+(16, COMANDO) -> 17
+(17, ";") -> 18
+(18, COMANDO) -> 17
+(18, "elsif") -> 3
+(18, "else") -> 19
+(18, "endif") -> 2
+(19, "do") -> 20
+(20, COMANDO) -> 21
+(21, ";") -> 22
+(22, COMANDO) -> 21
+(22, "endif") -> 2
+(23, VALOR) -> 24
+(24, ")") -> 25
+(25, "is") -> 26
+(26, "(") -> 27
+(27, VALOR) -> 28
+(28, ")") -> 29
+(29, "do") -> 30
+(30, COMANDO) -> 31
+(31, ";") -> 32
+(32, COMANDO) -> 31
+(32, "continue") -> 33
+(33, ";") -> 34
+(34, "is") -> 26
+(34, "endwhen") -> 2
+(35, CONDICAO) -> 36
+(36, ")") -> 37
+(37, "do") -> 38
+(38, COMANDO) -> 39
+(39, ";") -> 40
+(40, COMANDO) -> 39
+(40, "endwhile") -> 2
 
 Sub-maquina DECLARACAO: 
 Minimized DFA: 
@@ -148,46 +103,59 @@ final: 3, 15
 (17, "endfunction") -> 13
 (18, ";") -> 17
 
-Sub-maquina CONDICIONAL: 
+Sub-maquina CONDICAO: 
 Minimized DFA: 
 initial: 0
-final: 10
-(0, "if") -> 1
-(1, "(") -> 2
-(2, CONDICAO) -> 3
-(3, ")") -> 4
-(4, "do") -> 5
-(5, COMANDO) -> 6
-(6, ";") -> 7
-(7, COMANDO) -> 6
-(7, "elsif") -> 8
-(7, "else") -> 9
-(7, "endif") -> 10
-(8, "(") -> 12
-(9, "do") -> 11
-(11, COMANDO) -> 13
-(12, BOOL) -> 3
-(12, EXPRESSAO_ARIT) -> 14
-(12, EXPRESSAO_BOOL) -> 15
-(12, ID) -> 16
-(12, ELEM_VETOR) -> 3
-(12, ELEM_MATRIZ) -> 3
-(13, ";") -> 17
-(14, COMPARADOR) -> 18
-(15, COMPARADOR_BOOL) -> 19
-(16, "(") -> 20
-(16, ")") -> 4
-(16, ".") -> 21
-(17, COMANDO) -> 13
-(17, "endif") -> 10
-(18, EXPRESSAO_ARIT) -> 3
-(19, EXPRESSAO_BOOL) -> 3
-(20, ")") -> 3
-(20, VALOR) -> 22
-(21, ID) -> 3
-(22, ")") -> 3
-(22, ",") -> 23
-(23, VALOR) -> 22
+final: 1, 3
+(0, BOOL) -> 1
+(0, EXPRESSAO) -> 2
+(0, ID) -> 3
+(0, ELEM_VETOR) -> 1
+(0, ELEM_MATRIZ) -> 1
+(2, COMPARADOR) -> 4
+(3, "(") -> 5
+(3, ".") -> 6
+(4, EXPRESSAO) -> 1
+(5, VALOR) -> 7
+(5, ")") -> 1
+(6, ID) -> 1
+(7, ",") -> 8
+(7, ")") -> 1
+(8, VALOR) -> 7
+
+Sub-maquina EXPRESSAO: 
+Minimized DFA: 
+initial: 0
+final: 2, 3
+(0, "(") -> 1
+(0, INT) -> 2
+(0, FLOAT) -> 2
+(0, BOOL) -> 2
+(0, ID) -> 3
+(0, ELEM_VETOR) -> 2
+(0, ELEM_MATRIZ) -> 2
+(1, EXPRESSAO) -> 4
+(2, "*") -> 0
+(2, "/") -> 0
+(2, "&&") -> 0
+(2, "+") -> 0
+(2, "-") -> 0
+(2, "||") -> 0
+(3, "(") -> 5
+(3, ".") -> 6
+(3, "*") -> 0
+(3, "/") -> 0
+(3, "&&") -> 0
+(3, "+") -> 0
+(3, "-") -> 0
+(3, "||") -> 0
+(4, ")") -> 2
+(5, ")") -> 2
+(5, VALOR) -> 7
+(6, ID) -> 2
+(7, ")") -> 2
+(7, ",") -> 8
+(8, VALOR) -> 7
 
 Sub-maquina VALOR: 
 Minimized DFA: 
@@ -208,3 +176,4 @@ final: 1, 2
 (5, ",") -> 6
 (5, ")") -> 1
 (6, VALOR) -> 5
+
