@@ -1,6 +1,7 @@
 #ifndef AUTOMATA_UTIL_H2
   #define AUTOMATA_UTIL_H2
 
+  #include <limits.h>
   
   #define FINAL_STATE INT_MAX
   #define ERROR_STATE INT_MIN
@@ -18,7 +19,7 @@
     
   }Automata2;
 
-  Automata2 automata_create2(int state, int row, int column, int table[row][column]);
+  Automata2 automata_create2(int state, Table *table);
   
   void automata_destroy2(Automata2 *a);
   void automata_goto_next_state2(Automata2 *a, int input);

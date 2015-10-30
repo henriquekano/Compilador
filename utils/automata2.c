@@ -4,16 +4,15 @@
 #include "automata2.h"
 #include "table.h"
 
-Automata2 automata_create2(int state, int row, int column, int table[row][column]){
-  Table transitionTable = table_create(row, column, table);
+Automata2 automata_create2(int state, Table *table){
+  // Table transitionTable = table_create(row, column, table);
 
-  Automata2 a = {state, transitionTable};
+  Automata2 a = {state, table};
   return a;
 };
 
 void automata_destroy2(Automata2 *a){
   table_destroy(&(a->table));
-
 };
 
 int automata_next_state2(Automata2 *a, int input){

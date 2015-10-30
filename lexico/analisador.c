@@ -30,7 +30,7 @@ Token find_possible_token(Automata *automata, FILE *file){
     c = fgetc(file);
 
     if(feof(file)){
-      return token_create("\0", UNKNOWN, NULL);
+      return token_create("\0", TT_UNKNOWN, NULL);
     }
   }while(isspace(c));
   
