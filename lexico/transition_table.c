@@ -38,39 +38,39 @@ const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES] =
 
 int input_converter_function(char character){
 	if(isalpha((int)character)){
-		return TOKEN_TYPE_LETTER;
+		return IT_LETTER;
 	}else if(isdigit((int)character)){
-		return TOKEN_TYPE_NUMBER;
+		return IT_NUMBER;
 	}else if(character == '+' || character == '-' || character == '/' || character == '*'){
-		return TOKEN_TYPE_ARITH_SYMBOL;
+		return IT_ARITH_SYMBOL;
 	}else if(character == '\"'){
-		return TOKEN_TYPE_DOUBLE_QUOTE;
+		return IT_DOUBLE_QUOTE;
 	}else if(character == '\''){
-		return TOKEN_TYPE_SINGLE_QUOTE;
+		return IT_SINGLE_QUOTE;
 	}else if(character == ';'){
-		return TOKEN_TYPE_END_OF_COMMAND;
+		return IT_END_OF_COMMAND;
 	}else if(character == '='){
-		return TOKEN_TYPE_EQUALS;
+		return IT_EQUALS;
 	}else if(character == '<' || character == '>' || character == '!' ){
-		return TOKEN_TYPE_COMPARATOR;
+		return IT_COMPARATOR;
 	}else if(character == '_'){
-		return TOKEN_TYPE_UNDERLINE;
+		return IT_UNDERLINE;
 	}else if(character == '\n'){
-		return TOKEN_TYPE_NEWLINE;
+		return IT_NEWLINE;
 	}else if(character == '#'){
-		return TOKEN_TYPE_HASHTAG;
+		return IT_HASHTAG;
 	}else if(character == '.'){
-		return TOKEN_TYPE_POINT;
+		return IT_POINT;
 	}else if(character == ' ' || character == '\t' || character == '\v' || character == '\f' || character == '\r'){
-		return TOKEN_TYPE_BLANK;
+		return IT_BLANK;
 	}else if(character == '(' || character == ')' || character == ','){
-		return TOKEN_TYPE_SEPARATOR;
+		return IT_SEPARATOR;
 	}else if(character == '['){
-		return TOKEN_TYPE_L_SQ_BRACKET;
+		return IT_L_SQ_BRACKET;
 	}else if(character == ']'){
-		return TOKEN_TYPE_R_SQ_BRACKET;
+		return IT_R_SQ_BRACKET;
 	}else{
-		return TOKEN_TYPE_UNKNOWN;
+		return IT_UNKNOWN;
 	}
 }
 
@@ -98,7 +98,15 @@ Token_type state_converter_token_type(States state, char buffer[50]){
 		case S10:
 			return TT_STRING;
 		case S11:
-			return TT_SEPARATOR;
+			if(strcmp(buffer, "]")){
+				return TT_R_SQ_BRACKET;
+			}else if(strcmp(buffer, "[")){
+				return TT_L_SQ_BRACKET;
+			}else if(strcmp(buffer, ")")){
+				return TT_R_PARENTHESIS;
+			}else if(strcmp(buffer, "(")){
+				return TT_L_PARENTHESIS;
+			}
 		case S13:
 			return TT_ASSIGNMENT;
 		case S14:

@@ -19,7 +19,11 @@
     TT_FLOAT = 10,
     TT_ARRAY = 11,
     TT_MATRIX = 12,
-    TT_IGNORE = 13
+    TT_IGNORE = 13,
+    TT_R_SQ_BRACKET = 14,
+    TT_L_SQ_BRACKET = 15,
+    TT_R_PARENTHESIS = 16,
+    TT_L_PARENTHESIS = 17
   }Token_type;
 
   typedef struct{

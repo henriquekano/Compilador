@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-// #include "./lexico/analisador.h"
-// #include "./utils/token.h"
-// #include "./lexico/transition_table.h"
+#include "./lexico/analisador.h"
+#include "./utils/token.h"
+#include "./lexico/transition_table.h"
 #include "./sintatico/automataPE.h"
 
 
-// #include "./utils/list.h"
+#include "./utils/list.h"
 
 #include "utils/automata2.h"
 #include <limits.h>
@@ -17,81 +17,81 @@
 
 
 int main(){
-	// FILE *file = fopen(FILENAME, "r");
- //  Token t;
- //  Automata automata = automata_create(S0);
+	FILE *file = fopen(FILENAME, "r");
+  Token t;
+  Automata automata = automata_create(S0);
 
-	// if (file == NULL){
-	// 	printf("Arquivo não existe!!!");
- //  } else {
- //    while(!strcmp(t.string, "END")){
- //      t = find_possible_token(&automata, file);
- //      token_destroy(&t);
- //    }
- //    lexical_analysis(file);
-	// }
+	if (file == NULL){
+		printf("Arquivo não existe!!!");
+  } else {
+    while(!strcmp(t.string, "END")){
+      t = find_possible_token(&automata, file);
+      token_destroy(&t);
+    }
+    lexical_analysis(file);
+	}
 
- //  fclose(file);
+  fclose(file);
   // int i, j;
-  int table1[4][4] = 
-  {
-    {0, 1, 2, FINAL_STATE},
-    {0, 1, 2, ERROR_STATE},
-    {0, 1, 2, 3},
-    {0, 1, 2, 3} 
-  };
+//   int table1[4][4] = 
+//   {
+//     {0, 1, 2, FINAL_STATE},
+//     {0, 1, 2, ERROR_STATE},
+//     {0, 1, 2, 3},
+//     {0, 1, 2, 3} 
+//   };
 
-  int table2[4][5] = 
-  {
-    {0, 1, 2, FINAL_STATE, 0},
-    {0, 1, 2, ERROR_STATE, 0},
-    {0, 1, 2, 3, 0},
-    {0, 1, 2, 3, 0} 
-  };
-  int table3[4][4] = 
-  {
-    {0, 1, 2, FINAL_STATE},
-    {0, 1, 2, ERROR_STATE},
-    {0, 1, 2, 3},
-    {0, 1, 2, 3} 
-  };
+//   int table2[4][5] = 
+//   {
+//     {0, 1, 2, FINAL_STATE, 0},
+//     {0, 1, 2, ERROR_STATE, 0},
+//     {0, 1, 2, 3, 0},
+//     {0, 1, 2, 3, 0} 
+//   };
+//   int table3[4][4] = 
+//   {
+//     {0, 1, 2, FINAL_STATE},
+//     {0, 1, 2, ERROR_STATE},
+//     {0, 1, 2, 3},
+//     {0, 1, 2, 3} 
+//   };
 
-  int table4[4][5] = 
-  {
-    {0, 1, 2, FINAL_STATE, 0},
-    {0, 1, 2, ERROR_STATE, 0},
-    {0, 1, 2, 3, 0},
-    {0, 1, 2, 3, 0} 
-  };
-  int table5[4][4] = 
-  {
-    {0, 1, 2, FINAL_STATE},
-    {0, 1, 2, ERROR_STATE},
-    {0, 1, 2, 3},
-    {0, 1, 2, 3} 
-  };
+//   int table4[4][5] = 
+//   {
+//     {0, 1, 2, FINAL_STATE, 0},
+//     {0, 1, 2, ERROR_STATE, 0},
+//     {0, 1, 2, 3, 0},
+//     {0, 1, 2, 3, 0} 
+//   };
+//   int table5[4][4] = 
+//   {
+//     {0, 1, 2, FINAL_STATE},
+//     {0, 1, 2, ERROR_STATE},
+//     {0, 1, 2, 3},
+//     {0, 1, 2, 3} 
+//   };
 
-  int table6[4][5] = 
-  {
-    {0, 1, 2, FINAL_STATE, 0},
-    {0, 1, 2, ERROR_STATE, 0},
-    {0, 1, 2, 3, 0},
-    {0, 1, 2, 3, 0} 
-  };
+//   int table6[4][5] = 
+//   {
+//     {0, 1, 2, FINAL_STATE, 0},
+//     {0, 1, 2, ERROR_STATE, 0},
+//     {0, 1, 2, 3, 0},
+//     {0, 1, 2, 3, 0} 
+//   };
 
-  Table t1 = table_create(4, 4, table1);
-  Table t2 = table_create(5, 5, table2);
+//   Table t1 = table_create(4, 4, table1);
+//   Table t2 = table_create(5, 5, table2);
 
-Table t3 = table_create(4, 4, table3);
-  Table t4 = table_create(5, 5, table4);
+// Table t3 = table_create(4, 4, table3);
+//   Table t4 = table_create(5, 5, table4);
 
-Table t5 = table_create(4, 4, table5);
-  Table t6 = table_create(5, 5, table6);
+// Table t5 = table_create(4, 4, table5);
+//   Table t6 = table_create(5, 5, table6);
 
 
-  Table ts1[2] = {t1, t2};
-  Table ts2[2] = {t3, t4};
-  Table ts3[2] = {t5, t6};
+//   Table ts1[2] = {t1, t2};
+//   Table ts2[2] = {t3, t4};
+//   Table ts3[2] = {t5, t6};
 
 
   // table_print_table(&(ts[0]));
@@ -123,8 +123,8 @@ Table t5 = table_create(4, 4, table5);
   // table_destroy(&t1);
   // table_destroy(&t2);
 
-  AutomataPE aPe = automataPE_create(0, 2, ts1, ts2, ts3);
-  automataPE_destroy(&aPe);
+  // AutomataPE aPe = automataPE_create(0, 2, ts1, ts2, ts3);
+  // automataPE_destroy(&aPe);
   
   // automata_print_table(&a);
 
