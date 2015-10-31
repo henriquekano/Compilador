@@ -17,8 +17,7 @@ typedef enum{
 	MTYPE_COMMAND = 1,
 	MTYPE_DECLARATION = 2,
 	MTYPE_CONDITION = 3,
-	MTYPE_EXPRESSION = 4,
-	MTYPE_VALUE = 5
+	MTYPE_EXPRESSION = 4
 } MachineTypes;
 
 typedef enum{
@@ -35,8 +34,8 @@ typedef enum{
 	MTTYPE_WHEN 				= 9 	,// when
 	MTTYPE_ENDWHEN 				= 10 	,// endwhen
 	MTTYPE_IS 					= 11 	,// is
-	MTTYPE_STRUCT 				= 12 	,// continue
-	MTTYPE_ENDSTRUCT 			= 13 	,// continue
+	MTTYPE_STRUCT 				= 12 	,// struct
+	MTTYPE_ENDSTRUCT 			= 13 	,// endstruct
 	MTTYPE_CONTINUE 			= 13 	,// continue
 	MTTYPE_FUNCTION 			= 14 	,// function
 	MTTYPE_RETURN 				= 15 	,// return

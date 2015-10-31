@@ -5,7 +5,7 @@
 
 // "end" must come after every reserved word beginning with "end"
 const char *RESERVED_WORDS[] = {"begin", "do", "if", "elsif", "endif", "while", "endwhile", "when", 
-"case", "endwhen", "struct", "endstruct", "function", "endfunction", "int", "string", "float", "bool", "return", 
+"is", "endwhen", "struct", "endstruct", "function", "endfunction", "int", "string", "float", "bool", "return", 
 "continue", "true", "false", "end", "and", "or", "print", "scan", "not"};
 
 const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES] =
