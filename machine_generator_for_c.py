@@ -40,6 +40,8 @@ def main(argv):
 	machine_token_types["endwhen"] = "MTTYPE_ENDWHEN" 				
 	machine_token_types["is"] = "MTTYPE_IS" 					
 	machine_token_types["continue"] = "MTTYPE_CONTINUE" 			
+	machine_token_types["struct"] = "MTTYPE_STRUCT" 			
+	machine_token_types["endstruct"] = "MTTYPE_ENDSTRUCT" 			
 	machine_token_types["function"] = "MTTYPE_FUNCTION" 			
 	machine_token_types["return"] = "MTTYPE_RETURN" 				
 	machine_token_types["endfunction"] = "MTTYPE_ENDFUNCTION" 			
