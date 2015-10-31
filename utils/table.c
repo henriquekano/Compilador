@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "table.h"
 
-Table table_create(int rows, int columns, int table[rows][columns]){
+Table table_create(int rows, int columns, int table[rows][columns], converterFunction converterFn){
   int **new_table = (int **)malloc(sizeof(int *) * rows);
   int i = 0, j = 0;
 
@@ -14,7 +14,7 @@ Table table_create(int rows, int columns, int table[rows][columns]){
     }
   }
 
-  Table t = {rows, columns, new_table};
+  Table t = {rows, columns, new_table, converterFn};
   return t;
 }
 void table_destroy(Table *t){
@@ -51,4 +51,13 @@ void table_print_table(Table *t){
     }
     printf("\n");
   }
+}
+
+bool is_value_in_array(int val, int *arr, int size){
+    int i;
+    for (i=0; i < size; i++) {
+        if (arr[i] == val)
+            return TRUE;
+    }
+    return FALSE;
 }

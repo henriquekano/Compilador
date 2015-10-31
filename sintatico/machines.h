@@ -7,7 +7,7 @@
 #define MAX_FINAL_STATES 10
 #define MAX_STATES 60
 #define N_MACHINE_TOKEN_TYPES 40
-#define N_MACHINE_TYPES 8
+#define N_MACHINE_TYPES 6
 
 #define MINVALID_STATE -1
 
@@ -18,8 +18,6 @@ typedef enum{
 	MTYPE_DECLARATION = 2,
 	MTYPE_CONDITION = 3,
 	MTYPE_EXPRESSION = 4,
-	MTYPE_EXPRESSION_ARIT = 5,
-	MTYPE_EXPRESSION_BOOL = 6,
 	MTYPE_VALUE = 7
 } MachineTypes;
 
@@ -55,8 +53,8 @@ typedef enum{
 	MTTYPE_MINUS 				= 26 	,// -
 	MTTYPE_MULTIPLICATION 		= 27 	,// *
 	MTTYPE_DIVISION 			= 28 	,// /
-	MTTYPE_AND 					= 29 	,// &&
-	MTTYPE_OR 					= 30 	,// || 
+	MTTYPE_AND 					= 29 	,// and
+	MTTYPE_OR 					= 30 	,// or
 	MTTYPE_SINGLE_QUOTE 		= 31 	,// '
 	MTTYPE_DOUBLE_QUOTE 		= 32 	,// "
 	MTTYPE_ID 					= 33 	,// identificador
@@ -67,7 +65,7 @@ typedef enum{
 	MTTYPE_MATRIX 				= 38 	,// matriz
 	MTTYPE_TYPE 				= 39 	,// int, float, string, bool
 	MTTYPE_BOOL 				= 40 	,// true, false
-	MTTYPE_COMPARATOR 			= 41 	// <, >, <=, >=, ==, !=
+	MTTYPE_COMPARATOR 			= 41 	 // <, >, <=, >=, ==, !=
 } MachineTokenTypes;
 
 // typedef struct machine {
@@ -80,7 +78,7 @@ typedef enum{
 
 // Machine machines[8];
 
-void init_machines(AutomataPE *automata);
-// void machine_in_final_state(int machineId);
-
+AutomataPE init_machines();
+int convert_token_to_machine_type(Token *token);
+int converter_machineid_to_machineid(void *id);
 #endif /* MACHINES_H_ */

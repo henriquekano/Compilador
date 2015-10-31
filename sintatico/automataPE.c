@@ -4,6 +4,8 @@
 #include "automataPE.h"
 
 #include "../lexico/analisador.h"
+#include "machines.h"
+
 
 //funcoes auxiliares
 void list_destroy_automata2(void *data){
@@ -13,7 +15,7 @@ void list_destroy_automata2(void *data){
 
 // a coisa de verdade
 AutomataPE automataPE_create(AutomataId currentMachineId, int numberOfMachines, 
-  Table transitionTables[numberOfMachines], Table subMachineCall[numberOfMachines], Table afterCallStates[numberOfMachines]){
+  Table transitionTables[numberOfMachines], Table subMachineCall[numberOfMachines], Table afterCallStates[numberOfMachines], Table finalStates[numberOfMachines]){
 
   List stack;
   list_new(&stack, sizeof(struct Automata2), list_destroy_automata2);
@@ -23,7 +25,7 @@ AutomataPE automataPE_create(AutomataId currentMachineId, int numberOfMachines,
                                 0, 
                                 &initialAutomataTable);
 
-  AutomataPE aPE = {stack, numberOfMachines, transitionTables, subMachineCall, afterCallStates, currentMachineId, firstAutomata};
+  AutomataPE aPE = {stack, numberOfMachines, transitionTables, subMachineCall, afterCallStates, finalStates, currentMachineId, firstAutomata};
   return aPE;
 }
 
@@ -84,23 +86,8 @@ bool automataPE_run(AutomataPE *a, FILE *file){
     }
 
     int next_state = automata_next_state2(&(a->currentMachine), table_convert_to_index(&(a->currentMachine.table), &t));
-    if(next_state == CALL_SUBMACHINE){
-      Table next_automata_table = a->subMachineCall[a->currentMachineId];
-      int next_automata_id = table_get(&next_automata_table, 
-                                       a->currentMachineId, 
-                                      table_convert_to_index(&(a->currentMachine.table), &t));
-
-      Table next_automata_transition_table = a->transitionTables[next_automata_id];
-      Automata2 next_automata = automata_create2(
-                                  next_automata_id,
-                                  0,
-                                  &next_automata_transition_table);
-
-      list_prepend(&(a->stack), &(a->currentMachine));
-      a->currentMachine = next_automata;
-      a->currentMachineId = next_automata_id;
-      
-    }else if(next_state == FINAL_STATE){
+    // verifica se e estado final
+    if(is_value_in_array(next_state, a->finalStates->table[a->currentMachineId], a->finalStates->columns)){
 
       automata_goto_next_state2(&(a->currentMachine), table_convert_to_index(&(a->currentMachine.table), &t));
 
@@ -117,6 +104,22 @@ bool automataPE_run(AutomataPE *a, FILE *file){
       }else{
         return TRUE;
       }
+    } else if(next_state == MINVALID_STATE){
+      Table next_automata_table = a->subMachineCall[a->currentMachineId];
+      int next_automata_id = table_get(&next_automata_table, 
+                                       a->currentMachineId, 
+                                      table_convert_to_index(&(a->currentMachine.table), &t));
+
+      Table next_automata_transition_table = a->transitionTables[next_automata_id];
+      Automata2 next_automata = automata_create2(
+                                  next_automata_id,
+                                  0,
+                                  &next_automata_transition_table);
+
+      list_prepend(&(a->stack), &(a->currentMachine));
+      a->currentMachine = next_automata;
+      a->currentMachineId = next_automata_id;
+      
     }else if(next_state == ERROR_STATE){
       // automata_goto_next_state2(&(a->currentMachine), table_convert_to_index(&(a->currentMachine.table), t));
       return FALSE;

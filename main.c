@@ -32,10 +32,14 @@ int main(){
     }while(!reached_eof(file));
 	}
 
-  fclose(file);
 
   AutomataPE aPE;
-  init_machines(&aPE);
+  aPE = init_machines();
+
+  automataPE_run(&aPE, file);
+  
+
+  fclose(file);
 
   // int qualquercoisa = aPE->numberOfMachines;
   // printf("numberOfMachines: %d", qualquercoisa);

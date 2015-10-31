@@ -1,7 +1,8 @@
 #include "machines.h"
 #include "automataPE.h"
+#include "../utils/token.h"
 
-void init_machines(AutomataPE *automata) {
+AutomataPE init_machines() {
 	int initialMachine = MTYPE_PROGRAM;
 	int n, i, j;
 	int rawTransitionTables[N_MACHINE_TYPES][MAX_STATES][N_MACHINE_TOKEN_TYPES];
@@ -268,11 +269,87 @@ void init_machines(AutomataPE *automata) {
 	Table allFinalStatesTables[N_MACHINE_TYPES];
 
 	for (n = 0; n < N_MACHINE_TYPES; n++) {
-		allTransitionsTables[n] = table_create(MAX_STATES, N_MACHINE_TOKEN_TYPES, rawTransitionTables[n]);
-		allSubMachineCallTables[n] = table_create(MAX_STATES, 1, &rawSubmachineCallTables[n]);
-		allAfterCallTables[n] = table_create(MAX_STATES, N_MACHINE_TOKEN_TYPES, rawAfterCallTables[n]);
-		allFinalStatesTables[n] = table_create(MAX_STATES, 1, &rawFinalStatesTables[n]);
+		allTransitionsTables[n] = table_create(MAX_STATES, N_MACHINE_TOKEN_TYPES, rawTransitionTables[n], convert_token_to_machine_type);
+		allSubMachineCallTables[n] = table_create(MAX_STATES, 1, &rawSubmachineCallTables[n], NULL);
+		allAfterCallTables[n] = table_create(MAX_STATES, N_MACHINE_TOKEN_TYPES, rawAfterCallTables[n], converter_machineid_to_machineid);
+		allFinalStatesTables[n] = table_create(MAX_STATES, 1, &rawFinalStatesTables[n], NULL);
 	}
 
-	AutomataPE automataPE_create(initialMachine, N_MACHINE_TYPES, allTransitionsTables, allSubMachineCallTables, allAfterCallTables);
+	return automataPE_create(initialMachine, N_MACHINE_TYPES, allTransitionsTables, allSubMachineCallTables, allAfterCallTables, allFinalStatesTables);
+}
+
+int convert_token_to_machine_type(Token *token) {
+	// token = (Token*) token;
+	switch (token->type) {
+		case TT_RESERVED:
+			if(strcmp(token->string, "begin") == 0) return MTTYPE_BEGIN; 		
+			if(strcmp(token->string, "end") == 0) return MTTYPE_END; 			
+			if(strcmp(token->string, "do") == 0) return MTTYPE_DO; 			
+			if(strcmp(token->string, "if") == 0) return MTTYPE_IF; 			
+			if(strcmp(token->string, "elsif") == 0) return MTTYPE_ELSIF; 		
+			if(strcmp(token->string, "endif") == 0) return MTTYPE_ENDIF; 		
+			if(strcmp(token->string, "else") == 0) return MTTYPE_ELSE; 		
+			if(strcmp(token->string, "while") == 0) return MTTYPE_WHILE; 		
+			if(strcmp(token->string, "endwhile") == 0) return MTTYPE_ENDWHILE; 	
+			if(strcmp(token->string, "when") == 0) return MTTYPE_WHEN; 		
+			if(strcmp(token->string, "endwhen") == 0) return MTTYPE_ENDWHEN; 		
+			if(strcmp(token->string, "is") == 0) return MTTYPE_IS; 			
+			if(strcmp(token->string, "continue") == 0) return MTTYPE_CONTINUE; 	
+			if(strcmp(token->string, "function") == 0) return MTTYPE_FUNCTION; 	
+			if(strcmp(token->string, "return") == 0) return MTTYPE_RETURN; 		
+			if(strcmp(token->string, "endfunction") == 0) return MTTYPE_ENDFUNCTION; 	
+			if(strcmp(token->string, "scan") == 0) return MTTYPE_SCAN; 		
+			if(strcmp(token->string, "print") == 0) return MTTYPE_PRINT; 
+			if(strcmp(token->string, "string") == 0) return MTTYPE_TYPE; 
+			if(strcmp(token->string, "bool") == 0) return MTTYPE_TYPE; 
+			if(strcmp(token->string, "int") == 0) return MTTYPE_TYPE; 
+			if(strcmp(token->string, "float") == 0) return MTTYPE_TYPE; 
+			if(strcmp(token->string, "and") == 0) return MTTYPE_AND; 			
+			if(strcmp(token->string, "or") == 0) return MTTYPE_OR; 		
+			if(strcmp(token->string, "true") == 0) return MTTYPE_BOOL; 		
+			if(strcmp(token->string, "false") == 0) return MTTYPE_BOOL;		
+		case TT_STRING:
+			return MTTYPE_STRING;
+		case TT_ARITH_SYMBOL:
+			if(strcmp(token->string, "+") == 0) return MTTYPE_PLUS; 		
+			if(strcmp(token->string, "-") == 0) return MTTYPE_MINUS; 		
+			if(strcmp(token->string, "*") == 0) return MTTYPE_MULTIPLICATION; 
+			if(strcmp(token->string, "/") == 0) return MTTYPE_DIVISION; 	
+		case TT_INT:
+			return MTTYPE_INT;
+		case TT_COMPARATOR:
+			return MTTYPE_COMPARATOR;
+		case TT_IDENTIFIER:
+			return MTTYPE_ID;
+		case TT_SEPARATOR:
+			if(strcmp(token->string, ",") == 0) return MTTYPE_COMMA; 		
+			if(strcmp(token->string, ".") == 0) return MTTYPE_DOT; 			
+		case TT_END_OF_COMMAND:
+			if(strcmp(token->string, ";") == 0) return MTTYPE_SEMICOLON; 	
+		case TT_UNKNOWN:
+			return MTTYPE_INVALID;
+		case TT_ASSIGNMENT:
+			return MTTYPE_EQUAL;
+		case TT_FLOAT:
+			return MTTYPE_FLOAT;
+		case TT_ARRAY:
+			return MTTYPE_ARRAY;
+		case TT_MATRIX:
+			return MTTYPE_MATRIX;
+		case TT_R_SQ_BRACKET:
+			if(strcmp(token->string, "]") == 0) return MTTYPE_RIGHT_BRACKET; 
+		case TT_L_SQ_BRACKET:
+			if(strcmp(token->string, "[") == 0) return MTTYPE_LEFT_BRACKET; 
+		case TT_R_PARENTHESIS:
+			if(strcmp(token->string, ")") == 0) return MTTYPE_RIGHT_PARENTHESIS;
+		case TT_L_PARENTHESIS:
+			if(strcmp(token->string, "(") == 0) return MTTYPE_LEFT_PARENTHESIS;
+		default:
+			break;
+	}
+	return MTTYPE_INVALID;
+}
+
+int converter_machineid_to_machineid(void *id){
+	return (int*) id;
 }
