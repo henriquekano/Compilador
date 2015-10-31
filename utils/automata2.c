@@ -5,7 +5,6 @@
 #include "table.h"
 
 Automata2 automata_create2(int id, int state, Table *table){
-  // Table transitionTable = table_create(row, column, table);
   Automata2 a;
   a.id = id;
   a.state = state;

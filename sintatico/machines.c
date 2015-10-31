@@ -2,6 +2,7 @@
 #include "machines.h"
 #include "automataPE.h"
 #include "../utils/token.h"
+#include <string.h>
 
 AutomataPE init_machines() {
 	int initialMachine = MTYPE_PROGRAM;
@@ -24,6 +25,7 @@ AutomataPE init_machines() {
 		}
 	}
 	
+	
 	// MTYPE_PROGRAM ||||||||||||||||||||||||||||||||||||||||
 	rawFinalStatesTables[MTYPE_PROGRAM][0] = 4;
 
@@ -43,8 +45,6 @@ AutomataPE init_machines() {
 
 	// TRANSITION TABLE --------------------------------------
 	rawTransitionTables[MTYPE_COMMAND][0][MTTYPE_ID] = 1;
-	rawTransitionTables[MTYPE_COMMAND][0][MTTYPE_ARRAY] = 1;
-	rawTransitionTables[MTYPE_COMMAND][0][MTTYPE_MATRIX] = 1;
 	rawSubmachineCallTables[MTYPE_COMMAND][0] = MTYPE_DECLARATION;
 	rawAfterCallTables[MTYPE_COMMAND][0][MTYPE_DECLARATION] = 2;
 
@@ -53,126 +53,152 @@ AutomataPE init_machines() {
 	rawTransitionTables[MTYPE_COMMAND][0][MTTYPE_WHEN] = 5;
 	rawTransitionTables[MTYPE_COMMAND][0][MTTYPE_SCAN] = 6;
 	rawTransitionTables[MTYPE_COMMAND][0][MTTYPE_PRINT] = 7;
-	rawTransitionTables[MTYPE_COMMAND][1][MTTYPE_EQUAL] = 8;
-	rawTransitionTables[MTYPE_COMMAND][3][MTTYPE_LEFT_PARENTHESIS] = 11;
-	rawTransitionTables[MTYPE_COMMAND][4][MTTYPE_LEFT_PARENTHESIS] = 35;
-	rawTransitionTables[MTYPE_COMMAND][5][MTTYPE_LEFT_PARENTHESIS] = 23;
-	rawTransitionTables[MTYPE_COMMAND][6][MTTYPE_LEFT_PARENTHESIS] = 12;
-	rawTransitionTables[MTYPE_COMMAND][7][MTTYPE_LEFT_PARENTHESIS] = 9;
-	rawSubmachineCallTables[MTYPE_COMMAND][8] = MTYPE_VALUE;
-	rawAfterCallTables[MTYPE_COMMAND][8][MTYPE_VALUE] = 2;
-
+	rawTransitionTables[MTYPE_COMMAND][1][MTTYPE_LEFT_BRACKET] = 8;
+	rawTransitionTables[MTYPE_COMMAND][1][MTTYPE_EQUAL] = 9;
+	rawTransitionTables[MTYPE_COMMAND][3][MTTYPE_LEFT_PARENTHESIS] = 20;
+	rawTransitionTables[MTYPE_COMMAND][4][MTTYPE_LEFT_PARENTHESIS] = 46;
+	rawTransitionTables[MTYPE_COMMAND][5][MTTYPE_LEFT_PARENTHESIS] = 35;
+	rawTransitionTables[MTYPE_COMMAND][6][MTTYPE_LEFT_PARENTHESIS] = 16;
+	rawTransitionTables[MTYPE_COMMAND][7][MTTYPE_LEFT_PARENTHESIS] = 10;
+	rawTransitionTables[MTYPE_COMMAND][8][MTTYPE_INT] = 12;
 	rawSubmachineCallTables[MTYPE_COMMAND][9] = MTYPE_VALUE;
-	rawAfterCallTables[MTYPE_COMMAND][9][MTYPE_VALUE] = 10;
+	rawAfterCallTables[MTYPE_COMMAND][9][MTYPE_VALUE] = 2;
 
-	rawTransitionTables[MTYPE_COMMAND][10][MTTYPE_RIGHT_PARENTHESIS] = 2;
-	rawTransitionTables[MTYPE_COMMAND][10][MTTYPE_COMMA] = 9;
-	rawSubmachineCallTables[MTYPE_COMMAND][11] = MTYPE_CONDITION;
-	rawAfterCallTables[MTYPE_COMMAND][11][MTYPE_CONDITION] = 13;
+	rawSubmachineCallTables[MTYPE_COMMAND][10] = MTYPE_VALUE;
+	rawAfterCallTables[MTYPE_COMMAND][10][MTYPE_VALUE] = 11;
 
-	rawTransitionTables[MTYPE_COMMAND][12][MTTYPE_ID] = 14;
-	rawTransitionTables[MTYPE_COMMAND][12][MTTYPE_ARRAY] = 14;
-	rawTransitionTables[MTYPE_COMMAND][12][MTTYPE_MATRIX] = 14;
-	rawTransitionTables[MTYPE_COMMAND][13][MTTYPE_RIGHT_PARENTHESIS] = 15;
-	rawTransitionTables[MTYPE_COMMAND][14][MTTYPE_RIGHT_PARENTHESIS] = 2;
-	rawTransitionTables[MTYPE_COMMAND][14][MTTYPE_COMMA] = 12;
-	rawTransitionTables[MTYPE_COMMAND][15][MTTYPE_DO] = 16;
-	rawSubmachineCallTables[MTYPE_COMMAND][16] = MTYPE_COMMAND;
-	rawAfterCallTables[MTYPE_COMMAND][16][MTYPE_COMMAND] = 17;
+	rawTransitionTables[MTYPE_COMMAND][11][MTTYPE_RIGHT_PARENTHESIS] = 2;
+	rawTransitionTables[MTYPE_COMMAND][11][MTTYPE_COMMA] = 10;
+	rawTransitionTables[MTYPE_COMMAND][12][MTTYPE_RIGHT_BRACKET] = 13;
+	rawTransitionTables[MTYPE_COMMAND][13][MTTYPE_LEFT_BRACKET] = 14;
+	rawTransitionTables[MTYPE_COMMAND][13][MTTYPE_EQUAL] = 9;
+	rawTransitionTables[MTYPE_COMMAND][14][MTTYPE_INT] = 15;
+	rawTransitionTables[MTYPE_COMMAND][15][MTTYPE_RIGHT_BRACKET] = 17;
+	rawTransitionTables[MTYPE_COMMAND][16][MTTYPE_ID] = 18;
+	rawTransitionTables[MTYPE_COMMAND][17][MTTYPE_EQUAL] = 9;
+	rawTransitionTables[MTYPE_COMMAND][18][MTTYPE_LEFT_BRACKET] = 19;
+	rawTransitionTables[MTYPE_COMMAND][18][MTTYPE_RIGHT_PARENTHESIS] = 2;
+	rawTransitionTables[MTYPE_COMMAND][18][MTTYPE_COMMA] = 16;
+	rawTransitionTables[MTYPE_COMMAND][19][MTTYPE_INT] = 22;
+	rawSubmachineCallTables[MTYPE_COMMAND][20] = MTYPE_CONDITION;
+	rawAfterCallTables[MTYPE_COMMAND][20][MTYPE_CONDITION] = 21;
 
-	rawTransitionTables[MTYPE_COMMAND][17][MTTYPE_SEMICOLON] = 18;
-	rawSubmachineCallTables[MTYPE_COMMAND][18] = MTYPE_COMMAND;
-	rawAfterCallTables[MTYPE_COMMAND][18][MTYPE_COMMAND] = 17;
+	rawTransitionTables[MTYPE_COMMAND][21][MTTYPE_RIGHT_PARENTHESIS] = 23;
+	rawTransitionTables[MTYPE_COMMAND][22][MTTYPE_RIGHT_BRACKET] = 24;
+	rawTransitionTables[MTYPE_COMMAND][23][MTTYPE_DO] = 25;
+	rawTransitionTables[MTYPE_COMMAND][24][MTTYPE_LEFT_BRACKET] = 26;
+	rawTransitionTables[MTYPE_COMMAND][24][MTTYPE_RIGHT_PARENTHESIS] = 2;
+	rawTransitionTables[MTYPE_COMMAND][24][MTTYPE_COMMA] = 16;
+	rawSubmachineCallTables[MTYPE_COMMAND][25] = MTYPE_COMMAND;
+	rawAfterCallTables[MTYPE_COMMAND][25][MTYPE_COMMAND] = 27;
 
-	rawTransitionTables[MTYPE_COMMAND][18][MTTYPE_ELSIF] = 3;
-	rawTransitionTables[MTYPE_COMMAND][18][MTTYPE_ELSE] = 19;
-	rawTransitionTables[MTYPE_COMMAND][18][MTTYPE_ENDIF] = 2;
-	rawTransitionTables[MTYPE_COMMAND][19][MTTYPE_DO] = 20;
-	rawSubmachineCallTables[MTYPE_COMMAND][20] = MTYPE_COMMAND;
-	rawAfterCallTables[MTYPE_COMMAND][20][MTYPE_COMMAND] = 21;
+	rawTransitionTables[MTYPE_COMMAND][26][MTTYPE_INT] = 28;
+	rawTransitionTables[MTYPE_COMMAND][27][MTTYPE_SEMICOLON] = 29;
+	rawTransitionTables[MTYPE_COMMAND][28][MTTYPE_RIGHT_BRACKET] = 30;
+	rawSubmachineCallTables[MTYPE_COMMAND][29] = MTYPE_COMMAND;
+	rawAfterCallTables[MTYPE_COMMAND][29][MTYPE_COMMAND] = 27;
 
-	rawTransitionTables[MTYPE_COMMAND][21][MTTYPE_SEMICOLON] = 22;
-	rawSubmachineCallTables[MTYPE_COMMAND][22] = MTYPE_COMMAND;
-	rawAfterCallTables[MTYPE_COMMAND][22][MTYPE_COMMAND] = 21;
-
-	rawTransitionTables[MTYPE_COMMAND][22][MTTYPE_ENDIF] = 2;
-	rawSubmachineCallTables[MTYPE_COMMAND][23] = MTYPE_VALUE;
-	rawAfterCallTables[MTYPE_COMMAND][23][MTYPE_VALUE] = 24;
-
-	rawTransitionTables[MTYPE_COMMAND][24][MTTYPE_RIGHT_PARENTHESIS] = 25;
-	rawTransitionTables[MTYPE_COMMAND][25][MTTYPE_IS] = 26;
-	rawTransitionTables[MTYPE_COMMAND][26][MTTYPE_LEFT_PARENTHESIS] = 27;
-	rawSubmachineCallTables[MTYPE_COMMAND][27] = MTYPE_VALUE;
-	rawAfterCallTables[MTYPE_COMMAND][27][MTYPE_VALUE] = 28;
-
-	rawTransitionTables[MTYPE_COMMAND][28][MTTYPE_RIGHT_PARENTHESIS] = 29;
-	rawTransitionTables[MTYPE_COMMAND][29][MTTYPE_DO] = 30;
-	rawSubmachineCallTables[MTYPE_COMMAND][30] = MTYPE_COMMAND;
-	rawAfterCallTables[MTYPE_COMMAND][30][MTYPE_COMMAND] = 31;
-
-	rawTransitionTables[MTYPE_COMMAND][31][MTTYPE_SEMICOLON] = 32;
+	rawTransitionTables[MTYPE_COMMAND][29][MTTYPE_ELSIF] = 3;
+	rawTransitionTables[MTYPE_COMMAND][29][MTTYPE_ELSE] = 31;
+	rawTransitionTables[MTYPE_COMMAND][29][MTTYPE_ENDIF] = 2;
+	rawTransitionTables[MTYPE_COMMAND][30][MTTYPE_RIGHT_PARENTHESIS] = 2;
+	rawTransitionTables[MTYPE_COMMAND][30][MTTYPE_COMMA] = 16;
+	rawTransitionTables[MTYPE_COMMAND][31][MTTYPE_DO] = 32;
 	rawSubmachineCallTables[MTYPE_COMMAND][32] = MTYPE_COMMAND;
-	rawAfterCallTables[MTYPE_COMMAND][32][MTYPE_COMMAND] = 31;
+	rawAfterCallTables[MTYPE_COMMAND][32][MTYPE_COMMAND] = 33;
 
-	rawTransitionTables[MTYPE_COMMAND][32][MTTYPE_CONTINUE] = 33;
 	rawTransitionTables[MTYPE_COMMAND][33][MTTYPE_SEMICOLON] = 34;
-	rawTransitionTables[MTYPE_COMMAND][34][MTTYPE_IS] = 26;
-	rawTransitionTables[MTYPE_COMMAND][34][MTTYPE_ENDWHEN] = 2;
-	rawSubmachineCallTables[MTYPE_COMMAND][35] = MTYPE_CONDITION;
-	rawAfterCallTables[MTYPE_COMMAND][35][MTYPE_CONDITION] = 36;
+	rawSubmachineCallTables[MTYPE_COMMAND][34] = MTYPE_COMMAND;
+	rawAfterCallTables[MTYPE_COMMAND][34][MTYPE_COMMAND] = 33;
+
+	rawTransitionTables[MTYPE_COMMAND][34][MTTYPE_ENDIF] = 2;
+	rawSubmachineCallTables[MTYPE_COMMAND][35] = MTYPE_VALUE;
+	rawAfterCallTables[MTYPE_COMMAND][35][MTYPE_VALUE] = 36;
 
 	rawTransitionTables[MTYPE_COMMAND][36][MTTYPE_RIGHT_PARENTHESIS] = 37;
-	rawTransitionTables[MTYPE_COMMAND][37][MTTYPE_DO] = 38;
-	rawSubmachineCallTables[MTYPE_COMMAND][38] = MTYPE_COMMAND;
-	rawAfterCallTables[MTYPE_COMMAND][38][MTYPE_COMMAND] = 39;
+	rawTransitionTables[MTYPE_COMMAND][37][MTTYPE_IS] = 38;
+	rawTransitionTables[MTYPE_COMMAND][38][MTTYPE_LEFT_PARENTHESIS] = 39;
+	rawSubmachineCallTables[MTYPE_COMMAND][39] = MTYPE_VALUE;
+	rawAfterCallTables[MTYPE_COMMAND][39][MTYPE_VALUE] = 40;
 
-	rawTransitionTables[MTYPE_COMMAND][39][MTTYPE_SEMICOLON] = 40;
-	rawSubmachineCallTables[MTYPE_COMMAND][40] = MTYPE_COMMAND;
-	rawAfterCallTables[MTYPE_COMMAND][40][MTYPE_COMMAND] = 39;
+	rawTransitionTables[MTYPE_COMMAND][40][MTTYPE_RIGHT_PARENTHESIS] = 41;
+	rawTransitionTables[MTYPE_COMMAND][41][MTTYPE_DO] = 42;
+	rawSubmachineCallTables[MTYPE_COMMAND][42] = MTYPE_COMMAND;
+	rawAfterCallTables[MTYPE_COMMAND][42][MTYPE_COMMAND] = 43;
 
-	rawTransitionTables[MTYPE_COMMAND][40][MTTYPE_ENDWHILE] = 2;
+	rawTransitionTables[MTYPE_COMMAND][43][MTTYPE_SEMICOLON] = 44;
+	rawSubmachineCallTables[MTYPE_COMMAND][44] = MTYPE_COMMAND;
+	rawAfterCallTables[MTYPE_COMMAND][44][MTYPE_COMMAND] = 43;
+
+	rawTransitionTables[MTYPE_COMMAND][44][MTTYPE_CONTINUE] = 45;
+	rawTransitionTables[MTYPE_COMMAND][45][MTTYPE_SEMICOLON] = 47;
+	rawSubmachineCallTables[MTYPE_COMMAND][46] = MTYPE_CONDITION;
+	rawAfterCallTables[MTYPE_COMMAND][46][MTYPE_CONDITION] = 48;
+
+	rawTransitionTables[MTYPE_COMMAND][47][MTTYPE_IS] = 38;
+	rawTransitionTables[MTYPE_COMMAND][47][MTTYPE_ENDWHEN] = 2;
+	rawTransitionTables[MTYPE_COMMAND][48][MTTYPE_RIGHT_PARENTHESIS] = 49;
+	rawTransitionTables[MTYPE_COMMAND][49][MTTYPE_DO] = 50;
+	rawSubmachineCallTables[MTYPE_COMMAND][50] = MTYPE_COMMAND;
+	rawAfterCallTables[MTYPE_COMMAND][50][MTYPE_COMMAND] = 51;
+
+	rawTransitionTables[MTYPE_COMMAND][51][MTTYPE_SEMICOLON] = 52;
+	rawSubmachineCallTables[MTYPE_COMMAND][52] = MTYPE_COMMAND;
+	rawAfterCallTables[MTYPE_COMMAND][52][MTYPE_COMMAND] = 51;
+
+	rawTransitionTables[MTYPE_COMMAND][52][MTTYPE_ENDWHILE] = 2;
 
 	// MTYPE_DECLARATION ||||||||||||||||||||||||||||||||||||||||
 	rawFinalStatesTables[MTYPE_DECLARATION][0] = 3;
-	rawFinalStatesTables[MTYPE_DECLARATION][1] = 15;
+	rawFinalStatesTables[MTYPE_DECLARATION][1] = 12;
+	rawFinalStatesTables[MTYPE_DECLARATION][2] = 19;
+	rawFinalStatesTables[MTYPE_DECLARATION][3] = 20;
 
 	// TRANSITION TABLE --------------------------------------
 	rawTransitionTables[MTYPE_DECLARATION][0][MTTYPE_TYPE] = 1;
 	rawTransitionTables[MTYPE_DECLARATION][0][MTTYPE_FUNCTION] = 2;
 	rawTransitionTables[MTYPE_DECLARATION][1][MTTYPE_ID] = 3;
-	rawTransitionTables[MTYPE_DECLARATION][1][MTTYPE_ARRAY] = 3;
-	rawTransitionTables[MTYPE_DECLARATION][1][MTTYPE_MATRIX] = 3;
 	rawTransitionTables[MTYPE_DECLARATION][2][MTTYPE_TYPE] = 4;
+	rawTransitionTables[MTYPE_DECLARATION][3][MTTYPE_LEFT_BRACKET] = 5;
 	rawTransitionTables[MTYPE_DECLARATION][3][MTTYPE_COMMA] = 1;
-	rawTransitionTables[MTYPE_DECLARATION][4][MTTYPE_ID] = 5;
-	rawTransitionTables[MTYPE_DECLARATION][5][MTTYPE_LEFT_PARENTHESIS] = 6;
-	rawTransitionTables[MTYPE_DECLARATION][6][MTTYPE_TYPE] = 7;
-	rawTransitionTables[MTYPE_DECLARATION][6][MTTYPE_RIGHT_PARENTHESIS] = 8;
-	rawTransitionTables[MTYPE_DECLARATION][7][MTTYPE_ID] = 14;
-	rawTransitionTables[MTYPE_DECLARATION][8][MTTYPE_DO] = 9;
-	rawSubmachineCallTables[MTYPE_DECLARATION][9] = MTYPE_COMMAND;
-	rawAfterCallTables[MTYPE_DECLARATION][9][MTYPE_COMMAND] = 10;
-
-	rawTransitionTables[MTYPE_DECLARATION][10][MTTYPE_SEMICOLON] = 11;
+	rawTransitionTables[MTYPE_DECLARATION][4][MTTYPE_ID] = 6;
+	rawTransitionTables[MTYPE_DECLARATION][5][MTTYPE_INT] = 10;
+	rawTransitionTables[MTYPE_DECLARATION][6][MTTYPE_LEFT_PARENTHESIS] = 7;
+	rawTransitionTables[MTYPE_DECLARATION][7][MTTYPE_TYPE] = 8;
+	rawTransitionTables[MTYPE_DECLARATION][7][MTTYPE_RIGHT_PARENTHESIS] = 9;
+	rawTransitionTables[MTYPE_DECLARATION][8][MTTYPE_ID] = 23;
+	rawTransitionTables[MTYPE_DECLARATION][9][MTTYPE_DO] = 11;
+	rawTransitionTables[MTYPE_DECLARATION][10][MTTYPE_RIGHT_BRACKET] = 12;
 	rawSubmachineCallTables[MTYPE_DECLARATION][11] = MTYPE_COMMAND;
-	rawAfterCallTables[MTYPE_DECLARATION][11][MTYPE_COMMAND] = 10;
+	rawAfterCallTables[MTYPE_DECLARATION][11][MTYPE_COMMAND] = 13;
 
-	rawTransitionTables[MTYPE_DECLARATION][11][MTTYPE_RETURN] = 12;
-	rawTransitionTables[MTYPE_DECLARATION][11][MTTYPE_ENDFUNCTION] = 13;
-	rawTransitionTables[MTYPE_DECLARATION][12][MTTYPE_SEMICOLON] = 17;
-	rawSubmachineCallTables[MTYPE_DECLARATION][12] = MTYPE_VALUE;
-	rawAfterCallTables[MTYPE_DECLARATION][12][MTYPE_VALUE] = 18;
-
+	rawTransitionTables[MTYPE_DECLARATION][12][MTTYPE_LEFT_BRACKET] = 14;
+	rawTransitionTables[MTYPE_DECLARATION][12][MTTYPE_COMMA] = 1;
 	rawTransitionTables[MTYPE_DECLARATION][13][MTTYPE_SEMICOLON] = 15;
-	rawTransitionTables[MTYPE_DECLARATION][14][MTTYPE_COMMA] = 16;
-	rawTransitionTables[MTYPE_DECLARATION][14][MTTYPE_RIGHT_PARENTHESIS] = 8;
-	rawTransitionTables[MTYPE_DECLARATION][16][MTTYPE_TYPE] = 7;
-	rawTransitionTables[MTYPE_DECLARATION][17][MTTYPE_ENDFUNCTION] = 13;
-	rawTransitionTables[MTYPE_DECLARATION][18][MTTYPE_SEMICOLON] = 17;
+	rawTransitionTables[MTYPE_DECLARATION][14][MTTYPE_INT] = 16;
+	rawSubmachineCallTables[MTYPE_DECLARATION][15] = MTYPE_COMMAND;
+	rawAfterCallTables[MTYPE_DECLARATION][15][MTYPE_COMMAND] = 13;
+
+	rawTransitionTables[MTYPE_DECLARATION][15][MTTYPE_RETURN] = 17;
+	rawTransitionTables[MTYPE_DECLARATION][15][MTTYPE_ENDFUNCTION] = 18;
+	rawTransitionTables[MTYPE_DECLARATION][16][MTTYPE_RIGHT_BRACKET] = 19;
+	rawTransitionTables[MTYPE_DECLARATION][17][MTTYPE_SEMICOLON] = 21;
+	rawSubmachineCallTables[MTYPE_DECLARATION][17] = MTYPE_VALUE;
+	rawAfterCallTables[MTYPE_DECLARATION][17][MTYPE_VALUE] = 22;
+
+	rawTransitionTables[MTYPE_DECLARATION][18][MTTYPE_SEMICOLON] = 20;
+	rawTransitionTables[MTYPE_DECLARATION][19][MTTYPE_COMMA] = 1;
+	rawTransitionTables[MTYPE_DECLARATION][21][MTTYPE_ENDFUNCTION] = 18;
+	rawTransitionTables[MTYPE_DECLARATION][22][MTTYPE_SEMICOLON] = 21;
+	rawTransitionTables[MTYPE_DECLARATION][23][MTTYPE_COMMA] = 24;
+	rawTransitionTables[MTYPE_DECLARATION][23][MTTYPE_RIGHT_PARENTHESIS] = 9;
+	rawTransitionTables[MTYPE_DECLARATION][24][MTTYPE_TYPE] = 8;
 
 	// MTYPE_CONDITION ||||||||||||||||||||||||||||||||||||||||
 	rawFinalStatesTables[MTYPE_CONDITION][0] = 1;
-	rawFinalStatesTables[MTYPE_CONDITION][1] = 3;
+	rawFinalStatesTables[MTYPE_CONDITION][1] = 2;
+	rawFinalStatesTables[MTYPE_CONDITION][2] = 3;
+	rawFinalStatesTables[MTYPE_CONDITION][3] = 10;
 
 	// TRANSITION TABLE --------------------------------------
 	rawTransitionTables[MTYPE_CONDITION][0][MTTYPE_BOOL] = 1;
@@ -180,37 +206,43 @@ AutomataPE init_machines() {
 	rawAfterCallTables[MTYPE_CONDITION][0][MTYPE_EXPRESSION] = 2;
 
 	rawTransitionTables[MTYPE_CONDITION][0][MTTYPE_ID] = 3;
-	rawTransitionTables[MTYPE_CONDITION][0][MTTYPE_ARRAY] = 1;
-	rawTransitionTables[MTYPE_CONDITION][0][MTTYPE_MATRIX] = 1;
-	rawTransitionTables[MTYPE_CONDITION][2][MTTYPE_COMPARATOR] = 4;
+	rawTransitionTables[MTYPE_CONDITION][2][MTTYPE_COMPARATOR] = 7;
+	rawTransitionTables[MTYPE_CONDITION][3][MTTYPE_LEFT_BRACKET] = 4;
 	rawTransitionTables[MTYPE_CONDITION][3][MTTYPE_LEFT_PARENTHESIS] = 5;
 	rawTransitionTables[MTYPE_CONDITION][3][MTTYPE_DOT] = 6;
-	rawSubmachineCallTables[MTYPE_CONDITION][4] = MTYPE_EXPRESSION;
-	rawAfterCallTables[MTYPE_CONDITION][4][MTYPE_EXPRESSION] = 1;
-
+	rawTransitionTables[MTYPE_CONDITION][4][MTTYPE_INT] = 9;
 	rawSubmachineCallTables[MTYPE_CONDITION][5] = MTYPE_VALUE;
-	rawAfterCallTables[MTYPE_CONDITION][5][MTYPE_VALUE] = 7;
+	rawAfterCallTables[MTYPE_CONDITION][5][MTYPE_VALUE] = 8;
 
 	rawTransitionTables[MTYPE_CONDITION][5][MTTYPE_RIGHT_PARENTHESIS] = 1;
 	rawTransitionTables[MTYPE_CONDITION][6][MTTYPE_ID] = 1;
-	rawTransitionTables[MTYPE_CONDITION][7][MTTYPE_COMMA] = 8;
-	rawTransitionTables[MTYPE_CONDITION][7][MTTYPE_RIGHT_PARENTHESIS] = 1;
-	rawSubmachineCallTables[MTYPE_CONDITION][8] = MTYPE_VALUE;
-	rawAfterCallTables[MTYPE_CONDITION][8][MTYPE_VALUE] = 7;
+	rawSubmachineCallTables[MTYPE_CONDITION][7] = MTYPE_EXPRESSION;
+	rawAfterCallTables[MTYPE_CONDITION][7][MTYPE_EXPRESSION] = 1;
 
+	rawTransitionTables[MTYPE_CONDITION][8][MTTYPE_COMMA] = 11;
+	rawTransitionTables[MTYPE_CONDITION][8][MTTYPE_RIGHT_PARENTHESIS] = 1;
+	rawTransitionTables[MTYPE_CONDITION][9][MTTYPE_RIGHT_BRACKET] = 10;
+	rawTransitionTables[MTYPE_CONDITION][10][MTTYPE_LEFT_BRACKET] = 12;
+	rawSubmachineCallTables[MTYPE_CONDITION][11] = MTYPE_VALUE;
+	rawAfterCallTables[MTYPE_CONDITION][11][MTYPE_VALUE] = 8;
+
+	rawTransitionTables[MTYPE_CONDITION][12][MTTYPE_INT] = 13;
+	rawTransitionTables[MTYPE_CONDITION][13][MTTYPE_RIGHT_BRACKET] = 1;
 
 	// MTYPE_EXPRESSION ||||||||||||||||||||||||||||||||||||||||
 	rawFinalStatesTables[MTYPE_EXPRESSION][0] = 2;
 	rawFinalStatesTables[MTYPE_EXPRESSION][1] = 3;
+	rawFinalStatesTables[MTYPE_EXPRESSION][2] = 11;
 
 	// TRANSITION TABLE --------------------------------------
 	rawTransitionTables[MTYPE_EXPRESSION][0][MTTYPE_LEFT_PARENTHESIS] = 1;
+	rawSubmachineCallTables[MTYPE_EXPRESSION][0] = MTYPE_EXPRESSION;
+	rawAfterCallTables[MTYPE_EXPRESSION][0][MTYPE_EXPRESSION] = 2;
+
 	rawTransitionTables[MTYPE_EXPRESSION][0][MTTYPE_INT] = 2;
 	rawTransitionTables[MTYPE_EXPRESSION][0][MTTYPE_FLOAT] = 2;
 	rawTransitionTables[MTYPE_EXPRESSION][0][MTTYPE_BOOL] = 2;
 	rawTransitionTables[MTYPE_EXPRESSION][0][MTTYPE_ID] = 3;
-	rawTransitionTables[MTYPE_EXPRESSION][0][MTTYPE_ARRAY] = 2;
-	rawTransitionTables[MTYPE_EXPRESSION][0][MTTYPE_MATRIX] = 2;
 	rawSubmachineCallTables[MTYPE_EXPRESSION][1] = MTYPE_EXPRESSION;
 	rawAfterCallTables[MTYPE_EXPRESSION][1][MTYPE_EXPRESSION] = 4;
 
@@ -221,7 +253,8 @@ AutomataPE init_machines() {
 	rawTransitionTables[MTYPE_EXPRESSION][2][MTTYPE_MINUS] = 0;
 	rawTransitionTables[MTYPE_EXPRESSION][2][MTTYPE_OR] = 0;
 	rawTransitionTables[MTYPE_EXPRESSION][3][MTTYPE_LEFT_PARENTHESIS] = 5;
-	rawTransitionTables[MTYPE_EXPRESSION][3][MTTYPE_DOT] = 6;
+	rawTransitionTables[MTYPE_EXPRESSION][3][MTTYPE_LEFT_BRACKET] = 6;
+	rawTransitionTables[MTYPE_EXPRESSION][3][MTTYPE_DOT] = 7;
 	rawTransitionTables[MTYPE_EXPRESSION][3][MTTYPE_MULTIPLICATION] = 0;
 	rawTransitionTables[MTYPE_EXPRESSION][3][MTTYPE_DIVISION] = 0;
 	rawTransitionTables[MTYPE_EXPRESSION][3][MTTYPE_AND] = 0;
@@ -231,18 +264,30 @@ AutomataPE init_machines() {
 	rawTransitionTables[MTYPE_EXPRESSION][4][MTTYPE_RIGHT_PARENTHESIS] = 2;
 	rawTransitionTables[MTYPE_EXPRESSION][5][MTTYPE_RIGHT_PARENTHESIS] = 2;
 	rawSubmachineCallTables[MTYPE_EXPRESSION][5] = MTYPE_VALUE;
-	rawAfterCallTables[MTYPE_EXPRESSION][5][MTYPE_VALUE] = 7;
+	rawAfterCallTables[MTYPE_EXPRESSION][5][MTYPE_VALUE] = 8;
 
-	rawTransitionTables[MTYPE_EXPRESSION][6][MTTYPE_ID] = 2;
-	rawTransitionTables[MTYPE_EXPRESSION][7][MTTYPE_RIGHT_PARENTHESIS] = 2;
-	rawTransitionTables[MTYPE_EXPRESSION][7][MTTYPE_COMMA] = 8;
-	rawSubmachineCallTables[MTYPE_EXPRESSION][8] = MTYPE_VALUE;
-	rawAfterCallTables[MTYPE_EXPRESSION][8][MTYPE_VALUE] = 7;
+	rawTransitionTables[MTYPE_EXPRESSION][6][MTTYPE_INT] = 9;
+	rawTransitionTables[MTYPE_EXPRESSION][7][MTTYPE_ID] = 2;
+	rawTransitionTables[MTYPE_EXPRESSION][8][MTTYPE_RIGHT_PARENTHESIS] = 2;
+	rawTransitionTables[MTYPE_EXPRESSION][8][MTTYPE_COMMA] = 10;
+	rawTransitionTables[MTYPE_EXPRESSION][9][MTTYPE_RIGHT_BRACKET] = 11;
+	rawSubmachineCallTables[MTYPE_EXPRESSION][10] = MTYPE_VALUE;
+	rawAfterCallTables[MTYPE_EXPRESSION][10][MTYPE_VALUE] = 8;
 
+	rawTransitionTables[MTYPE_EXPRESSION][11][MTTYPE_LEFT_BRACKET] = 12;
+	rawTransitionTables[MTYPE_EXPRESSION][11][MTTYPE_MULTIPLICATION] = 0;
+	rawTransitionTables[MTYPE_EXPRESSION][11][MTTYPE_DIVISION] = 0;
+	rawTransitionTables[MTYPE_EXPRESSION][11][MTTYPE_AND] = 0;
+	rawTransitionTables[MTYPE_EXPRESSION][11][MTTYPE_PLUS] = 0;
+	rawTransitionTables[MTYPE_EXPRESSION][11][MTTYPE_MINUS] = 0;
+	rawTransitionTables[MTYPE_EXPRESSION][11][MTTYPE_OR] = 0;
+	rawTransitionTables[MTYPE_EXPRESSION][12][MTTYPE_INT] = 13;
+	rawTransitionTables[MTYPE_EXPRESSION][13][MTTYPE_RIGHT_BRACKET] = 2;
 
 	// MTYPE_VALUE ||||||||||||||||||||||||||||||||||||||||
 	rawFinalStatesTables[MTYPE_VALUE][0] = 1;
 	rawFinalStatesTables[MTYPE_VALUE][1] = 2;
+	rawFinalStatesTables[MTYPE_VALUE][2] = 8;
 
 	// TRANSITION TABLE --------------------------------------
 	rawTransitionTables[MTYPE_VALUE][0][MTTYPE_INT] = 1;
@@ -250,19 +295,27 @@ AutomataPE init_machines() {
 	rawTransitionTables[MTYPE_VALUE][0][MTTYPE_STRING] = 1;
 	rawTransitionTables[MTYPE_VALUE][0][MTTYPE_BOOL] = 1;
 	rawTransitionTables[MTYPE_VALUE][0][MTTYPE_ID] = 2;
-	rawTransitionTables[MTYPE_VALUE][0][MTTYPE_ARRAY] = 1;
-	rawTransitionTables[MTYPE_VALUE][0][MTTYPE_MATRIX] = 1;
-	rawTransitionTables[MTYPE_VALUE][2][MTTYPE_LEFT_PARENTHESIS] = 3;
-	rawTransitionTables[MTYPE_VALUE][2][MTTYPE_DOT] = 4;
-	rawSubmachineCallTables[MTYPE_VALUE][3] = MTYPE_VALUE;
-	rawAfterCallTables[MTYPE_VALUE][3][MTYPE_VALUE] = 5;
+	rawSubmachineCallTables[MTYPE_VALUE][0] = MTYPE_EXPRESSION;
+	rawAfterCallTables[MTYPE_VALUE][0][MTYPE_EXPRESSION] = 1;
 
-	rawTransitionTables[MTYPE_VALUE][3][MTTYPE_RIGHT_PARENTHESIS] = 1;
-	rawTransitionTables[MTYPE_VALUE][4][MTTYPE_ID] = 1;
-	rawTransitionTables[MTYPE_VALUE][5][MTTYPE_COMMA] = 6;
-	rawTransitionTables[MTYPE_VALUE][5][MTTYPE_RIGHT_PARENTHESIS] = 1;
-	rawSubmachineCallTables[MTYPE_VALUE][6] = MTYPE_VALUE;
-	rawAfterCallTables[MTYPE_VALUE][6][MTYPE_VALUE] = 5;
+	rawTransitionTables[MTYPE_VALUE][2][MTTYPE_LEFT_BRACKET] = 3;
+	rawTransitionTables[MTYPE_VALUE][2][MTTYPE_LEFT_PARENTHESIS] = 4;
+	rawTransitionTables[MTYPE_VALUE][2][MTTYPE_DOT] = 5;
+	rawTransitionTables[MTYPE_VALUE][3][MTTYPE_INT] = 6;
+	rawSubmachineCallTables[MTYPE_VALUE][4] = MTYPE_VALUE;
+	rawAfterCallTables[MTYPE_VALUE][4][MTYPE_VALUE] = 7;
+
+	rawTransitionTables[MTYPE_VALUE][4][MTTYPE_RIGHT_PARENTHESIS] = 1;
+	rawTransitionTables[MTYPE_VALUE][5][MTTYPE_ID] = 1;
+	rawTransitionTables[MTYPE_VALUE][6][MTTYPE_RIGHT_BRACKET] = 8;
+	rawTransitionTables[MTYPE_VALUE][7][MTTYPE_COMMA] = 10;
+	rawTransitionTables[MTYPE_VALUE][7][MTTYPE_RIGHT_PARENTHESIS] = 1;
+	rawTransitionTables[MTYPE_VALUE][8][MTTYPE_LEFT_BRACKET] = 9;
+	rawTransitionTables[MTYPE_VALUE][9][MTTYPE_INT] = 11;
+	rawSubmachineCallTables[MTYPE_VALUE][10] = MTYPE_VALUE;
+	rawAfterCallTables[MTYPE_VALUE][10][MTYPE_VALUE] = 7;
+
+	rawTransitionTables[MTYPE_VALUE][11][MTTYPE_RIGHT_BRACKET] = 1;
 
 	Table allTransitionsTables[N_MACHINE_TYPES];
 	Table allSubMachineCallTables[N_MACHINE_TYPES];

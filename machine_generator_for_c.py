@@ -10,7 +10,7 @@ def main(argv):
 
 	machine_output = "machine_generator_for_c_output.txt"
 
-	dont_replace = ["ID", "FLOAT", "INT", "TIPO", "STRING", "COMPARADOR", "BOOL", "ELEM_VETOR", "ELEM_MATRIZ"]
+	dont_replace = ["ID", "FLOAT", "INT", "TIPO", "STRING", "COMPARADOR", "BOOL"]
 
 	machine_types = {}
 	machine_types["PROGRAMA"] = "MTYPE_PROGRAM"
@@ -59,8 +59,8 @@ def main(argv):
 	machine_token_types["-"] = "MTTYPE_MINUS" 				
 	machine_token_types["*"] = "MTTYPE_MULTIPLICATION" 		
 	machine_token_types["/"] = "MTTYPE_DIVISION" 			
-	machine_token_types["&&"] = "MTTYPE_AND" 					
-	machine_token_types["||"] = "MTTYPE_OR" 					
+	machine_token_types["and"] = "MTTYPE_AND" 					
+	machine_token_types["or"] = "MTTYPE_OR" 					
 	machine_token_types["'"] = "MTTYPE_SINGLE_QUOTE" 		
 	machine_token_types['"'] = "MTTYPE_DOUBLE_QUOTE" 		
 	machine_token_types["ID"] = "MTTYPE_ID" 					
@@ -69,9 +69,7 @@ def main(argv):
 	machine_token_types["TIPO"] = "MTTYPE_TYPE" 				
 	machine_token_types["STRING"] = "MTTYPE_STRING" 					
 	machine_token_types["COMPARADOR"] = "MTTYPE_COMPARATOR" 			
-	machine_token_types["BOOL"] = "MTTYPE_BOOL" 				
-	machine_token_types["ELEM_VETOR"] = "MTTYPE_ARRAY" 				
-	machine_token_types["ELEM_MATRIZ"] = "MTTYPE_MATRIX" 				
+	machine_token_types["BOOL"] = "MTTYPE_BOOL"				
 
 	transition_table_file = open(transition_table_input, "r")
 
@@ -93,7 +91,7 @@ def main(argv):
 			final_states = final_states.split(",")
 
 			for index, state in enumerate(final_states):
-				buffer += "allFinalStatesTables[%s][%d] = %s;\n" % (machine_type, index, state)
+				buffer += "rawFinalStatesTables[%s][%d] = %s;\n" % (machine_type, index, state)
 
 			buffer += "\n// TRANSITION TABLE --------------------------------------\n"
 
@@ -106,24 +104,24 @@ def main(argv):
 
 			if token in dont_replace:
 				machine_token_type = machine_token_types[token]
-				buffer += "allTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
+				buffer += "rawTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
 			# para pegar o caso """
 			elif token == '"""':
 				machine_token_type = machine_token_types['"']
-				buffer += "allTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
+				buffer += "rawTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
 			# para pegar o caso "'"
 			elif token.replace('"','') == "'":
 				machine_token_type = machine_token_types["'"]
-				buffer += "allTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
+				buffer += "rawTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
 
 			elif token in machine_translations.keys():
 				next_machine_type = machine_types[token]
-				buffer += "allSubmachineCallTables[%s][%s] = %s;\n" % (machine_type, current_state, next_machine_type)
-				buffer += "allAfterCallTables[%s][%s][%s] = %s;\n\n" % (machine_type, current_state, next_machine_type, next_state)
+				buffer += "rawSubmachineCallTables[%s][%s] = %s;\n" % (machine_type, current_state, next_machine_type)
+				buffer += "rawAfterCallTables[%s][%s][%s] = %s;\n\n" % (machine_type, current_state, next_machine_type, next_state)
 				
 			else:
 				machine_token_type = machine_token_types[token.replace('"','')]
-				buffer += "allTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
+				buffer += "rawTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
 			
 	machine_file = open(machine_output, "w")
 	machine_file.write(buffer)

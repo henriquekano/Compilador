@@ -2,3 +2,4 @@
 *.exe
 compile.sh
 *.stackdump
+*.out

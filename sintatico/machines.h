@@ -68,16 +68,6 @@ typedef enum{
 	MTTYPE_COMPARATOR 			= 41 	 // <, >, <=, >=, ==, !=
 } MachineTokenTypes;
 
-// typedef struct machine {
-// 	int id;
-// 	int current_state;
-// 	int final_state[MAX_FINAL_STATES];
-// 	int transition_table[MAX_STATES][N_MACHINE_TOKEN_TYPES];
-// 	int submachine_call[MAX_STATES][N_MACHINE_TYPES];
-// } Machine;
-
-// Machine machines[8];
-
 AutomataPE init_machines();
 int convert_token_to_machine_type(Token *token);
 char *machineid_to_name(int machineId);

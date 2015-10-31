@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "table.h"
+#include "../sintatico/machines.h"
 
 Table table_create(int rows, int columns, int table[rows][columns]){
   int **new_table = (int **)malloc(sizeof(int *) * rows);
