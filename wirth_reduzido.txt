@@ -1,0 +1,12 @@
+PROGRAMA = "begin" (COMANDO";"{ COMANDO";"}) "end".
+
+COMANDO = ((ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]")) "=" VALOR) | DECLARACAO | ("if" "(" CONDICAO ")" "do" (COMANDO";"{ COMANDO";"}) ({"elsif" "(" CONDICAO ")" "do" (COMANDO";"{ COMANDO";"}) }["else" "do" (COMANDO";"{ COMANDO";"})]) "endif") | ("while" "(" CONDICAO ")"  "do" (COMANDO";"{ COMANDO";"}) "endwhile") | ("when" "(" VALOR ")" ("is" "(" VALOR ")" "do" (COMANDO";"{ COMANDO";"}) "continue" ";"){("is" "(" VALOR ")" "do" (COMANDO";"{ COMANDO";"}) "continue" ";")} "endwhen") | ("scan" "(" (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]")){","(ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]"))} ")") | ("print" "(" VALOR{","VALOR} ")").
+
+DECLARACAO = (TIPO (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]")){","(ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]"))}) | ("function" TIPO ID"("[(TIPO ID){","(TIPO ID)}]")" "do" (COMANDO";"{ COMANDO";"}) [("return" ";" | "return" VALOR ";")] "endfunction" ";").
+
+CONDICAO = BOOL | EXPRESSAO COMPARADOR EXPRESSAO | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) | EXPRESSAO).
+
+EXPRESSAO = (("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) | EXPRESSAO)) { ("*"|"/"|"and") ("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) | EXPRESSAO)) }) { ("+"|"-"|"or") (("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) | EXPRESSAO)) { ("*"|"/"|"and") ("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) | EXPRESSAO)) }) }.
+
+VALOR = INT | FLOAT | STRING | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) | EXPRESSAO).
+

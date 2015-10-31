@@ -73,6 +73,7 @@ void automataPE_destroy(AutomataPE *a){
 bool automataPE_run(AutomataPE *a, FILE *file){
   //Pega o token, transforma em um index da tabela de transicao e tenta achar o prox estado
   Token t = find_possible_token(file);
+
   int iterationPlusOne = 0;
   while(iterationPlusOne < 2){
 
@@ -114,7 +115,7 @@ bool automataPE_run(AutomataPE *a, FILE *file){
           if(list_size(&(a->stack)) > 0){
             //desempilha a ultima maquina, vai para o prox estado 
             Automata2 *pop_automata = list_get_first(&(a->stack));
-            temp_state = table_get(&(a->afterCallStates[pop_automata->id]), 
+            int temp_state = table_get(&(a->afterCallStates[pop_automata->id]), 
                                   automata_current_state2(pop_automata),
                                   a->currentMachine.id);
             a->currentMachine = *pop_automata;
