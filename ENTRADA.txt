@@ -1,4 +1,22 @@
 begin
+  
+  if (var1 == false) do
+    print(false);
+  endif
+
+  when(var1)
+    is(2) do
+      print("llllslsl ", var1, " yay");
+    continue;
+
+    is(3) do
+      print("llllslsl");
+    continue;
+
+    is(1 + 2 * 4) do
+      print("llllslsl");
+    continue;
+  endwhen
   ##
     Sou um comentario!
   ##
@@ -31,9 +49,17 @@ begin
   function float operacoes() do
     #var1 = 43/2*5+1;
     var2 = 12 + 3 - 12 / 43 * 1;
-    var3 = var1 + var2;
+    var3 = ((var1 + var2) * 2 / (3 + var1));
     return var;
-  endfunction
+  endfunctionS
+  
+
+  while (true) do
+    var1 = media(3,4);
+    print(1+2+3+media(4,3));
+  endwhile
+
+  scan(var1, var2);
 
   print("lalalala");
 
@@ -58,10 +84,5 @@ begin
   if (not var1) do
     print(false);
   endif
-
-  while (true) do
-    var1 = media(3,4);
-    print(1+2+3+media(4,3));
-  endwhile
 
 end
