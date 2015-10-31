@@ -18,26 +18,26 @@
 
 int main(){
 	FILE *file = fopen(FILENAME, "r");
-  Token t;
+  // Token t;
   // Automata automata = automata_create(S0);
 
-  printf("Changed!\n");
+ //  printf("Changed!\n");
 
-	if (file == NULL){
-		printf("Arquivo não existe!!!");
-  } else {
-    do{
-      t = find_possible_token(file);
-      token_destroy(&t);
-    }while(!reached_eof(file));
-	}
+	// if (file == NULL){
+	// 	printf("Arquivo não existe!!!");
+ //  } else {
+ //    do{
+ //      t = find_possible_token(file);
+ //      token_destroy(&t);
+ //    }while(!reached_eof(file));
+	// }
 
 
   AutomataPE aPE;
   aPE = init_machines();
 
   automataPE_run(&aPE, file);
-  
+  automataPE_destroy(&aPE);
 
   fclose(file);
 

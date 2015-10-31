@@ -2,17 +2,15 @@
 #define TABLE_H_DEFINED
 
 #include "bool.h"
- 
-typedef int (*converterFunction)(void *);
+
  
 typedef struct Table {
   int rows;
   int columns;
   int **table;
-  converterFunction converterFn;
 } Table;
  
-Table table_create(int rows, int columns, int table[rows][columns], converterFunction converterFn);
+Table table_create(int rows, int columns, int table[rows][columns]);
 void table_destroy(Table *t);
 
 int table_rows_size(Table *t);

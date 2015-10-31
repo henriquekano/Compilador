@@ -1,3 +1,4 @@
+#include <string.h>
 #include "machines.h"
 #include "automataPE.h"
 #include "../utils/token.h"
@@ -269,17 +270,16 @@ AutomataPE init_machines() {
 	Table allFinalStatesTables[N_MACHINE_TYPES];
 
 	for (n = 0; n < N_MACHINE_TYPES; n++) {
-		allTransitionsTables[n] = table_create(MAX_STATES, N_MACHINE_TOKEN_TYPES, rawTransitionTables[n], convert_token_to_machine_type);
-		allSubMachineCallTables[n] = table_create(MAX_STATES, 1, &rawSubmachineCallTables[n], NULL);
-		allAfterCallTables[n] = table_create(MAX_STATES, N_MACHINE_TOKEN_TYPES, rawAfterCallTables[n], converter_machineid_to_machineid);
-		allFinalStatesTables[n] = table_create(MAX_STATES, 1, &rawFinalStatesTables[n], NULL);
+		allTransitionsTables[n] = table_create(MAX_STATES, N_MACHINE_TOKEN_TYPES, rawTransitionTables[n]);
+		allSubMachineCallTables[n] = table_create(MAX_STATES, 1, &rawSubmachineCallTables[n]);
+		allAfterCallTables[n] = table_create(MAX_STATES, N_MACHINE_TOKEN_TYPES, rawAfterCallTables[n]);
+		allFinalStatesTables[n] = table_create(MAX_STATES, 1, &rawFinalStatesTables[n]);
 	}
 
 	return automataPE_create(initialMachine, N_MACHINE_TYPES, allTransitionsTables, allSubMachineCallTables, allAfterCallTables, allFinalStatesTables);
 }
 
 int convert_token_to_machine_type(Token *token) {
-	// token = (Token*) token;
 	switch (token->type) {
 		case TT_RESERVED:
 			if(strcmp(token->string, "begin") == 0) return MTTYPE_BEGIN; 		
@@ -350,6 +350,22 @@ int convert_token_to_machine_type(Token *token) {
 	return MTTYPE_INVALID;
 }
 
-int converter_machineid_to_machineid(void *id){
-	return (int*) id;
+char *machineid_to_name(int machineId){
+	switch(machineId){
+		case MTYPE_INVALID:
+			return "INVALID";
+		case MTYPE_PROGRAM:
+			return "PROGRAM";
+		case MTYPE_COMMAND:
+			return "COMMAND";
+		case MTYPE_DECLARATION:
+			return "DECLARATION";
+		case MTYPE_CONDITION:
+			return "CONDITION";
+		case MTYPE_EXPRESSION:
+			return "EXPRESSION";
+		case MTYPE_VALUE:
+			return "VALUE";
+	}
+	return "";
 }

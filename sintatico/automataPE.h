@@ -1,6 +1,7 @@
 #ifndef AUTOMATA_PE_H
   #define AUTOMATA_PE_H
 
+  #include <stdio.h>
   #include "../utils/bool.h"
   #include "../utils/list.h"
   #include "../utils/automata2.h"
@@ -32,4 +33,5 @@
   AutomataId automataPE_current_machineId(AutomataPE *a);
 
   void list_destroy_automata2(void *data);
+  bool automataPE_run(AutomataPE *a, FILE *file);
 #endif //AUTOMATA_PE_H

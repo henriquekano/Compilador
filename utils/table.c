@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "table.h"
 
-Table table_create(int rows, int columns, int table[rows][columns], converterFunction converterFn){
+Table table_create(int rows, int columns, int table[rows][columns]){
   int **new_table = (int **)malloc(sizeof(int *) * rows);
   int i = 0, j = 0;
 
@@ -14,7 +14,7 @@ Table table_create(int rows, int columns, int table[rows][columns], converterFun
     }
   }
 
-  Table t = {rows, columns, new_table, converterFn};
+  Table t = {rows, columns, new_table};
   return t;
 }
 void table_destroy(Table *t){
@@ -32,9 +32,9 @@ int table_columns_size(Table *t){
   return t->columns;
 }
 
-int table_convert_to_index(Table *t, void *input){
-  return t->converterFn(input);
-}
+// int table_convert_to_index(Table *t, void *input){
+//   return t->converterFn(input);
+// }
 
 int table_get(Table *t, int row, int column){
   return t->table[row][column];

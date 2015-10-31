@@ -2,11 +2,11 @@ begin
   ##
     Sou um comentario!
   ##
-  float var1 = 1; #Comentario
-  float var2 = 12.90;
+  float var1; #Comentario
+  float var2;
   float var3;
   bool var_4;
-  char _var5;
+  string _var5;
   int var6;
   int matrix[2][4];
 
