@@ -17,8 +17,7 @@
     struct Table *transitionTables; //TODAS as tabelas de transicao das maquinas em um vetor ordenado por um machineId (enum?)
     struct Table *subMachineCall; //array de Tabelas auxiliar machine_id x token que diz, para cada tipo possivel de token, qual eh a prox maquina (id) para a maquina atual
     struct Table *afterCallStates; //tabela auxiliar machine_id x machine_id que diz qual o estado de uma maquina apos chamar outra
-    struct Table *finalStates; 
-    AutomataId currentMachineId; //id corrente da maquina corrente
+    struct Table *finalStates;
     Automata2 currentMachine; //maquina sendo corrida agora
   }AutomataPE;
 

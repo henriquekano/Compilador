@@ -36,8 +36,9 @@ int main(){
   AutomataPE aPE;
   aPE = init_machines();
 
-  automataPE_run(&aPE, file);
-  automataPE_destroy(&aPE);
+  if(automataPE_run(&aPE, file)){
+    printf("yay\n");
+  }
 
   fclose(file);
 
