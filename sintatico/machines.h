@@ -35,38 +35,40 @@ typedef enum{
 	MTTYPE_WHEN 				= 9 	,// when
 	MTTYPE_ENDWHEN 				= 10 	,// endwhen
 	MTTYPE_IS 					= 11 	,// is
-	MTTYPE_CONTINUE 			= 12 	,// continue
-	MTTYPE_FUNCTION 			= 13 	,// function
-	MTTYPE_RETURN 				= 13 	,// return
-	MTTYPE_ENDFUNCTION 			= 14 	,// endfunction
-	MTTYPE_SCAN 				= 15 	,// scan
-	MTTYPE_PRINT 				= 16 	,// print
-	MTTYPE_SEMICOLON 			= 17 	,// ;
-	MTTYPE_COMMA 				= 18 	,// ,
-	MTTYPE_DOT 					= 19 	,// .
-	MTTYPE_LEFT_BRACKET 		= 20 	,// [
-	MTTYPE_RIGHT_BRACKET 		= 21 	,// ]
-	MTTYPE_LEFT_PARENTHESIS 	= 22 	,// (
-	MTTYPE_RIGHT_PARENTHESIS 	= 23 	,// )
-	MTTYPE_EQUAL 				= 24 	,// =
-	MTTYPE_PLUS 				= 25 	,// +
-	MTTYPE_MINUS 				= 26 	,// -
-	MTTYPE_MULTIPLICATION 		= 27 	,// *
-	MTTYPE_DIVISION 			= 28 	,// /
-	MTTYPE_NOT 					= 29 	,// not
-	MTTYPE_AND 					= 30 	,// and
-	MTTYPE_OR 					= 31 	,// or
-	MTTYPE_SINGLE_QUOTE 		= 32 	,// '
-	MTTYPE_DOUBLE_QUOTE 		= 33 	,// "
-	MTTYPE_ID 					= 34 	,// identificador
-	MTTYPE_INT 					= 35 	,// inteiro
-	MTTYPE_FLOAT				= 36 	,// float
-	MTTYPE_STRING 				= 37 	,// string
-	MTTYPE_ARRAY 				= 38 	,// array
-	MTTYPE_MATRIX 				= 39 	,// matriz
-	MTTYPE_TYPE 				= 40 	,// int, float, string, bool
-	MTTYPE_BOOL 				= 41 	,// true, false
-	MTTYPE_COMPARATOR 			= 42 	 // <, >, <=, >=, ==, !=
+	MTTYPE_STRUCT 				= 12 	,// continue
+	MTTYPE_ENDSTRUCT 			= 13 	,// continue
+	MTTYPE_CONTINUE 			= 13 	,// continue
+	MTTYPE_FUNCTION 			= 14 	,// function
+	MTTYPE_RETURN 				= 15 	,// return
+	MTTYPE_ENDFUNCTION 			= 16 	,// endfunction
+	MTTYPE_SCAN 				= 17 	,// scan
+	MTTYPE_PRINT 				= 18 	,// print
+	MTTYPE_SEMICOLON 			= 19 	,// ;
+	MTTYPE_COMMA 				= 20 	,// ,
+	MTTYPE_DOT 					= 21 	,// .
+	MTTYPE_LEFT_BRACKET 		= 22 	,// [
+	MTTYPE_RIGHT_BRACKET 		= 23 	,// ]
+	MTTYPE_LEFT_PARENTHESIS 	= 24 	,// (
+	MTTYPE_RIGHT_PARENTHESIS 	= 25 	,// )
+	MTTYPE_EQUAL 				= 26 	,// =
+	MTTYPE_PLUS 				= 27 	,// +
+	MTTYPE_MINUS 				= 28 	,// -
+	MTTYPE_MULTIPLICATION 		= 29 	,// *
+	MTTYPE_DIVISION 			= 30 	,// /
+	MTTYPE_NOT 					= 31 	,// not
+	MTTYPE_AND 					= 32 	,// and
+	MTTYPE_OR 					= 33 	,// or
+	MTTYPE_SINGLE_QUOTE 		= 34 	,// '
+	MTTYPE_DOUBLE_QUOTE 		= 35 	,// "
+	MTTYPE_ID 					= 36 	,// identificador
+	MTTYPE_INT 					= 37 	,// inteiro
+	MTTYPE_FLOAT				= 38 	,// float
+	MTTYPE_STRING 				= 39 	,// string
+	MTTYPE_ARRAY 				= 40 	,// array
+	MTTYPE_MATRIX 				= 41 	,// matriz
+	MTTYPE_TYPE 				= 42 	,// int, float, string, bool
+	MTTYPE_BOOL 				= 43 	,// true, false
+	MTTYPE_COMPARATOR 			= 44 	 // <, >, <=, >=, ==, !=
 } MachineTokenTypes;
 
 AutomataPE init_machines();

@@ -10,6 +10,16 @@ begin
   int var6[10];
   int matrix[2][4];
 
+  struct tipoEsquisito do
+    int structInt;
+    float structFloat;
+    bool structBool;
+
+    function int structFuntion(int num1, int num2) do
+      print(num1);
+    endfunction
+  endstruct
+
   function float media(int nota1, int nota2) do
     a = 2;
     return 2;
@@ -23,7 +33,7 @@ begin
     var2 = 12 + 3 - 12 / 43 * 1;
     var3 = ((var1 + var2) * 2 / (3 + var1));
     return var;
-  endfunction
+  endfunctionS
 
   scan(var1, var2);
 
