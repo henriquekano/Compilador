@@ -15,7 +15,7 @@ def main(argv):
 
 	buffer = ""
 	giant_dict = {}
-	machines_list = ["PROGRAMA", "COMANDO", "DECLARACAO", "CONDICAO", "EXPRESSAO", "VALOR"]
+	machines_list = ["PROGRAMA", "COMANDO", "DECLARACAO", "CONDICAO", "EXPRESSAO"]
 
 	dont_replace_list = machines_list+["L", "D", "SPECIAL", "ESPACO", "ANY", "ID", "TIPO", "STRING", "INT", "FLOAT", "BOOL", "COMPARADOR"]
 

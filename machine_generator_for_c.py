@@ -18,7 +18,6 @@ def main(argv):
 	machine_types["DECLARACAO"] = "MTYPE_DECLARATION"
 	machine_types["CONDICAO"] = "MTYPE_CONDITION"
 	machine_types["EXPRESSAO"] = "MTYPE_EXPRESSION"
-	machine_types["VALOR"] = "MTYPE_VALUE"
 
 	machine_translations = {}
 	machine_translations["PROGRAMA"] = "program"
@@ -26,7 +25,6 @@ def main(argv):
 	machine_translations["DECLARACAO"] = "declaration"
 	machine_translations["CONDICAO"] = "condition"
 	machine_translations["EXPRESSAO"] = "expression"
-	machine_translations["VALOR"] = "value"
 
 	machine_token_types = {}
 	machine_token_types["begin"] = "MTTYPE_BEGIN" 				
