@@ -41,7 +41,6 @@ int main(){
   }
 
   fclose(file);
-  automataPE_destroy(&aPE);
 
   return 0;
 }

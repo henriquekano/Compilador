@@ -1,8 +1,8 @@
-PROGRAMA = "begin" (COMANDO";"{ COMANDO";"}) "end".
+PROGRAMA = "begin" (COMANDO{COMANDO}) "end".
 
-COMANDO = ((ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]")) "=" EXPRESSAO) | DECLARACAO | ("if" "(" CONDICAO ")" "do" (COMANDO";"{ COMANDO";"}) ({"elsif" "(" CONDICAO ")" "do" (COMANDO";"{ COMANDO";"}) }["else" "do" (COMANDO";"{ COMANDO";"})]) "endif") | ("while" "(" CONDICAO ")"  "do" (COMANDO";"{ COMANDO";"}) "endwhile") | ("when" "(" EXPRESSAO ")" ("is" "(" EXPRESSAO ")" "do" (COMANDO";"{ COMANDO";"}) "continue" ";"){("is" "(" EXPRESSAO ")" "do" (COMANDO";"{ COMANDO";"}) "continue" ";")} "endwhen") | ("scan" "(" (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]")){","(ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]"))} ")") | ("print" "(" EXPRESSAO{","EXPRESSAO} ")").
+COMANDO = ((ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]")) "=" EXPRESSAO ";") | DECLARACAO | ("if" "(" CONDICAO ")" "do" (COMANDO{COMANDO}) ({"elsif" "(" CONDICAO ")" "do" (COMANDO{COMANDO}) }["else" "do" (COMANDO{COMANDO})]) "endif") | ("while" "(" CONDICAO ")"  "do" (COMANDO{COMANDO}) "endwhile") | ("when" "(" EXPRESSAO ")" ("is" "(" EXPRESSAO ")" "do" (COMANDO{COMANDO}) "continue" ";"){("is" "(" EXPRESSAO ")" "do" (COMANDO{COMANDO}) "continue" ";")} "endwhen") | ("scan" "(" (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]")){","(ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]"))} ")" ";") | ("print" "(" (EXPRESSAO{","EXPRESSAO} | STRING) ")" ";").
 
-DECLARACAO = (TIPO (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]")){","(ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]"))}) | ("function" TIPO ID"("[(TIPO ID){","(TIPO ID)}]")" "do" [(COMANDO";"{ COMANDO";"})] [("return" ";" | "return" EXPRESSAO ";")] "endfunction").
+DECLARACAO = (TIPO (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]")){","(ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]"))} ";") | ("function" TIPO ID"("[(TIPO ID){","(TIPO ID)}]")" "do" [(COMANDO{COMANDO})] [("return" ";" | "return" EXPRESSAO ";")] "endfunction").
 
 CONDICAO = EXPRESSAO [COMPARADOR EXPRESSAO].
 
