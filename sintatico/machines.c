@@ -317,6 +317,7 @@ AutomataPE init_machines() {
 
 	rawTransitionTables[MTYPE_VALUE][11][MTTYPE_RIGHT_BRACKET] = 1;
 
+	
 	Table allTransitionsTables[N_MACHINE_TYPES];
 	Table allSubMachineCallTables[N_MACHINE_TYPES];
 	Table allAfterCallTables[N_MACHINE_TYPES];

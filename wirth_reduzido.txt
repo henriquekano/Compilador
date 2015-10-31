@@ -4,9 +4,9 @@ COMANDO = ((ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]")) "=" VALOR) | DECLARACA
 
 DECLARACAO = (TIPO (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]")){","(ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]"))}) | ("function" TIPO ID"("[(TIPO ID){","(TIPO ID)}]")" "do" (COMANDO";"{ COMANDO";"}) [("return" ";" | "return" VALOR ";")] "endfunction" ";").
 
-CONDICAO = BOOL | EXPRESSAO COMPARADOR EXPRESSAO | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) | EXPRESSAO).
+CONDICAO = BOOL | EXPRESSAO COMPARADOR EXPRESSAO | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) ) | EXPRESSAO.
 
-EXPRESSAO = (("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) | EXPRESSAO)) { ("*"|"/"|"and") ("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) | EXPRESSAO)) }) { ("+"|"-"|"or") (("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) | EXPRESSAO)) { ("*"|"/"|"and") ("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) | EXPRESSAO)) }) }.
+EXPRESSAO = (("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) )) { ("*"|"/"|"and") ("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) )) }) { ("+"|"-"|"or") (("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) )) { ("*"|"/"|"and") ("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) )) }) }.
 
-VALOR = INT | FLOAT | STRING | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) | EXPRESSAO).
+VALOR = INT | FLOAT | STRING | BOOL | EXPRESSAO | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[{VALOR","}VALOR]")") | (ID"."ID) ).
 
