@@ -24,12 +24,11 @@
   AutomataPE automataPE_create(AutomataId currentMachine, int numberOfMachines, 
     Table *transitionTables, Table *subMachineCall, Table *afterCallStates, Table *finalStates);
   void automataPE_destroy(AutomataPE *a);
-  bool automataPE_run(AutomataPE *a, FILE *file);
+  bool automataPE_run(AutomataPE *a, FILE *file, Token *t);
   void automataPE_goto_next_state(AutomataPE *a, Token *t);
   int automataPE_next_state(AutomataPE *a, Token *t);
   int automataPE_current_state(AutomataPE *a);
   AutomataId automataPE_current_machineId(AutomataPE *a);
 
   void list_destroy_automata2(void *data);
-  bool automataPE_run(AutomataPE *a, FILE *file);
 #endif //AUTOMATA_PE_H

@@ -67,7 +67,7 @@ Token find_possible_token(FILE *file){
       gotToken = TRUE;
       char *token_value = list_to_char_array(&buffer);
       return_token = token_create(token_value, state_converter_token_type(previous_state, token_value), destroy_token_string);
-      token_pretty_print(&return_token);
+      // token_pretty_print(&return_token);
     }
     
     list_destroy(&buffer);

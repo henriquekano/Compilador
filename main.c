@@ -15,6 +15,11 @@
 
 #define FILENAME "ENTRADA.txt"
 
+void semantic_tbd(AutomataPE *aPE, Token *t, FILE *file){
+  printf("TODO\n");
+  automataPE_run(aPE, file, t);
+      
+}
 
 int main(){
 	FILE *file = fopen(FILENAME, "r");
@@ -34,13 +39,14 @@ int main(){
 
 
   AutomataPE aPE;
+  Token t = find_possible_token(file);
   aPE = init_machines();
+   
+  while(!reached_eof(file)){
 
-  if(automataPE_run(&aPE, file)){
-    printf("yay\n");
+      semantic_tbd(&aPE, &t, file);   
   }
 
   fclose(file);
-
   return 0;
 }

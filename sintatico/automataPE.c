@@ -7,7 +7,6 @@
 #include "machines.h"
 
 bool automataPE_is_final_state(int state, AutomataPE *a);
-
 //funcoes auxiliares
 void list_destroy_automata2(void *data){
   free((Automata2*)data);
@@ -40,81 +39,70 @@ void automataPE_destroy(AutomataPE *a){
   }
 }
 
-bool automataPE_run(AutomataPE *a, FILE *file){
+bool automataPE_run(AutomataPE *a, FILE *file, Token *t){
   //Pega o token, transforma em um index da tabela de transicao e tenta achar o prox estado
-  Token t = find_possible_token(file);
 
-  int iterationPlusOne = 0;
-  while(iterationPlusOne < 2){
-
-    if(a->currentMachine.id == MTYPE_INVALID){
-      return FALSE;
-    }
-
-    printf("Maquina atual: %s\n", machineid_to_name(a->currentMachine.id));
-
-    if(iterationPlusOne == 1){
-      iterationPlusOne += 1;
-    }
-
-    if(reached_eof(file)){
-      iterationPlusOne += 1;
-    }
-
-    int next_state = table_get(&(a->currentMachine.table), a->currentMachine.state, convert_token_to_machine_type(&t));
-    
-    //verifica se tem uma transicao normal pra algum estado
-    if(next_state != MINVALID_STATE){
-      automata_goto_next_state2(&(a->currentMachine), convert_token_to_machine_type(&t));
-      t = find_possible_token(file);
-
-    //verifica se tem alguma transicao para uma maquina
-    }else if(next_state == MINVALID_STATE){
-      Table submachinecall_table = a->subMachineCall[a->currentMachine.id];
-      int next_automata_id = table_get(&submachinecall_table, 
-                                       a->currentMachine.state, 
-                                      0);
-
-      //n tem maquina pra chamar
-      if(next_automata_id == MTYPE_INVALID){
-        //verifica se eh estado final
-        if(automataPE_is_final_state(next_state, a)){
-
-          automata_goto_next_state2(&(a->currentMachine), convert_token_to_machine_type(&t));
-
-          if(list_size(&(a->stack)) > 0){
-            //desempilha a ultima maquina, vai para o prox estado 
-            Automata2 *pop_automata = list_get_first(&(a->stack));
-            int temp_state = table_get(&(a->afterCallStates[pop_automata->id]), 
-                                  automata_current_state2(pop_automata),
-                                  a->currentMachine.id);
-            a->currentMachine = *pop_automata;
-            a->currentMachine.state = temp_state;
-          }else{
-            //se n tem maquina pra desempilhar, foi aceito!
-            return TRUE;
-          }
-        }else{
-          return FALSE;
-        }
-        //tem maquina pra chamar
-      }else{
-        Table next_automata_transition_table = a->transitionTables[next_automata_id];
-        Automata2 next_automata = automata_create2(
-                                    next_automata_id,
-                                    0,
-                                    &next_automata_transition_table);
-
-        list_prepend(&(a->stack), &(a->currentMachine));
-        a->currentMachine = next_automata;
-        a->currentMachine.id = next_automata_id;
-      }
-    }else{
-      // automata_goto_next_state2(&(a->currentMachine), table_convert_to_index(&(a->currentMachine.table), t));
-      return FALSE;
-    }
+  if(a->currentMachine.id == MTYPE_INVALID){
+    return FALSE;
   }
-  return TRUE;
+
+  // printf("Maquina atual: %s\n", machineid_to_name(a->currentMachine.id))
+
+  int next_state = table_get(&(a->currentMachine.table), a->currentMachine.state, convert_token_to_machine_type(t));
+  
+  //verifica se tem uma transicao normal pra algum estado
+  if(next_state != MINVALID_STATE){
+    automata_goto_next_state2(&(a->currentMachine), convert_token_to_machine_type(t));
+    Token t2 = find_possible_token(file);
+    t->string = t2.string;
+    t->type = t2.type;
+
+  //verifica se tem alguma transicao para uma maquina
+  }else if(next_state == MINVALID_STATE){
+    Table submachinecall_table = a->subMachineCall[a->currentMachine.id];
+    int next_automata_id = table_get(&submachinecall_table, 
+                                     a->currentMachine.state, 
+                                    0);
+
+    //n tem maquina pra chamar
+    if(next_automata_id == MTYPE_INVALID){
+      //verifica se eh estado final
+      if(automataPE_is_final_state(next_state, a)){
+
+        automata_goto_next_state2(&(a->currentMachine), convert_token_to_machine_type(t));
+
+        if(list_size(&(a->stack)) > 0){
+          //desempilha a ultima maquina, vai para o prox estado 
+          Automata2 *pop_automata = list_get_first(&(a->stack));
+          int temp_state = table_get(&(a->afterCallStates[pop_automata->id]), 
+                                automata_current_state2(pop_automata),
+                                a->currentMachine.id);
+          a->currentMachine = *pop_automata;
+          a->currentMachine.state = temp_state;
+        }else{
+          //se n tem maquina pra desempilhar, foi aceito!
+          return TRUE;
+        }
+      }else{
+        return FALSE;
+      }
+      //tem maquina pra chamar
+    }else{
+      Table next_automata_transition_table = a->transitionTables[next_automata_id];
+      Automata2 next_automata = automata_create2(
+                                  next_automata_id,
+                                  0,
+                                  &next_automata_transition_table);
+
+      list_prepend(&(a->stack), &(a->currentMachine));
+      a->currentMachine = next_automata;
+      a->currentMachine.id = next_automata_id;
+    }
+  }else{
+    // automata_goto_next_state2(&(a->currentMachine), table_convert_to_index(&(a->currentMachine.table), t));
+    return FALSE;
+  }
+  return FALSE;
 }
 
 bool automataPE_is_final_state(int state, AutomataPE *a){
