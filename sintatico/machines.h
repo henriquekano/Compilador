@@ -7,7 +7,7 @@
 #define MAX_FINAL_STATES 10
 #define MAX_STATES 60
 #define N_MACHINE_TOKEN_TYPES 40
-#define N_MACHINE_TYPES 6
+#define N_MACHINE_TYPES 7
 
 #define MINVALID_STATE -1
 
@@ -18,7 +18,7 @@ typedef enum{
 	MTYPE_DECLARATION = 2,
 	MTYPE_CONDITION = 3,
 	MTYPE_EXPRESSION = 4,
-	MTYPE_VALUE = 7
+	MTYPE_VALUE = 5
 } MachineTypes;
 
 typedef enum{
@@ -70,5 +70,5 @@ typedef enum{
 
 AutomataPE init_machines();
 int convert_token_to_machine_type(Token *token);
-int converter_machineid_to_machineid(void *id);
+char *machineid_to_name(int machineId);
 #endif /* MACHINES_H_ */

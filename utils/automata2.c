@@ -8,7 +8,7 @@ Automata2 automata_create2(int id, int state, Table *table){
   Automata2 a;
   a.id = id;
   a.state = state;
-  a.table = (*(Table*)table);
+  a.table = *table;
   return a;
 }
 

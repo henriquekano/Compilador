@@ -32,4 +32,5 @@
   AutomataId automataPE_current_machineId(AutomataPE *a);
 
   void list_destroy_automata2(void *data);
+  bool automataPE_run(AutomataPE *a, FILE *file);
 #endif //AUTOMATA_PE_H

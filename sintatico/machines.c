@@ -1,3 +1,4 @@
+#include <string.h>
 #include "machines.h"
 #include "automataPE.h"
 #include "../utils/token.h"
@@ -280,7 +281,6 @@ AutomataPE init_machines() {
 }
 
 int convert_token_to_machine_type(Token *token) {
-	// token = (Token*) token;
 	switch (token->type) {
 		case TT_RESERVED:
 			if(strcmp(token->string, "begin") == 0) return MTTYPE_BEGIN; 		
@@ -349,4 +349,24 @@ int convert_token_to_machine_type(Token *token) {
 			break;
 	}
 	return MTTYPE_INVALID;
+}
+
+char *machineid_to_name(int machineId){
+	switch(machineId){
+		case MTYPE_INVALID:
+			return "INVALID";
+		case MTYPE_PROGRAM:
+			return "PROGRAM";
+		case MTYPE_COMMAND:
+			return "COMMAND";
+		case MTYPE_DECLARATION:
+			return "DECLARATION";
+		case MTYPE_CONDITION:
+			return "CONDITION";
+		case MTYPE_EXPRESSION:
+			return "EXPRESSION";
+		case MTYPE_VALUE:
+			return "VALUE";
+	}
+	return "";
 }

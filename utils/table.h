@@ -2,14 +2,12 @@
 #define TABLE_H_DEFINED
 
 #include "bool.h"
- 
-typedef int (*converterFunction)(void *);
+
  
 typedef struct Table {
   int rows;
   int columns;
   int **table;
-  converterFunction converterFn;
 } Table;
  
 Table table_create(int rows, int columns, int table[rows][columns]);

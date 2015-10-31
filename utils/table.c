@@ -33,9 +33,9 @@ int table_columns_size(Table *t){
   return t->columns;
 }
 
-int table_convert_to_index(Table *t, void *input){
-  return convert_token_to_machine_type(input);
-}
+// int table_convert_to_index(Table *t, void *input){
+//   return t->converterFn(input);
+// }
 
 int table_get(Table *t, int row, int column){
   return t->table[row][column];
