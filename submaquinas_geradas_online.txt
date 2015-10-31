@@ -125,10 +125,12 @@ final: 6
 Sub-maquina CONDICAO: 
 Minimized DFA: 
 initial: 0
-final: 1, 3
-(0, EXPRESSAO) -> 1
-(1, COMPARADOR) -> 2
-(2, EXPRESSAO) -> 3
+final: 2, 4
+(0, "not") -> 1
+(0, EXPRESSAO) -> 2
+(1, EXPRESSAO) -> 2
+(2, COMPARADOR) -> 3
+(3, EXPRESSAO) -> 4
             
 Sub-maquina EXPRESSAO: 
 Minimized DFA: 

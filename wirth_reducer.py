@@ -38,8 +38,8 @@ def main(argv):
 				if current_key in others_value:
 					updated_dict[others_key] = others_value.replace(current_key, "(%s)" % value_to_replace)
 
-			print "\n\nkey_to_replace: %s\n" % (current_key)
-			pp.pprint(dict(updated_dict))
+			# print "\n\nkey_to_replace: %s\n" % (current_key)
+			# pp.pprint(dict(updated_dict))
 
 		updated_list = updated_list[1:]
 		if len(updated_list) > 0:

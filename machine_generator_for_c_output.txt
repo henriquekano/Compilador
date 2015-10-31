@@ -164,16 +164,20 @@ rawTransitionTables[MTYPE_DECLARATION][20][MTTYPE_RIGHT_PARENTHESIS] = 10;
 rawTransitionTables[MTYPE_DECLARATION][21][MTTYPE_TYPE] = 9;
 
 // MTYPE_CONDITION ||||||||||||||||||||||||||||||||||||||||
-rawFinalStatesTables[MTYPE_CONDITION][0] = 1;
-rawFinalStatesTables[MTYPE_CONDITION][1] = 3;
+rawFinalStatesTables[MTYPE_CONDITION][0] = 2;
+rawFinalStatesTables[MTYPE_CONDITION][1] = 4;
 
 // TRANSITION TABLE --------------------------------------
+rawTransitionTables[MTYPE_CONDITION][0][MTTYPE_NOT] = 1;
 rawSubmachineCallTables[MTYPE_CONDITION][0] = MTYPE_EXPRESSION;
-rawAfterCallTables[MTYPE_CONDITION][0][MTYPE_EXPRESSION] = 1;
+rawAfterCallTables[MTYPE_CONDITION][0][MTYPE_EXPRESSION] = 2;
 
-rawTransitionTables[MTYPE_CONDITION][1][MTTYPE_COMPARATOR] = 2;
-rawSubmachineCallTables[MTYPE_CONDITION][2] = MTYPE_EXPRESSION;
-rawAfterCallTables[MTYPE_CONDITION][2][MTYPE_EXPRESSION] = 3;
+rawSubmachineCallTables[MTYPE_CONDITION][1] = MTYPE_EXPRESSION;
+rawAfterCallTables[MTYPE_CONDITION][1][MTYPE_EXPRESSION] = 2;
+
+rawTransitionTables[MTYPE_CONDITION][2][MTTYPE_COMPARATOR] = 3;
+rawSubmachineCallTables[MTYPE_CONDITION][3] = MTYPE_EXPRESSION;
+rawAfterCallTables[MTYPE_CONDITION][3][MTYPE_EXPRESSION] = 4;
 
 
 // MTYPE_EXPRESSION ||||||||||||||||||||||||||||||||||||||||

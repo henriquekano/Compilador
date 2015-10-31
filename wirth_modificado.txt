@@ -17,12 +17,13 @@ PROGRAMA = "begin" COMANDOS "end".
 COMANDOS = COMANDO{COMANDO}.
 COMANDO = ATRIBUICAO | DECLARACAO | CONDICIONAL | ITERACAO | SELECAO | ENTRADA | SAIDA.
 ATRIBUICAO = VARIAVEL "=" EXPRESSAO ";".
-DECLARACAO = DECLARACAO_VARIAVEL | ("function" TIPO ID"("[(TIPO ID){","(TIPO ID)}]")" "do" [COMANDOS] [("return" ";" | "return" EXPRESSAO ";")] "endfunction").
+DECLARACAO = DECLARACAO_VARIAVEL | DECLARACAO_FUNCAO.
 DECLARACAO_VARIAVEL = TIPO VARIAVEL{","VARIAVEL} ";".
+DECLARACAO_FUNCAO = "function" TIPO ID"("[(TIPO ID){","(TIPO ID)}]")" "do" [COMANDOS] [("return" ";" | "return" EXPRESSAO ";")] "endfunction".
 CONDICIONAL = "if" "(" CONDICAO ")" "do" COMANDOS ELSE "endif".
 ELSE = {"elsif" "(" CONDICAO ")" "do" COMANDOS }["else" "do" COMANDOS].
-CONDICAO = EXPRESSAO [COMPARADOR EXPRESSAO].
-ITERACAO = "while" "(" CONDICAO ")"  "do" COMANDOS "endwhile".
+CONDICAO = ["not"] EXPRESSAO [COMPARADOR EXPRESSAO].
+ITERACAO = "while" "(" CONDICAO ")" "do" COMANDOS "endwhile".
 SELECAO = "when" "(" EXPRESSAO ")" CASO{CASO} "endwhen".
 CASO = "is" "(" EXPRESSAO ")" "do" COMANDOS "continue" ";".
 ENTRADA = "scan" "(" VARIAVEL{","VARIAVEL} ")" ";".

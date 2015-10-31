@@ -53,19 +53,20 @@ typedef enum{
 	MTTYPE_MINUS 				= 26 	,// -
 	MTTYPE_MULTIPLICATION 		= 27 	,// *
 	MTTYPE_DIVISION 			= 28 	,// /
-	MTTYPE_AND 					= 29 	,// and
-	MTTYPE_OR 					= 30 	,// or
-	MTTYPE_SINGLE_QUOTE 		= 31 	,// '
-	MTTYPE_DOUBLE_QUOTE 		= 32 	,// "
-	MTTYPE_ID 					= 33 	,// identificador
-	MTTYPE_INT 					= 34 	,// inteiro
-	MTTYPE_FLOAT				= 35 	,// float
-	MTTYPE_STRING 				= 36 	,// string
-	MTTYPE_ARRAY 				= 37 	,// array
-	MTTYPE_MATRIX 				= 38 	,// matriz
-	MTTYPE_TYPE 				= 39 	,// int, float, string, bool
-	MTTYPE_BOOL 				= 40 	,// true, false
-	MTTYPE_COMPARATOR 			= 41 	 // <, >, <=, >=, ==, !=
+	MTTYPE_NOT 					= 29 	,// not
+	MTTYPE_AND 					= 30 	,// and
+	MTTYPE_OR 					= 31 	,// or
+	MTTYPE_SINGLE_QUOTE 		= 32 	,// '
+	MTTYPE_DOUBLE_QUOTE 		= 33 	,// "
+	MTTYPE_ID 					= 34 	,// identificador
+	MTTYPE_INT 					= 35 	,// inteiro
+	MTTYPE_FLOAT				= 36 	,// float
+	MTTYPE_STRING 				= 37 	,// string
+	MTTYPE_ARRAY 				= 38 	,// array
+	MTTYPE_MATRIX 				= 39 	,// matriz
+	MTTYPE_TYPE 				= 40 	,// int, float, string, bool
+	MTTYPE_BOOL 				= 41 	,// true, false
+	MTTYPE_COMPARATOR 			= 42 	 // <, >, <=, >=, ==, !=
 } MachineTokenTypes;
 
 AutomataPE init_machines();

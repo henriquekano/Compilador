@@ -28,7 +28,6 @@ AutomataPE init_machines() {
 	}
 	
 	
-	
 	// MTYPE_PROGRAM ||||||||||||||||||||||||||||||||||||||||
 	rawFinalStatesTables[MTYPE_PROGRAM][0] = 3;
 
@@ -194,16 +193,20 @@ AutomataPE init_machines() {
 	rawTransitionTables[MTYPE_DECLARATION][21][MTTYPE_TYPE] = 9;
 
 	// MTYPE_CONDITION ||||||||||||||||||||||||||||||||||||||||
-	rawFinalStatesTables[MTYPE_CONDITION][0] = 1;
-	rawFinalStatesTables[MTYPE_CONDITION][1] = 3;
+	rawFinalStatesTables[MTYPE_CONDITION][0] = 2;
+	rawFinalStatesTables[MTYPE_CONDITION][1] = 4;
 
 	// TRANSITION TABLE --------------------------------------
+	rawTransitionTables[MTYPE_CONDITION][0][MTTYPE_NOT] = 1;
 	rawSubmachineCallTables[MTYPE_CONDITION][0] = MTYPE_EXPRESSION;
-	rawAfterCallTables[MTYPE_CONDITION][0][MTYPE_EXPRESSION] = 1;
+	rawAfterCallTables[MTYPE_CONDITION][0][MTYPE_EXPRESSION] = 2;
 
-	rawTransitionTables[MTYPE_CONDITION][1][MTTYPE_COMPARATOR] = 2;
-	rawSubmachineCallTables[MTYPE_CONDITION][2] = MTYPE_EXPRESSION;
-	rawAfterCallTables[MTYPE_CONDITION][2][MTYPE_EXPRESSION] = 3;
+	rawSubmachineCallTables[MTYPE_CONDITION][1] = MTYPE_EXPRESSION;
+	rawAfterCallTables[MTYPE_CONDITION][1][MTYPE_EXPRESSION] = 2;
+
+	rawTransitionTables[MTYPE_CONDITION][2][MTTYPE_COMPARATOR] = 3;
+	rawSubmachineCallTables[MTYPE_CONDITION][3] = MTYPE_EXPRESSION;
+	rawAfterCallTables[MTYPE_CONDITION][3][MTYPE_EXPRESSION] = 4;
 
 
 	// MTYPE_EXPRESSION ||||||||||||||||||||||||||||||||||||||||
@@ -299,6 +302,7 @@ int convert_token_to_machine_type(Token *token) {
 			if(strcmp(token->string, "bool") == 0) return MTTYPE_TYPE; 
 			if(strcmp(token->string, "int") == 0) return MTTYPE_TYPE; 
 			if(strcmp(token->string, "float") == 0) return MTTYPE_TYPE; 
+			if(strcmp(token->string, "not") == 0) return MTTYPE_NOT; 		
 			if(strcmp(token->string, "and") == 0) return MTTYPE_AND; 			
 			if(strcmp(token->string, "or") == 0) return MTTYPE_OR; 		
 			if(strcmp(token->string, "true") == 0) return MTTYPE_BOOL; 		

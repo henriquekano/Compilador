@@ -58,6 +58,7 @@ def main(argv):
 	machine_token_types["*"] = "MTTYPE_MULTIPLICATION" 		
 	machine_token_types["/"] = "MTTYPE_DIVISION" 			
 	machine_token_types["and"] = "MTTYPE_AND" 					
+	machine_token_types["not"] = "MTTYPE_NOT" 					
 	machine_token_types["or"] = "MTTYPE_OR" 					
 	machine_token_types["'"] = "MTTYPE_SINGLE_QUOTE" 		
 	machine_token_types['"'] = "MTTYPE_DOUBLE_QUOTE" 		
