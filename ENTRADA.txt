@@ -55,7 +55,7 @@ begin
     print(true);
   endif
 
-  if (!(var1 == false)) do
+  if (not var1) do
     print(false);
   endif
 
