@@ -403,8 +403,6 @@ char *machineid_to_name(int machineId){
 			return "CONDITION";
 		case MTYPE_EXPRESSION:
 			return "EXPRESSION";
-		case MTYPE_VALUE:
-			return "VALUE";
 	}
 	return "";
 }

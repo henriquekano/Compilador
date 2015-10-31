@@ -9,7 +9,7 @@ begin
       print("llllslsl ", var1, " yay");
     continue;
 
-    is(3 > 2) do
+    is(3) do
       print("llllslsl");
     continue;
 
