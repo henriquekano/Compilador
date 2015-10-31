@@ -15,9 +15,9 @@ AutomataPE init_machines() {
 	for (n = 0; n < N_MACHINE_TYPES; n++) {
 		for(i = 0; i < MAX_FINAL_STATES; i++) {
 			rawFinalStatesTables[n][i] = MINVALID_STATE;
-			rawSubmachineCallTables[n][i] = MINVALID_STATE;
 		}
 		for(i=0; i < MAX_STATES; i++){
+			rawSubmachineCallTables[n][i] = MTYPE_INVALID;
 			for(j=0; j < N_MACHINE_TOKEN_TYPES; j++){
 				rawTransitionTables[n][i][j] = MINVALID_STATE;
 				rawAfterCallTables[n][i][j] = MINVALID_STATE;
