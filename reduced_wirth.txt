@@ -19,6 +19,6 @@ DECLARACAO = (TIPO (ID | ELEM_VETOR | ELEM_MATRIZ){","(ID | ELEM_VETOR | ELEM_MA
 
 CONDICAO = BOOL | EXPRESSAO COMPARADOR EXPRESSAO | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID).
 
-EXPRESSAO = (("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) { ("*"|"/"|"&&") ("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) }) { ("+"|"-"|"||") (("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) { ("*"|"/"|"&&") ("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) }) }.
+EXPRESSAO = (("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) { ("*"|"/"|"and") ("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) }) { ("+"|"-"|"or") (("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) { ("*"|"/"|"and") ("("EXPRESSAO")" | INT | FLOAT | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID)) }) }.
 
 VALOR = INT | FLOAT | STRING | BOOL | (ID | ELEM_VETOR | ELEM_MATRIZ | ID"("[{VALOR","}VALOR]")" | ID"."ID).

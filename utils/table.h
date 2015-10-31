@@ -12,7 +12,7 @@ typedef struct Table {
   converterFunction converterFn;
 } Table;
  
-Table table_create(int rows, int columns, int table[rows][columns], converterFunction converterFn);
+Table table_create(int rows, int columns, int table[rows][columns]);
 void table_destroy(Table *t);
 
 int table_rows_size(Table *t);

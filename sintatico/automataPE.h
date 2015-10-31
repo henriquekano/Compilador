@@ -1,6 +1,6 @@
 #ifndef AUTOMATA_PE_H
   #define AUTOMATA_PE_H
-
+  #include <stdio.h>
   #include "../utils/bool.h"
   #include "../utils/list.h"
   #include "../utils/automata2.h"
@@ -25,7 +25,7 @@
   AutomataPE automataPE_create(AutomataId currentMachine, int numberOfMachines, 
     Table *transitionTables, Table *subMachineCall, Table *afterCallStates, Table *finalStates);
   void automataPE_destroy(AutomataPE *a);
-
+  bool automataPE_run(AutomataPE *a, FILE *file);
   void automataPE_goto_next_state(AutomataPE *a, Token *t);
   int automataPE_next_state(AutomataPE *a, Token *t);
   int automataPE_current_state(AutomataPE *a);
