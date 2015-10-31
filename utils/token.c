@@ -47,6 +47,8 @@ char *token_type_to_string(Token_type token_type){
       return "UNKNOWN";
     case TT_FLOAT:
       return "FLOAT";
+    case TT_SEPARATOR:
+      return "SEPARATOR";
     case TT_R_SQ_BRACKET:
       return "R_SQ_BRACKET";
     case TT_L_SQ_BRACKET:
@@ -56,6 +58,6 @@ char *token_type_to_string(Token_type token_type){
     case TT_L_PARENTHESIS:
       return "L_PARENTHESIS";
     default:
-      return "";
+      return "???";
   }
 }
