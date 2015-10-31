@@ -1,6 +1,7 @@
 begin
   ##
     Sou um comentario!
+    - falta: matriz e arrays, expressoes
   ##
   float var1; #Comentario
   float var2;
@@ -8,14 +9,15 @@ begin
   bool var_4;
   string _var5;
   int var6;
-  int matrix[2][4];
+  #int matrix[2][4];
 
+  ##
   function float media(int nota1, int nota2) do
-    return (nota1 + nota2)/2;
+    return 2;
   endfunction
 
   function float operacoes() do
-    var1 = 43/2*5+1;
+    #var1 = 43/2*5+1;
     var2 = 12 + 3 - 12 / 43 * 1;
     var3 = var1 + var2;
     return var;
@@ -42,9 +44,10 @@ begin
   if !(var1 == false) do
     print "not false";
   endif
+  ##
 
   while (true) do
     var1 = media(3,4);
-    print var1;
+    print(var1);
   endwhile
 end

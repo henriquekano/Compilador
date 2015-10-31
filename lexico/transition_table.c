@@ -12,7 +12,7 @@ const int STATE_TRANSITION_TABLE[NUMBER_STATES][NUMBER_INPUTS_TYPES] =
 {										
 //Input: 
 	//Letter, number, arith.,d_quote,s_quote,  EOC  ,   =  	, comp  , underl, blank , sep   , unknown 	,	NEWLINE ,	HASHTAG, 	point 	, [		,	]	
-	{	S2 	,	S5 	,	S6	,	S7 	,	S10 ,	S1 	,	S13	, 	S3 	,	S2 	,	S0 	,	S11 ,	S12 	,	S0  	,	S16		,	S12		,	S11	, 	S11	},	//S0 - inicial
+	{	S2 	,	S5 	,	S6	,	S7 	,	S10 ,	S1 	,	S13	, 	S3 	,	S2 	,	S0 	,	S11 ,	S12 	,	S0  	,	S16		,	S11		,	S11	, 	S11	},	//S0 - inicial
 	{	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 	,	S0 		,	S0		,	S0		,	S0		,	S0	, 	S0	}, 	//S1 - ;
 	{	S2 	,	S2 	,	S0	,	S12	,	S12	,	S0 	,	S0 	,	S0 	,	S2 	,	S0 	,	S0 	,	S12		,	S0		,	S0		,	S0		,	S0	, 	S12	}, 	//S2 - identificador
 	{ 	S0 	, 	S0 	, 	S0	, 	S0	, 	S0	, 	S0	, 	S4 	, 	S12	, 	S0	, 	S0 	, 	S0 	, 	S0		,	S0		,	S0		,	S0		,	S12	, 	S12	}, 	//S3 - comparador 1 caracter
@@ -98,14 +98,16 @@ Token_type state_converter_token_type(States state, char buffer[50]){
 		case S10:
 			return TT_STRING;
 		case S11:
-			if(strcmp(buffer, "]")){
+			if(strcmp(buffer, "]") == 0){
 				return TT_R_SQ_BRACKET;
-			}else if(strcmp(buffer, "[")){
+			}else if(strcmp(buffer, "[") == 0){
 				return TT_L_SQ_BRACKET;
-			}else if(strcmp(buffer, ")")){
+			}else if(strcmp(buffer, ")") == 0){
 				return TT_R_PARENTHESIS;
-			}else if(strcmp(buffer, "(")){
+			}else if(strcmp(buffer, "(") == 0){
 				return TT_L_PARENTHESIS;
+			}else{
+				return TT_SEPARATOR;
 			}
 		case S13:
 			return TT_ASSIGNMENT;
