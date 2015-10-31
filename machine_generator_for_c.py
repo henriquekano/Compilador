@@ -91,7 +91,7 @@ def main(argv):
 			final_states = final_states.split(",")
 
 			for index, state in enumerate(final_states):
-				buffer += "allFinalStatesTables[%s][%d] = %s;\n" % (machine_type, index, state)
+				buffer += "rawFinalStatesTables[%s][%d] = %s;\n" % (machine_type, index, state)
 
 			buffer += "\n// TRANSITION TABLE --------------------------------------\n"
 
@@ -104,24 +104,24 @@ def main(argv):
 
 			if token in dont_replace:
 				machine_token_type = machine_token_types[token]
-				buffer += "allTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
+				buffer += "rawTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
 			# para pegar o caso """
 			elif token == '"""':
 				machine_token_type = machine_token_types['"']
-				buffer += "allTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
+				buffer += "rawTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
 			# para pegar o caso "'"
 			elif token.replace('"','') == "'":
 				machine_token_type = machine_token_types["'"]
-				buffer += "allTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
+				buffer += "rawTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
 
 			elif token in machine_translations.keys():
 				next_machine_type = machine_types[token]
-				buffer += "allSubmachineCallTables[%s][%s] = %s;\n" % (machine_type, current_state, next_machine_type)
-				buffer += "allAfterCallTables[%s][%s][%s] = %s;\n\n" % (machine_type, current_state, next_machine_type, next_state)
+				buffer += "rawSubmachineCallTables[%s][%s] = %s;\n" % (machine_type, current_state, next_machine_type)
+				buffer += "rawAfterCallTables[%s][%s][%s] = %s;\n\n" % (machine_type, current_state, next_machine_type, next_state)
 				
 			else:
 				machine_token_type = machine_token_types[token.replace('"','')]
-				buffer += "allTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
+				buffer += "rawTransitionTables[%s][%s][%s] = %s;\n" % (machine_type, current_state, machine_token_type, next_state)
 			
 	machine_file = open(machine_output, "w")
 	machine_file.write(buffer)
