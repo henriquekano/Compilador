@@ -28,4 +28,13 @@ void symbol_table_destroy(SymbolTable *stable);
 
 void symbol_table_add(SymbolTable *stable, char *symbolName, int symbolInfo[SYMBOL_TABLE_SYMBOL_INFO]);
 void symbol_table_pretty_print(SymbolTable *stable);
+
+int *symbol_table_get_info(SymbolTable *stable, char *symbolName);
+
+int symbol_table_get_position(SymbolTable *stable, char *symbolName);
+int symbol_table_get_papel(SymbolTable *stable, char *symbolName);
+int symbol_table_get_type(SymbolTable *stable, char *symbolName);
+int symbol_table_get_dimension(SymbolTable *stable, char *symbolName);
+int symbol_table_get_address(SymbolTable *stable, char *symbolName);
+
 #endif

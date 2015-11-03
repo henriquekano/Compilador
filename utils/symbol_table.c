@@ -2,6 +2,7 @@
 #include "bool.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // void delete_string(void *string){
 
@@ -47,4 +48,43 @@ void symbol_table_pretty_print(SymbolTable *stable){
   }
 
   list_for_each(&(stable->list), &st_pretty_print);
+}
+
+int *symbol_table_get_info(SymbolTable *stable, char *symbolName){
+
+  //Recebe um symbol e um string
+  bool symbol_table_symbol_comparator(void *original, void *compared){
+    _symboltable_symbol *symbol = (_symboltable_symbol*)original;
+    char *string = (char *)compared;
+
+    if(strcmp(symbol->name, string) == 0){
+      return TRUE;
+    }else{
+      return FALSE;
+    }
+  }
+
+  _symboltable_symbol *symbol = (_symboltable_symbol*)list_get(&(stable->list), symbolName, symbol_table_symbol_comparator);
+
+  return symbol->symbolInfo;
+}
+
+int symbol_table_get_position(SymbolTable *stable, char *symbolName){
+  return symbol_table_get_info(stable, symbolName)[ST_POS];
+}
+
+int symbol_table_get_papel(SymbolTable *stable, char *symbolName){
+  return symbol_table_get_info(stable, symbolName)[ST_PAPEL];
+}
+
+int symbol_table_get_type(SymbolTable *stable, char *symbolName){
+  return symbol_table_get_info(stable, symbolName)[ST_TYPE];
+}
+
+int symbol_table_get_dimension(SymbolTable *stable, char *symbolName){
+  return symbol_table_get_info(stable, symbolName)[ST_DIMENSION];
+}
+
+int symbol_table_get_address(SymbolTable *stable, char *symbolName){
+  return symbol_table_get_info(stable, symbolName)[ST_ADDRESS];
 }

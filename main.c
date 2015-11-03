@@ -54,10 +54,18 @@ int main(){
   SymbolTable s = symbol_table_create();
   char *string = "lalalalala";
   int array[SYMBOL_TABLE_SYMBOL_INFO] = {0, 0, 0, 0, 0};
+  int i, *otherArray;
 
   symbol_table_add(&s, string, array);
   symbol_table_pretty_print(&s);
 
+  otherArray = symbol_table_get_info(&s, string);
+  for(i = 0; i < SYMBOL_TABLE_SYMBOL_INFO; i ++){
+    printf("%d ", otherArray[i]);
+  }
+  printf("\n");
+
   symbol_table_destroy(&s);
+
   return 0;
 }
