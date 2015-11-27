@@ -1,1 +1,1 @@
-gcc -Wall main.c ./utils/*.c ./lexico/*.c ./sintatico/*.c -o a.out
+gcc -Wall main.c ./utils/*.c ./lexico/*.c ./sintatico/*.c
