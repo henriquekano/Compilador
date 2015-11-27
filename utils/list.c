@@ -122,3 +122,15 @@ char *list_to_char_array(List *list){
 
   return array;
 }
+
+void *list_get(List *list, void *data, listComparator comparator){
+  listNode *node = list->head;
+  while(node != NULL) {
+    if(comparator(node->data, data)){
+      return node->data;
+    }else{
+      node = node->next;
+    }
+  }
+  return NULL;
+}
