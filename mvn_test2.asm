@@ -6,9 +6,10 @@ CTE               K   /FF00
 
 LOAD_PREFIX       LD    /0
 
-ASCII_MINUS       K     /2D
+ASCII_MINUS       K     /072D
 ASCII_0           k     /30
 ASCII_9           k     /39
+ASCII_BR          k     /0709
 
 SHIFT3            k     /1000
 SHIFT2            k     /100
@@ -147,6 +148,7 @@ OR_END      LV  /2
 ; OUT: Na tela
 ; OBS: há dois modos de impressao: as-is e ascii. As-is pega o numero, transforma em caracteres ascii e imprime. ascci interpreta a entrada como ascii
 ; GOTCHA: em modo ASCII, eh considerado que a word nunca sera negativo, pois caracteres ASCII vao ate 7E
+; GOTCHA2: o tamanho de dados tem significados diferentes nos dois modos: em ASCII, significa numero de bytes e em AS-IS, words
 ;----------------------------{
       PRINT                   K     /0
                               
@@ -170,38 +172,33 @@ OR_END      LV  /2
                               JP    PRINT_AS_ASCII
 
       ;/---------------------------------------------------\
-      PRINT_AS_ASCII          LD    _TEMP_4                 ;SEPARA OS BYTES
-                              /     SHIFT2
-                              *     SHIFT2 
-                              MM    _TEMP_5
-                              LD    _TEMP_4
-                              -     _TEMP_5
-                              MM    _TEMP_6
-                              LD    _TEMP_5
-                              /     SHIFT2
-                              MM    _TEMP_5
-
-                              LD    _TEMP_5
-                              PD    /0100
+      PRINT_AS_ASCII          LV    /1
+                              +     _TEMP_2
+                              MM    _TEMP_2
+                              -     _TEMP_3
+                              JZ    PRINT_AS_ASCII_ODD
 
                               LV    /1
                               +     _TEMP_2
                               MM    _TEMP_2
-                              -     _TEMP_3
-                              JZ    PRINT_END
+                              JP    PRINT_AS_ASCII_EVEN
 
-                              LD    _TEMP_6
+      PRINT_AS_ASCII_ODD      LD    _TEMP_4                 ;SEPARA OS BYTES
+                              /     SHIFT2
+                              *     SHIFT2
                               PD    /0100
+                              JP    PRINT_END
 
-                              LV    /1
-                              +     _TEMP_2
-                              MM    _TEMP_2
-                              -     _TEMP_3
-                              JZ    PRINT_END
+      PRINT_AS_ASCII_EVEN     LD    _TEMP_4
+                              PD    /0100
 
                               LV    /2
                               +     _TEMP_10
                               MM    _TEMP_10
+
+                              LD    _TEMP_2
+                              -     _TEMP_3
+                              JZ    PRINT_END
                               JP    PRINT_BEGIN
       ;\---------------------------------------------------/
       ;/---------------------------------------------------\
@@ -245,17 +242,12 @@ OR_END      LV  /2
                               JP    PRINT_SUM_LETTER_1
       PRINT_SUM_NUMBER_1      LD    _TEMP_5 
                               +     ASCII_0
+                              MM    _TEMP_5
                               JP    PRINT_AS_IS_1
       PRINT_SUM_LETTER_1      LD    _TEMP_5 
                               +     HEX_LETTER_TO_ASCII
-      PRINT_AS_IS_1           PD    /0100
-                              LV    /1
-                              +     _TEMP_2
-                              MM    _TEMP_2
-                              -    _TEMP_3
-                              JZ    PRINT_END
-
-                              LD    _TEMP_6
+                              MM    _TEMP_5
+      PRINT_AS_IS_1           LD    _TEMP_6
                               /     SHIFT2
                               MM    _TEMP_6
                               -     A
@@ -263,15 +255,15 @@ OR_END      LV  /2
                               JP    PRINT_SUM_LETTER_2
       PRINT_SUM_NUMBER_2      LD    _TEMP_6
                               +     ASCII_0
+                              MM    _TEMP_6
                               JP    PRINT_AS_IS_2
       PRINT_SUM_LETTER_2      LD    _TEMP_6
                               +     HEX_LETTER_TO_ASCII
-      PRINT_AS_IS_2           PD    /0100
-                              LV    /1
-                              +     _TEMP_2
-                              MM    _TEMP_2
-                              -    _TEMP_3
-                              JZ    PRINT_END
+                              MM    _TEMP_6
+      PRINT_AS_IS_2           LD    _TEMP_5
+                              *     SHIFT2
+                              +     _TEMP_6
+                              PD    /0100
 
                               LD    _TEMP_8
                               /     SHIFT1
@@ -279,32 +271,33 @@ OR_END      LV  /2
                               -     A
                               JN    PRINT_SUM_NUMBER_3
                               JP    PRINT_SUM_LETTER_3
-      PRINT_SUM_NUMBER_3      LD    _TEMP_8
+      PRINT_SUM_NUMBER_3      LD    _TEMP_8 
                               +     ASCII_0
+                              MM    _TEMP_8
                               JP    PRINT_AS_IS_3
-      PRINT_SUM_LETTER_3      LD    _TEMP_8
+      PRINT_SUM_LETTER_3      LD    _TEMP_8 
                               +     HEX_LETTER_TO_ASCII
-      PRINT_AS_IS_3           PD    /0100
-                              LV    /1
-                              +     _TEMP_2
-                              MM    _TEMP_2
-                              -    _TEMP_3
-                              JZ    PRINT_END
-
-                              LD    _TEMP_9
+                              MM    _TEMP_8
+      PRINT_AS_IS_3           LD    _TEMP_9
                               -     A
                               JN    PRINT_SUM_NUMBER_4
                               JP    PRINT_SUM_LETTER_4
       PRINT_SUM_NUMBER_4      LD    _TEMP_9
                               +     ASCII_0
+                              MM    _TEMP_9
                               JP    PRINT_AS_IS_4
       PRINT_SUM_LETTER_4      LD    _TEMP_9
                               +     HEX_LETTER_TO_ASCII
-      PRINT_AS_IS_4           PD    /0100
+                              MM    _TEMP_9
+      PRINT_AS_IS_4           LD    _TEMP_8
+                              *     SHIFT2
+                              +     _TEMP_9
+                              PD    /0100
+
                               LV    /1
                               +     _TEMP_2
                               MM    _TEMP_2
-                              -    _TEMP_3
+                              -     _TEMP_3
                               JZ    PRINT_END
 
                               LV    /2
@@ -317,14 +310,132 @@ OR_END      LV  /2
       PRINT_END               RS    PRINT
 ;}
 
-SOME  K     /3132
-      K     /3334
-      K     /3536
-      K     /3738
-      K     /3941
-      K     /4243
-      K     /4243
-      k     /4445
+SOME  k /1
+k /2
+k /3
+k /4
+k /5
+k /6
+k /7
+k /8
+k /9
+k /a
+k /b
+k /c
+k /d
+k /e
+k /f
+k /10
+k /11
+k /12
+k /13
+k /14
+k /15
+k /16
+k /17
+k /18
+k /19
+k /1a
+k /1b
+k /1c
+k /1d
+k /1e
+k /1f
+k /20
+k /21
+k /22
+k /23
+k /24
+k /25
+k /26
+k /27
+k /28
+k /29
+k /2a
+k /2b
+k /2c
+k /2d
+k /2e
+k /2f
+k /30
+k /31
+k /32
+k /33
+k /34
+k /35
+k /36
+k /37
+k /38
+k /39
+k /3a
+k /3b
+k /3c
+k /3d
+k /3e
+k /3f
+k /40
+k /41
+k /42
+k /43
+k /44
+k /45
+k /46
+k /47
+k /48
+k /49
+k /4a
+k /4b
+k /4c
+k /4d
+k /4e
+k /4f
+k /50
+k /51
+k /52
+k /53
+k /54
+k /55
+k /56
+k /57
+k /58
+k /59
+k /5a
+k /5b
+k /5c
+k /5d
+k /5e
+k /5f
+k /60
+k /61
+k /62
+k /63
+k /64
+k /65
+k /66
+k /67
+k /68
+k /69
+k /6a
+k /6b
+k /6c
+k /6d
+k /6e
+k /6f
+k /70
+k /71
+k /72
+k /73
+k /74
+k /75
+k /76
+k /77
+k /78
+k /79
+k /7a
+k /7b
+k /7c
+k /7d
+k /7e
       
 MAIN  LD    TRTR
       ;LD  CTE
@@ -338,7 +449,7 @@ MAIN  LD    TRTR
       MM    _TEMP_1
       LD    FFFF
       MM    _TEMP_7
-      LV    =8
+      LV    =252
       SC    PRINT
       
       HM    /0000 ; Término de programa
