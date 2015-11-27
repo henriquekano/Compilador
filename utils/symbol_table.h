@@ -14,6 +14,21 @@ typedef enum{
   ST_ADDRESS = 4
 }Table_info;
 
+<<<<<<< Updated upstream
+=======
+typedef enum{
+  ST_TYPE_INT = 0,
+  ST_TYPE_FLOAT = 1,
+  ST_TYPE_STRING = 2,
+  ST_TYPE_BOOL = 3
+}Symbol_type;
+
+typedef enum{
+  ST_PAPEL_FUNCTION = 0,
+  ST_PAPEL_VAR = 1,
+}Symbol_papel;
+
+>>>>>>> Stashed changes
 typedef struct _symboltable_symbol{
   char *name;
   int symbolInfo[SYMBOL_TABLE_SYMBOL_INFO];
@@ -32,8 +47,13 @@ void symbol_table_pretty_print(SymbolTable *stable);
 int *symbol_table_get_info(SymbolTable *stable, char *symbolName);
 
 int symbol_table_get_position(SymbolTable *stable, char *symbolName);
+<<<<<<< Updated upstream
 int symbol_table_get_papel(SymbolTable *stable, char *symbolName);
 int symbol_table_get_type(SymbolTable *stable, char *symbolName);
+=======
+Symbol_papel symbol_table_get_papel(SymbolTable *stable, char *symbolName);
+Symbol_type symbol_table_get_type(SymbolTable *stable, char *symbolName);
+>>>>>>> Stashed changes
 int symbol_table_get_dimension(SymbolTable *stable, char *symbolName);
 int symbol_table_get_address(SymbolTable *stable, char *symbolName);
 
