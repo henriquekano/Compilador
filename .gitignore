@@ -4,3 +4,4 @@ compile.sh
 *.stackdump
 *.out
 *.jar
+mvn_mont.sh
