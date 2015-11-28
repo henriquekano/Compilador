@@ -1,0 +1,58 @@
+/*
+  IF-ELSE
+*/
+/------------------------------------\
+if(~~) do
+elsif(~~)
+[...]
+else
+endif
+
+IFX
+                LD  IFX_COND
+                JN  IFX_TRUE
+                JP  IFX_FALSE
+IFX_TRUE
+                [comandos marotos]
+IFX_FALSE
+IFX+1           [mesmo que a cima]
+
+...
+
+IFX+n_FALSE
+ELSE
+                [comandos marotos]
+\------------------------------------/
+
+/*
+  WHILE
+*/
+/------------------------------------\
+WHILEx          
+                LD  WHILEX_COND
+                JN  WHILEX_DO
+                JP  WHELEX_END
+WHILEX_DO       
+                [comandos marotos]
+WHILEX_END      
+\------------------------------------/
+
+/*
+  ATRIBUICAO
+*/
+/------------------------------------\
+possibilidades:
+a = 1
+a = b
+a = b + c / d
+
+                LV  X
+                //
+                LD  VAR_b
+                //
+                LD  TEMPX
+\------------------------------------/
+
+/*
+  
+*/
