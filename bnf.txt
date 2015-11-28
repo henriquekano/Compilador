@@ -1,110 +1,46 @@
 <D> ::= 0|1|2|3|4|5|6|7|8|9
 <L> ::= a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z
-<*> ::= @|#|$|%|&|*|(|)|[|]|<|>|=|-|^|~||||\|/|,|.|:|;|_
-<operador arit> ::= +|-|*|/|^;
-<operador bool> ::= &&||||!;
-<espaco> ::= \n| |\t
-<L/D/_> ::= <L>|<D>|_
-<qualquer> ::= <L>|<D>|<*>|<espaco>
-<ID> ::= _|<L>|<ID><L/D/_>
-<lista de IDs> ::= <ID>|<lista de IDs>,<ID>
-<tipo> ::= int|float|string|bool|<ID>
-<string> ::= '<lista de caracter>'|"<lista de caracter>"
-<lista de caracter> ::= <qualquer>|<lista de caracter><qualquer>
-<comparador bool> ::= ==|!=
-<comparador> ::= <|>|<=|>=|<comparador bool>
-<num natural> ::= <D>|<num natural><D>
-<num inteiro> ::= <num natural>|-<num natural>
-<num float> ::= <num natural>.<num natural>|-<num natural>.<num natural>
-<numero> ::= <num inteiro>|<num float>
-<bool> ::= true|false
-<R-value> ::= <numero>|<string>|<bool>|<ID>|<array>|<matrix>|<function call>
-<L-value> ::= <ID>|<array>|<matrix>
-<lista de valores> ::= <R-value>|<lista de valores>,<R-value>
-<array> ::= <ID>[<num inteiro>]
-<matrix> ::= <ID>[<num inteiro>][<num inteiro>]
-<acesso struct> ::= <ID>-><ID>
+<SPECIAL> ::= @|#|$|%|&|*|(|)|[|]|<|>|=|-|^|~||||\|/|,|.|:|;|_
+<ESPACO> ::= \n| |\t
+<ANY> ::= <L> | <D> | <SPECIAL> | <ESPACO>
+<L/D/_> ::= <L> | <D>|_
+<ID> ::= _|<L> | <ID><L/D/_>
+<TIPO> ::= int|float|string|bool
+<STRING> ::= '<LISTA DE CARACTER>'|"<LISTA DE CARACTER>"
+<LISTA DE CARACTER> ::= <ANY> | <LISTA DE CARACTER><ANY>
+<INT> ::= <D> | <INT><D>
+<FLOAT> ::= <INT>.<INT>
+<BOOL> ::= true|false
+<COMPARADOR> ::= <|>|<=|>=|==|!=
 
-<var value> ::= <ID>|<array>|<matrix>|<function call>|<acesso struct>
-<int value> ::= <num inteiro>|<var value>
-<float value> ::= <num float>|<var value>
-<string value> ::= <string>|<var value>
-<bool value> ::= <bool>|<var value>
+<ELEM_VETOR> ::= <ID>[<INT>]
+<ELEM_MATRIZ> ::= <ID>[<INT>][<INT>]
+<PROGRAMA> ::= begin<COMANDOS>end
+<COMANDOS> ::= <COMANDO> | <COMANDOS><COMANDO>
+<COMANDO> ::= <ATRIBUICAO> | <DECLARACAO> | <CONDICIONAL> | <ITERACAO> | <SELECAO> | <ENTRADA> | <SAIDA>
+<EXPRESSAO_OU_STRING> ::= <EXPRESSAO> | <STRING>
+<ATRIBUICAO> ::= <VARIAVEL> = <EXPRESSAO_OU_STRING>;
 
-<lista de int value> ::= <int value>|<lista de int value>,<int value>
-<lista de float value> ::= <float value>|<lista de float value>,<float value>
-<lista de string value> ::= <string value>|<lista de string value>,<string value>
-<lista de bool value> ::= <bool value>|<lista de bool value>,<bool value>
+<DECLARACAO> ::= <DECLARACAO_VARIAVEL>| <DECLARACAO_FUNCAO> | <DECLARACAO_STRUCT>
+<DECLARACAO_VARIAVEL> ::= <TIPO> <LISTA_DE_VARIAVEL>;.
+<LISTA_DE_VARIAVEL> ::= <VARIAVEL> | <LISTA_DE_VARIAVEL>,<VARIAVEL>
+<DECLARACAO_FUNCAO> ::= function <TIPO> <ID>"("[DECLARACAO_SIMPLES{","DECLARACAO_SIMPLES}]")" "do" [COMANDOS] [("return" ";" | "return" EXPRESSAO ";")] "endfunction".
+DECLARACAO_SIMPLES ::= TIPO ID.
+<DECLARACAO_STRUCT> ::= "struct" ID "do" {<DECLARACAO_VARIAVEL> | <DECLARACAO_FUNCAO>} "endstruct".
+CONDICIONAL ::= "if" "(" CONDICAO ")" "do" COMANDOS ELSE "endif".
+ELSE ::= {"elsif" "(" CONDICAO ")" "do" COMANDOS }["else" "do" COMANDOS].
+CONDICAO = EXPRESSAO [COMPARADOR EXPRESSAO].
+ITERACAO = "while" "(" CONDICAO ")" "do" COMANDOS "endwhile".
+SELECAO = "when" "(" EXPRESSAO ")" CASO{CASO} "endwhen".
+CASO = "is" "(" EXPRESSAO ")" "do" COMANDOS "continue" ";".
+ENTRADA = "scan" "(" VARIAVEL{","VARIAVEL} ")" ";".
+SAIDA = "print" "(" ((EXPRESSAO | STRING){","(EXPRESSAO | STRING)}) ")" ";".
 
-<multideclaracao int> ::= <ID> = <int value>|<multideclaracao int>,<ID> = <int value>|<ID>|<multideclaracao int>,<ID>
-<multideclaracao float> ::= <ID> = <float value>|<multideclaracao float>,<ID> = <float value>|<ID>|<multideclaracao float>,<ID>
-<multideclaracao string> ::= <ID> = <string value>|<multideclaracao string>,<ID> = <string value>|<ID>|<multideclaracao string>,<ID>
-<multideclaracao bool> ::= <ID> = <bool value>|<multideclaracao bool>,<ID> = <bool value>|<ID>|<multideclaracao bool>,<ID>
+EXPRESSAO = TERMO { ("+"|"-"|"or") TERMO }.
+TERMO = FATOR { ("*"|"/"|"and") FATOR }.
+FATOR = ["not"] ("("EXPRESSAO")" | BOOL | VALOR_GENERICO) | INT | FLOAT.
 
-<literal array> ::= <array int>|<array float>|<array string>|<array bool>
-<array int> ::= [<lista de int value>]
-<array float> ::= [<lista de float value>]
-<array string> ::= [<lista de string value>]
-<array bool> ::= [<lista de bool value>]
-<array list> ::= <literal array>|<array list>,<literal array>
-<literal matrix> ::= [<matrix int>|<matrix float>|<matrix string>|<matrix bool>]
-<matrix int> ::= <array int>|<matrix int>,<array int>
-<matrix float> ::= <array float>|<matrix float>,<array float>
-<matrix string> ::= <array string>|<matrix string>,<array string>
-<matrix bool> ::= <array bool>|<matrix bool>,<array bool>
-
-<declaracao> ::= 
-					int <ID> = <int value>|
-					float <ID> = <float value>|
-					string <ID> = <string value>|
-					bool <ID> = <bool value>|
-					int <ID> = <lista de int value>|
-					float <ID> = <lista de float value>|
-					string <ID> = <lista de string value>|
-					bool <ID> = <lista de bool value>|
-					int <array> = <array int>|
-					float <array> = <array float>|
-					string <array> = <array string>|
-					bool <array> = <array bool>|
-					int <matrix> = [<matrix int>]|
-					float <matrix> = [<matrix float>]|
-					string <matrix> = [<matrix string>]|
-					bool <matrix> = [<matrix bool>]|
-					int <multideclaracao int>|
-					float <multideclaracao float>|
-					string <multideclaracao string>|
-					bool <multideclaracao bool>
-
-<lista de declaracoes> ::= <declaracao>;|<lista de declaracoes><declaracao>;
-<struct> ::= struct <ID> do <lista de declaracoes> endstruct;
-<atribuicao> ::= <L-value> = <R-value>|<array> = <literal array>|<matrix> = <literal matrix>
-
-<expressao bool> ::= <termo bool>|<expressao bool>||<termo bool>
-<termo bool> ::= <fator bool>|<termo bool>&&<fator bool>
-<fator bool> ::= (<expressao bool>)|<ID>|<bool>|<function call>|<array>|<matrix>
-
-<expressao arit> ::= <termo arit>|<expressao arit>+<termo arit>|<expressao arit>-<termo arit>
-<termo arit> ::= <fator2 arit>|<termo arit>*<fator2 arit>|<termo arit>/<fator2 arit>
-<fator2 arit> ::= <fator arit>|<fator arit>^<fator arit>
-<fator arit> ::= (<expressao arit>)|<ID>|<numero>|<function call>|<array>|<matrix>
-
-<comando> ::= <retorno>|<atribuicao>|<condicional>|<iteracao>|<entrada>|<saida>
-<condicao> ::= <expressao bool><comparador bool><expressao bool>|<expressao arit><comparador><expressao arit>
-<expressao> ::= <expressao bool>|<expressao arit>
-<lista de expressoes> ::= <expressao>|<lista de expressoes><expressao>
-<lista de comandos> ::= E|<lista de comandos><comando>;
-<parametro> ::= <tipo> <ID>|<tipo> <array>|<tipo> <matrix>
-<lista de parametros> ::= <parametro>|<lista de parametros>,<parametro>
-
-<programa> ::= begin<lista de comandos>end;
-<entrada> ::= scan(<lista de valores>);
-<saida> ::= print(<lista de valores>);
-<function> ::= function <tipo> <ID>(<lista de parametros>) do <lista de comandos> endfunction;
-<function call> ::= <ID>(<lista de valores>)
-<condicional> ::= if (<condicao>) do <lista de comandos> <else> endif;
-<else> ::= E|elsif (condicao>) do <lista de comandos> <else>|else do <lista de comandos>
-<iterativo> ::= while (<condicao>) do <lista de comandos> endwhile;
-<selecao> ::= switch (<ID>) <lista de opcoes> default <lista de comandos> endswitch;
-<lista de opcoes> ::= <opcao>;|<lista de opcoes><opcao>;
-<opcao> ::= case (<R-value>) <lista de comandos> break;
-<retorno> ::= return;|return <R-value>;
+ACESSO_STRUCT = ID"."ID.
+CHAMADA_FUNC = ID"("[EXPRESSAO{","EXPRESSAO}]")".
+VALOR_GENERICO = ID | ELEM_VETOR | ELEM_MATRIZ | CHAMADA_FUNC | ACESSO_STRUCT.
+VARIAVEL = ID | ELEM_VETOR | ELEM_MATRIZ.

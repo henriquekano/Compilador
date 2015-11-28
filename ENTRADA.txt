@@ -81,7 +81,8 @@ begin
     print(true);
   endif
 
-  
-
+  if (not var1) do
+    print(false);
+  endif
 
 end
