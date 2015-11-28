@@ -1,0 +1,58 @@
+				;	@     /0000                   ; origem do código
+0000 0038		;	INIT        JP    MAIN
+0002 0002		;	TWO         K     /0002
+0004 0000		;	ZERO        K     /0000
+0006 8000		;	LD_INSTR    LD    /0000       ; para fabricar instrucao de LD 
+0008 9000		;	MM_INSTR    MM    /0000       ; para fabricar instrucao de MM
+
+000a 0300		;	PARAM_1     K     /0300       ; parametro 1 da funcao
+000c 0100		;	PARAM_2     K     /0100       ; parametro 2 da funcao
+
+000e 0400		;	FP          K     /0400       ; frame pointer
+0010 0400		;	SP          K     /0400       ; stack pointer
+
+0012 0008		;	RV_SIZE     K     =0008       ; tamanho do valor retornado da função
+
+; subrotina FUNCTION ---------------------------------------
+0014 0000		;	F_PARAM_1   K     /0000
+0016 0000		;	F_PARAM_2   K     /0000
+; corpo da subrotina
+0018 0000		;	FUNCTION    K     /0000
+001a 8014		;	            LD    F_PARAM_1   ; carrega o primeiro param
+001c 5016		;	            -     F_PARAM_2   ; subtrai, resultado no acumulador
+001e b018		;	            RS    FUNCTION    ; retornando
+; fim FUNCTION -----------------------------------------------
+
+; subrotina PUSH_RA ---------------------------------------
+0020 0000		;	PUR_PARAM    K     /0000
+; corpo da subrotina
+0022 0000		;	PUSH_RA     K     /0000
+0024 8008		;	            LD    MM_INSTR    ; composicao do comando de carregar na pilha
+0026 4010		;	            +     SP
+0028 5002		;	            -     TWO
+002a 902e		;	            MM    _NEW_INSTR1
+002c 8020		;	            LD    PUR_PARAM
+002e 0000		;	_NEW_INSTR1 K     /0000       ; carrega na pilha de fato  
+0030 8010		;	            LD    SP          
+0032 5002		;	            -     TWO
+0034 9010		;	            MM    SP          ; sp, aponte para o vazio 
+0036 b022		;	            RS    PUSH_RA
+; fim PUSH_RA --------------------------------------------
+
+; corpo do main -----------------------------------------
+0038 800a		;	MAIN        LD    PARAM_1     ; carrega parametro da funcao
+003a 9020		;	            MM    PUR_PARAM   ; coloca como parametro de PUSH_RA
+003c a022		;	            SC    PUSH_RA     ; push do parametro 1 na pilha de ra
+003e 800c		;	            LD    PARAM_2     
+0040 9020		;	            MM    PUR_PARAM   ; coloca como parametro de PUSH_RA
+0042 a022		;	            SC    PUSH_RA     ; push do parametro 2 na pilha de ra
+0044 83fe		;	            LD    /03FE
+0046 83fc		;	            LD    /03FC
+            ;LD    PARAM_2
+            ;MM    F_PARAM_2
+            ;SC    FUNCTION
+0048 c000		;	            HM    INIT        ; fim do programa inteiro
+;fim main -----------------------------------------------
+
+
+
