@@ -1,0 +1,5 @@
+\select@language {brazilian}
+\contentsline {chapter}{Sumário}{i}
+\contentsline {chapter}{\numberline {1}Definição da Linguagem}{1}
+\contentsline {section}{\numberline {1.1}Notação BNF}{1}
+\contentsline {section}{\numberline {1.2}Notação WIRTH}{2}
