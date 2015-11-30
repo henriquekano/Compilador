@@ -1,0 +1,16 @@
+var jq = document.createElement('script');
+jq.src = "//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js";
+document.getElementsByTagName('head')[0].appendChild(jq);
+jQuery.noConflict();
+
+var stateList = $("#wirth_state ol li");
+var buffer = "";
+$.each(stateList, function(idx, el){
+	var element = $(this).text().trim();
+	var aut = $(".automatas").eq(idx);
+	var name = aut.prev().text();
+	aut.find("div").removeAttr("style");
+	var minfa = aut.find("div").eq(2).find("pre").text();
+	buffer += "Sub-maquina "+name+": \nMinimized DFA: \n"+minfa+"\n";
+});
+console.log(buffer);

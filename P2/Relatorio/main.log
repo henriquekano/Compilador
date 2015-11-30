@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2015.11.25)  30 NOV 2015 00:04
+This is XeTeX, Version 3.14159265-2.6-0.99992 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2015.11.25)  30 NOV 2015 13:50
 entering extended mode
 **main.tex
 (main.tex
@@ -715,11 +715,26 @@ Requested font "ectt1000" at 10.0pt
 
 
 
-])
+]
+File: jflap-automatas/lexico.png Graphic file (type QTm)
+
+<use  "jflap-automatas/lexico.png" >
 Requested font "ecsi1200" at 12.0pt
  [2]
+
+LaTeX Font Warning: Font shape `T1/cmss/m/sc' in size <12> not available
+(Font)              Font shape `T1/cmr/m/sc' tried instead on input line 88.
+
+Requested font "eccc1200" at 12.0pt
+File: jflap-automatas/program.png Graphic file (type QTm)
+<use  "jflap-automatas/program.png" > [3]
+File: jflap-automatas/expr.png Graphic file (type QTm)
+ <use  "jflap-automatas/expr.png" >
+[4] [5]
+File: jflap-automatas/iotaexpr.png Graphic file (type QTm)
+ <use  "jflap-automatas/iotaexpr.png" >) [6]
 No file 6-traducoes/main.tex.
-(main.bbl) [3
+(main.bbl) [7
 
 
 
@@ -727,12 +742,12 @@ No file 6-traducoes/main.tex.
 ] (main.aux (rosto.aux) (1-reconhecedor/main.aux)
 (6-traducoes/main.aux)) ) 
 Here is how much of TeX's memory you used:
- 15868 strings out of 428755
- 291335 string characters out of 3164219
- 412064 words of memory out of 3000000
- 18880 multiletter control sequences out of 15000+200000
- 20005 words of font info for 46 fonts, out of 3000000 for 9000
+ 15895 strings out of 428755
+ 291789 string characters out of 3164219
+ 417067 words of memory out of 3000000
+ 18901 multiletter control sequences out of 15000+200000
+ 20680 words of font info for 47 fonts, out of 3000000 for 9000
  1096 hyphenation exceptions out of 8191
- 64i,12n,92p,465b,903s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 64i,12n,92p,465b,1516s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on main.pdf (5 pages).
+Output written on main.pdf (9 pages).
