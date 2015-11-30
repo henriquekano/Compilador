@@ -1,0 +1,24 @@
+\begin{table}
+\centering{
+\renewcommand{\tabcolsep}{0.2cm}
+\begin{tabular}{|l|L{11cm}|}
+\hline
+\textbf{Pseud.} & \textbf{Descrição} \\
+\hline
+@ & Recebe um operando numérico, define o endereço da instrução seguinte \\
+\hline
+K & Reserva uma área para constante de 2 bytes (operando hexadecimal) \\
+\hline
+\$ & Reserva uma área de dados com tamanho especificado (operando hexadecimal) \\
+\hline
+\# & Define o fim físico do texto-fonte \\
+\hline
+\& & Define uma origem relocável para o código a ser gerado, o operando é o endereço em que o próximo código se localizará (relativo à origem do código atual) \\
+\hline
+> & Define endereço simbólico de entrada (Entry Point) \\
+\hline
+< & Define um endereço simbólico que referencia um entry-point externo (External) \\
+\hline
+\end{tabular}}
+\caption{\label{tab:tabela-pseudoinstrucoes} Tabela de pseudoinstruções.}
+\end{table}

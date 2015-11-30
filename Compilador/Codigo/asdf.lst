@@ -11,13 +11,13 @@
 000e 0400		;	FP          K     /0400       ; frame pointer
 0010 0400		;	SP          K     /0400       ; stack pointer
 
-; subrotina FUNCTION ---------------------------------------
+; subrotina SUB ---------------------------------------
 0012 0000		;	F_PARAM_1   K     /0000
 0014 0000		;	F_PARAM_2   K     /0000
 0016 0000		;	F_RESULT    K     /0000
 ; corpo da subrotina
-0018 0000		;	FUNCTION    K     /0000
-001a 8018		;	            LD    FUNCTION    ; endereco de retorno
+0018 0000		;	SUB         K     /0000
+001a 8018		;	            LD    SUB    ; endereco de retorno
 001c 905a		;	            MM    PUSH_P   
 001e a05c		;	            SC    PUSH_RA     ; push ADDR na pilha de ra
             
@@ -40,7 +40,7 @@
 
 003a 0040		;	            JP    RETURN
 
-; fim FUNCTION -----------------------------------------------
+; fim SUB -----------------------------------------------
 
 ; RETURN ---------------------------------------
 003c 0000		;	RTRN_RSLT   K     /0000
@@ -105,7 +105,7 @@
 0090 905a		;	            MM    PUSH_P         
 0092 a05c		;	            SC    PUSH_RA     ; push old FP na pilha de ra
 
-0094 a018		;	            SC    FUNCTION    ; chama FUNCTION
+0094 a018		;	            SC    SUB    ; chama SUB
 
 0096 c000		;	            HM    INIT        ; fim do programa inteiro
 ;fim main -----------------------------------------------

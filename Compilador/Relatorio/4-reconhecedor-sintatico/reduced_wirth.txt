@@ -1,0 +1,10 @@
+PROGRAMA = "begin" (COMANDO{COMANDO}) "end".
+
+COMANDO = ((ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]")) "=" (EXPRESSAO | STRING) ";") | DECLARACAO | ("if" "(" CONDICAO ")" "do" (COMANDO{COMANDO}) ({"elsif" "(" CONDICAO ")" "do" (COMANDO{COMANDO}) }["else" "do" (COMANDO{COMANDO})]) "endif") | ("while" "(" CONDICAO ")" "do" (COMANDO{COMANDO}) "endwhile") | ("when" "(" EXPRESSAO ")" ("is" "(" EXPRESSAO ")" "do" (COMANDO{COMANDO}) "continue" ";"){("is" "(" EXPRESSAO ")" "do" (COMANDO{COMANDO}) "continue" ";")} "endwhen") | ("scan" "(" (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]")){","(ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]"))} ")" ";") | ("print" "(" ((EXPRESSAO | STRING){","(EXPRESSAO | STRING)}) ")" ";").
+
+DECLARACAO = (TIPO (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]")){","(ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]"))} ";") | ("function" TIPO ID"("[(TIPO ID){","(TIPO ID)}]")" "do" [(COMANDO{COMANDO})] [("return" ";" | "return" EXPRESSAO ";")] "endfunction") | ("struct" ID "do" {(TIPO (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]")){","(ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]"))} ";") | ("function" TIPO ID"("[(TIPO ID){","(TIPO ID)}]")" "do" [(COMANDO{COMANDO})] [("return" ";" | "return" EXPRESSAO ";")] "endfunction")} "endstruct").
+
+CONDICAO = EXPRESSAO [COMPARADOR EXPRESSAO].
+
+EXPRESSAO = ((["not"] ("("EXPRESSAO")" | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[EXPRESSAO{","EXPRESSAO}]")") | (ID"."ID))) | INT | FLOAT) { ("*"|"/"|"and") (["not"] ("("EXPRESSAO")" | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[EXPRESSAO{","EXPRESSAO}]")") | (ID"."ID))) | INT | FLOAT) }) { ("+"|"-"|"or") ((["not"] ("("EXPRESSAO")" | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[EXPRESSAO{","EXPRESSAO}]")") | (ID"."ID))) | INT | FLOAT) { ("*"|"/"|"and") (["not"] ("("EXPRESSAO")" | BOOL | (ID | (ID"["INT"]") | (ID"["INT"]" "["INT"]") | (ID"("[EXPRESSAO{","EXPRESSAO}]")") | (ID"."ID))) | INT | FLOAT) }) }.
+

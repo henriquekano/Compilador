@@ -1,0 +1,41 @@
+D = "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9".
+L = "a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"|"t"|"u"|"v"|"w"|"x"|"y"|"z"|"A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z".
+SPECIAL = "@"|"#"|"$"|"%"|"""|"'"|"&"|"*"|"("|")"|"["|"]"|"<"|">"|"="|"-"|"^"|"~""|"\"|"/"|","|"."|":"|";".
+ESPACO = "\n" | "\t" | " ".
+ANY = L | D | SPECIAL | ESPACO.
+ID = (L | "_"){L | D | "_"}.
+TIPO = "int"|"float"|"string"|"bool".
+STRING = """{ANY}""" | "'"{ANY}"'".
+INT = D{D}.
+FLOAT = INT"."INT.
+BOOL = "true" | "false".
+COMPARADOR = "<"|">"|"<="|">="|"=="|"!=".
+	
+ELEM_VETOR = ID"["INT"]".
+ELEM_MATRIZ = ID"["INT"]" "["INT"]".
+PROGRAMA = "begin" COMANDOS "end".
+COMANDOS = COMANDO{COMANDO}.
+COMANDO = ATRIBUICAO | DECLARACAO | CONDICIONAL | ITERACAO | SELECAO | ENTRADA | SAIDA.
+ATRIBUICAO = VARIAVEL "=" (EXPRESSAO | STRING) ";".
+DECLARACAO = DECLARACAO_VARIAVEL | DECLARACAO_FUNCAO | DECLARACAO_STRUCT.
+DECLARACAO_VARIAVEL = TIPO VARIAVEL{","VARIAVEL} ";".
+DECLARACAO_FUNCAO = "function" TIPO ID"("[DECLARACAO_SIMPLES{","DECLARACAO_SIMPLES}]")" "do" [COMANDOS] [("return" ";" | "return" EXPRESSAO ";")] "endfunction".
+DECLARACAO_SIMPLES = TIPO ID.
+DECLARACAO_STRUCT = "struct" ID "do" {DECLARACAO_VARIAVEL | DECLARACAO_FUNCAO} "endstruct".
+CONDICIONAL = "if" "(" CONDICAO ")" "do" COMANDOS ELSE "endif".
+ELSE = {"elsif" "(" CONDICAO ")" "do" COMANDOS }["else" "do" COMANDOS].
+CONDICAO = EXPRESSAO [COMPARADOR EXPRESSAO].
+ITERACAO = "while" "(" CONDICAO ")" "do" COMANDOS "endwhile".
+SELECAO = "when" "(" EXPRESSAO ")" CASO{CASO} "endwhen".
+CASO = "is" "(" EXPRESSAO ")" "do" COMANDOS "continue" ";".
+ENTRADA = "scan" "(" VARIAVEL{","VARIAVEL} ")" ";".
+SAIDA = "print" "(" ((EXPRESSAO | STRING){","(EXPRESSAO | STRING)}) ")" ";".
+
+EXPRESSAO = TERMO { ("+"|"-"|"or") TERMO }.
+TERMO = FATOR { ("*"|"/"|"and") FATOR }.
+FATOR = ["not"] ("("EXPRESSAO")" | BOOL | VALOR_GENERICO) | INT | FLOAT.
+
+ACESSO_STRUCT = ID"."ID.
+CHAMADA_FUNC = ID"("[EXPRESSAO{","EXPRESSAO}]")".
+VALOR_GENERICO = ID | ELEM_VETOR | ELEM_MATRIZ | CHAMADA_FUNC | ACESSO_STRUCT.
+VARIAVEL = ID | ELEM_VETOR | ELEM_MATRIZ.

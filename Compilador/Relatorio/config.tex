@@ -1,0 +1,64 @@
+\documentclass[a4paper,12pt,openany,oneside]{book}
+
+\usepackage{changepage}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{parcolumns}
+\usepackage{listings}
+\usepackage{natbib}
+\usepackage{url}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{comment}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{array}
+
+\definecolor{lightgray}{rgb}{0.95,0.95,0.95}
+
+\newcommand{\mychapter}[1]{\chapter{#1}\thispagestyle{empty}}
+\newcommand{\mychapterstar}[1]{\chapter*{#1}\thispagestyle{empty}}
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand\lstlistlistingname{Lista de Códigos}
+\titleformat{\subsubsection}
+  {\normalfont\scshape}{\thesection}{1em}{}
+\captionsetup[lstlisting]{font={small,tt}}
+
+\lstset{%
+  backgroundcolor=\color{lightgray},
+  commentstyle=\color{gray},
+  basicstyle=\footnotesize\ttfamily,
+  breaklines=true, 
+  tabsize=2,
+  captionpos=b,
+}
+
+\lstnewenvironment{simplelisting}
+  {
+    \lstset{
+        backgroundcolor=\color{white}
+        belowcaptionskip=10em,
+        belowskip=6em
+        }
+  }
+  {
+  }
+  
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+                                 
+\title{Linguagens e Compiladores}
+
+\author{Henrique Sussumu Matsui Kano \& Mi Che Li Lee}
+
+\date{\today}
