@@ -15,6 +15,8 @@
 
 #include "utils/symbol_table.h"
 
+#include "semantico/semantico_actions.h"
+
 #define FILENAME "ENTRADA.txt"
 
 void semantic_tbd(AutomataPE *aPE, Token *t, FILE *file){
@@ -24,48 +26,25 @@ void semantic_tbd(AutomataPE *aPE, Token *t, FILE *file){
 }
 
 int main(){
-	// FILE *file = fopen(FILENAME, "r");
-  // Token t;
-  // Automata automata = automata_create(S0);
 
- //  printf("Changed!\n");
 
-	// if (file == NULL){
-	// 	printf("Arquivo não existe!!!");
- //  } else {
- //    do{
- //      t = find_possible_token(file);
- //      token_destroy(&t);
- //    }while(!reached_eof(file));
-	// }
+  // SymbolTable s = symbol_table_create();
+  // char *string = "lalalalala";
+  // int array[SYMBOL_TABLE_SYMBOL_INFO] = {0, 0, 0, 0, 0};
+  // int i, *otherArray;
 
-// /*sintatic test*/ 
-//   AutomataPE aPE;
-//   Token t = find_possible_token(file);
-//   aPE = init_machines();
-   
-//   while(!reached_eof(file)){
+  // symbol_table_add(&s, string, array);
+  // symbol_table_pretty_print(&s);
 
-//       semantic_tbd(&aPE, &t, file);   
-//   }
+  // otherArray = symbol_table_get_info(&s, string);
+  // for(i = 0; i < SYMBOL_TABLE_SYMBOL_INFO; i ++){
+  //   printf("%d ", otherArray[i]);
+  // }
+  // printf("\n");
 
-//   fclose(file);
+  // symbol_table_destroy(&s);
 
-  SymbolTable s = symbol_table_create();
-  char *string = "lalalalala";
-  int array[SYMBOL_TABLE_SYMBOL_INFO] = {0, 0, 0, 0, 0};
-  int i, *otherArray;
-
-  symbol_table_add(&s, string, array);
-  symbol_table_pretty_print(&s);
-
-  otherArray = symbol_table_get_info(&s, string);
-  for(i = 0; i < SYMBOL_TABLE_SYMBOL_INFO; i ++){
-    printf("%d ", otherArray[i]);
-  }
-  printf("\n");
-
-  symbol_table_destroy(&s);
+  printf("%s", get_number_hex_string(16));
 
   return 0;
 }
