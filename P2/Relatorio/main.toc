@@ -1,0 +1,10 @@
+\select@language {brazilian}
+\contentsline {chapter}{Sumário}{i}
+\contentsline {chapter}{\numberline {1}Construção do reconhecedor}{1}
+\contentsline {section}{\numberline {1.1}Notação BNF}{1}
+\contentsline {section}{\numberline {1.2}Notação Wirth}{2}
+\contentsline {section}{\numberline {1.3}Análise Léxica}{2}
+\contentsline {section}{\numberline {1.4}Análise Sintática}{3}
+\contentsline {subsubsection}{Program}{3}
+\contentsline {subsubsection}{Expr}{4}
+\contentsline {subsubsection}{IotaExpr}{5}

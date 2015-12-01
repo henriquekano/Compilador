@@ -1,0 +1,139 @@
+\mychapter{Projeto Cimplex}
+\label{Cap:Projeto}
+
+O projeto consiste em definir uma linguagem e a partir dessa contruir o compilador em C. O nome da linguagem é Cimplex.
+
+\section{A linguagem}
+\label{sec:liguagem_informal}
+
+A linguagem base do compilador está descrita abaixo, em uma primeira instância, através de uma definição informal:
+
+\begin{itemize}
+\item{tipagem}: números naturais (int), números de ponto flutuante (float), strings (string), booleano (bool), vetor (array[1]) e matriz (variavel[1][1])
+\item{estrutura inicial de programa}: 
+	\begin{lstlisting}
+		begin do
+			-Programa-
+		end
+	\end{lstlisting}
+   
+\item{Operações Aritméticas}:
+	Além das quatro básicas, também é possível fazer potências:
+	\begin{lstlisting}
+		int var1 = 2;
+		int var2 = 4;
+		int var3 = var2 ^ var1;
+	\end{lstlisting}
+
+\item{Declarações}: 
+	\begin{lstlisting}
+		int var1 = 0;
+	\end{lstlisting}
+    Sendo possível a declaração múltipla:
+    \begin{lstlisting}
+		int var1 = 1, var2, var3 = 3;
+		float float1 = 0.1, float2 = 1;
+	\end{lstlisting}
+    No caso de arrays e matrizes, é possível inicia-los com literais:
+    \begin{lstlisting}
+		string array[20] = ["olha", "esse", "teste", "!"];
+		bool matrix[3][3] = [
+								[false, true, true],
+								[true, false, true],
+								[true, true, false]
+							];
+	\end{lstlisting}
+\item{Comparações}: 
+	\begin{lstlisting}
+		var1 <= var2;
+	\end{lstlisting}
+    Se os valores comparados forem numeros, é possível compará-los com:
+    \begin{lstlisting}
+		<=, >=, <, >, ==, !=
+	\end{lstlisting}
+    Se eles forem booleanos, só é possível compará-los com:
+    \begin{lstlisting}
+		==, !=
+	\end{lstlisting}
+    
+\item{Condicionais}: 
+	\begin{lstlisting}
+		if(var1 == 0) do
+        	-Programa-
+		endif
+	\end{lstlisting}
+    
+\item{Iteradores}: 
+	\begin{lstlisting}
+		while(true) do
+        	i = i + 1;
+		endwhile
+	\end{lstlisting}
+
+\item{Funções}: 
+	Declaração:
+	\begin{lstlisting}
+		function int func1(float a, float b) do
+        	return 1;
+		endfunction
+	\end{lstlisting}
+    
+    Chamada:
+    \begin{lstlisting}
+		int var_int = func1(1.0, 2.0);
+	\end{lstlisting}
+    
+\item{Entrada}: 
+	\begin{lstlisting}
+		scan(var1, var2, var3[0]);
+	\end{lstlisting}
+    
+\item{Saída}: 
+	\begin{lstlisting}
+		print("var1=", var1, "var2=", var2, "var3[0]=", var3[0]);
+	\end{lstlisting}
+    
+\item{Seleção}: 
+	\begin{lstlisting}
+		when(var1)
+			is(1) do
+				print("teste1");
+			break;
+			is(2) do
+				print("teste2");
+			break;
+			default do
+				print("erro");
+			break;
+		endwhen
+	\end{lstlisting}
+    
+\item{Comentários}: 
+	\begin{lstlisting}
+		##
+      	Sou um comentario de bloco!
+    ##
+        
+    #Sou um comentario de linha!
+	\end{lstlisting}
+    
+\item{Estruturas heterogêneas}: 
+	\begin{lstlisting}
+		struct Caixa do
+			int inteiro;
+			string nome;
+		endstruct
+	\end{lstlisting}
+    Para acessar uma variável da caixa:
+    \begin{lstlisting}
+    	Caixa->inteiro = 20;
+		int var1 = Caixa->inteiro;
+	\end{lstlisting}
+    Essa struct servirá apenas como uma variável simples. Se o usuário quiser outra caixa, ele deverá criar outra caixa:
+    \begin{lstlisting}
+		struct Caixa2 do
+			int inteiro;
+			string nome;
+		endstruct
+	\end{lstlisting}
+\end{itemize}

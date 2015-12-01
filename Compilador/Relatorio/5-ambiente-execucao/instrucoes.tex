@@ -1,0 +1,42 @@
+\begin{table}
+\centering{
+\renewcommand{\tabcolsep}{0.2cm}
+\begin{tabular}{|L{2cm}|l|L{4cm}|L{4cm}|}
+\hline
+\textbf{Operação} & \textbf{Mnem.} & \textbf{Operando} & \textbf{Descrição} \\
+\hline
+Jump & JP & Endereço ou Rótulo de desvio & Desvio incondicional \\
+\hline
+Jump if Zero & JZ & Endereço ou Rótulo de desvio & Desvio se acumulador é zero \\
+\hline
+Jump if Negative & JN & Endereço ou Rótulo de desvio & Desvio acumulador é negativo \\
+\hline
+Load Value & LV & Constante de 12 bits & Carrega uma constante no acumulador \\
+\hline
+Add & + & Endereço ou Rótulo da parcela & Soma do acumulador com a parcela \\
+\hline
+Subtract & - & Endereço ou Rótulo do subtraendo & Subtração do acumulador com o subtraendo \\
+\hline
+Multiply & * & Endereço ou Rótulo do multiplicador & Multiplicação do acumulador com o multiplicador \\
+\hline
+Divide & / & Endereço ou Rótulo do divisor & Divisão do acumulador com o divisor \\
+\hline
+Load & LD & Endereço ou Rótulo do dado & Carrega valor contido no endereço de memória para acumulador \\
+\hline
+Move to Memory & MM & Endereço ou Rótulo de destino do dado & Carrega valor do acumulador para a memória \\
+\hline
+Subroutine Call & SC & Endereço ou Rótulo do subprograma & Desvio para subprograma \\
+\hline
+Return from Subroutine & RS & Endereço ou Rótulo de retorno & Retorno de subprograma \\
+\hline
+Halt Machine & HM & Endereço ou Rótulo do desvio & Parada \\
+\hline
+Get Data & GD & Dispositivo de E/S & Entrada \\
+\hline
+Put Data & PD & Dispositivo de E/S & Saída \\
+\hline
+Operating System & OS & Constante & Chamada de supervisor \\
+\hline
+\end{tabular}}
+\caption{\label{tab:tabela-instrucoes} Tabela de instruções.}
+\end{table}

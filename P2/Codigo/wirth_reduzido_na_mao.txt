@@ -1,0 +1,4 @@
+Program = { Expr }.
+
+Expr = "i" | "I" | "K" | "k" | "S" | "s" | { "0" | "1" } | "`" Expr Expr | "*" IotaExpr IotaExpr | "(" { Expr } ")".
+IotaExpr = "i" | "I" | "K" | "k" | "S" | "s" | { "0" | "1" } | "`" Expr Expr | "*" IotaExpr IotaExpr | "(" { Expr } ")".

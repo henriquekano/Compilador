@@ -1,0 +1,11 @@
+var stateList = $("#wirth_state ol li");
+var buffer = "";
+$.each(stateList, function(idx, el){
+	var element = $(this).text().trim();
+	var aut = $(".automatas").eq(idx);
+	var name = aut.prev().text();
+	aut.find("div").removeAttr("style");
+	var jff = aut.find("div").eq(3).find("pre").text().trim();
+	buffer += name+".jff"+"\n"+jff+"\n\n";
+});
+console.log(buffer);

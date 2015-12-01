@@ -1,0 +1,10 @@
+Program = CCExpr.
+
+CCExpr = CCExpr Expr | epsilon.
+
+Expr' = "I" | "K" | "k" | "S" | "s" | NonemptyJotExpr | "`" Expr Expr | "*" IotaExpr IotaExpr | "(" CCExpr ")".
+Expr = "i" | Expr'.
+IotaExpr = "i" | Expr'.
+
+NonemptyJotExpr = JotExpression "0" | JotExpression "1".
+JotExpression = NonemptyJotExpr | epsilon.

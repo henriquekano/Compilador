@@ -1,0 +1,8 @@
+Program = CC("i" | Expr').
+
+NonemptyJotExpr = (NonemptyJot("i" | Expr') | epsilon) "0" | (NonemptyJot("i" | Expr') | epsilon) "1".
+
+CCExpr = CC("i" | Expr') ("i" | Expr') | epsilon.
+
+Expr' = "I" | "K" | "k" | "S" | "s" | NonemptyJot("i" | Expr') | "`" ("i" | Expr') ("i" | Expr') | "*" ("i" | ("i" | Expr')') ("i" | ("i" | Expr')') | "(" CC("i" | Expr') ")".
+
