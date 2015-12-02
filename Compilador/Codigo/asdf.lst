@@ -93,22 +93,34 @@
 ; fim GET_RA --------------------------------------------
 
 ; corpo do main -----------------------------------------
-0082 800a		;	MAIN        LD    PARAM_1     
-0084 905a		;	            MM    PUSH_P   
-0086 a05c		;	            SC    PUSH_RA     ; push PARAM_1 na pilha de ra
-
-0088 800c		;	            LD    PARAM_2     
-008a 905a		;	            MM    PUSH_P   
-008c a05c		;	            SC    PUSH_RA     ; push PARAM_2 na pilha de ra
-
-008e 800e		;	            LD    FP     
-0090 905a		;	            MM    PUSH_P         
-0092 a05c		;	            SC    PUSH_RA     ; push old FP na pilha de ra
-
-0094 a018		;	            SC    SUB    ; chama SUB
-
-0096 c000		;	            HM    INIT        ; fim do programa inteiro
+;MAIN        LD    PARAM_1     
+;            MM    PUSH_P   
+;            SC    PUSH_RA     ; push PARAM_1 na pilha de ra
+;
+;            LD    PARAM_2     
+;            MM    PUSH_P   
+;            SC    PUSH_RA     ; push PARAM_2 na pilha de ra
+;
+;            LD    FP     
+;            MM    PUSH_P         
+;            SC    PUSH_RA     ; push old FP na pilha de ra
+;
+;            SC    SUB    ; chama SUB
+;
+;            HM    INIT        ; fim do programa inteiro
 ;fim main -----------------------------------------------
 
+
+
+
+
+; corpo do main -----------------------------------------
+0082 8086		;	MAIN        LD    VAR_1    
+
+0084 c000		;	            HM    INIT        ; fim do programa inteiro
+;fim main -----------------------------------------------
+
+
+0086 7fff		;	VAR_1       K     =32767      ; declaracao
 
 

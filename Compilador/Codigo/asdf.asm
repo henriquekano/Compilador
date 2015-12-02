@@ -93,23 +93,35 @@ _NEW_INSTR2 K     /0000       ; carrega valor da ra no acumulador
 ; fim GET_RA --------------------------------------------
 
 ; corpo do main -----------------------------------------
-MAIN        LD    PARAM_1     
-            MM    PUSH_P   
-            SC    PUSH_RA     ; push PARAM_1 na pilha de ra
+;MAIN        LD    PARAM_1     
+;            MM    PUSH_P   
+;            SC    PUSH_RA     ; push PARAM_1 na pilha de ra
+;
+;            LD    PARAM_2     
+;            MM    PUSH_P   
+;            SC    PUSH_RA     ; push PARAM_2 na pilha de ra
+;
+;            LD    FP     
+;            MM    PUSH_P         
+;            SC    PUSH_RA     ; push old FP na pilha de ra
+;
+;            SC    SUB    ; chama SUB
+;
+;            HM    INIT        ; fim do programa inteiro
+;fim main -----------------------------------------------
 
-            LD    PARAM_2     
-            MM    PUSH_P   
-            SC    PUSH_RA     ; push PARAM_2 na pilha de ra
 
-            LD    FP     
-            MM    PUSH_P         
-            SC    PUSH_RA     ; push old FP na pilha de ra
 
-            SC    SUB    ; chama SUB
+
+
+; corpo do main -----------------------------------------
+MAIN        LD    VAR_1    
 
             HM    INIT        ; fim do programa inteiro
 ;fim main -----------------------------------------------
 
+
+VAR_1       K     =32767      ; declaracao
 # INIT                  ; fim do programa
 
 

@@ -1,88 +1,27 @@
 begin
-  
-  if (var1 == false) do
-    print(false);
+##
+  int num;
+  int fat;
+##  
+  scan(num);
+  if(num < 0) do
+    fat = 0;
+    print(id);
   endif
 
-  when(var1)
-    is(2) do
-      print("llllslsl ", var1, " yay");
-    continue;
-
-    is(3) do
-      print("llllslsl");
-    continue;
-
-    is(1 + 2 * 4) do
-      print("llllslsl");
-    continue;
-  endwhen
-  ##
-    Sou um comentario!
-  ##
-  float var1; #Comentario
-  float var2;
-  float var3;
-  bool var_4;
-  string _var5;
-  int var6[10];
-  int matrix[2][4];
-
-  struct tipoEsquisito do
-    int structInt;
-    float structFloat;
-    bool structBool;
-
-    function int structFuntion(int num1, int num2) do
-      print(num1);
-    endfunction
-  endstruct
-
-  function float media(int nota1, int nota2) do
-    a = 2;
-    return 2;
-  endfunction
-
-  function float media(int nota1, int nota2) do
-  endfunction
-
-  function float operacoes() do
-    #var1 = 43/2*5+1;
-    var2 = 12 + 3 - 12 / 43 * 1;
-    var3 = ((var1 + var2) * 2 / (3 + var1));
-    return var;
-  endfunctionS
-  
-
-  while (true) do
-    var1 = media(3,4);
-    print(1+2+3+media(4,3));
+  while(num > 2) do
+    fat = 2;
   endwhile
+##
+    fat = 0;
+  else do
+    fat = 1;
+    while(num > 1) do
+      fat = fat * num;
+      num = num - 1;
+    endwhile
 
-  scan(var1, var2);
-
-  print("lalalala");
-
-  if (var1 > 1) do
-    print(var1);
-  elsif (var1 < 1) do
-    print(var2);
+    print(fat);
   endif
-
-  if (var1 <= 1) do
-    print(var1);
-  endif
-
-  if (var1 >= 1) do
-    print(var1);
-  endif
-
-  if (var1 == true) do
-    print(true);
-  endif
-
-  if (not var1) do
-    print(false);
-  endif
-
+##
 end

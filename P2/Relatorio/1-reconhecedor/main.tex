@@ -45,7 +45,7 @@ A partir da notação em BNF, foi obtida a notação em Wirth:
 
     IotaExpr    = "i" | Expr'
 
-    <Expr'>    ::= "I"                        
+    Expr'    ::= "I"                        
                | "K" | "k"                  
                | "S" | "s"                               
                | NonemptyJotExpr           
@@ -53,8 +53,8 @@ A partir da notação em BNF, foi obtida a notação em Wirth:
                | "*" IotaExpr IotaExpr    
                | "(" CCExpr ")"             
 
-    NonemptyJotExpr ::= JotExpr 0                
-                        | JotExpr 1     
+    NonemptyJotExpr ::= JotExpr "0"                
+                        | JotExpr "1"     
 
     JotExpr = NonemptyJotExpr | epsilon.           
 \end{lstlisting}
@@ -65,8 +65,8 @@ Como todos os terminais da linguagem são compostos apenas por um caracter, a ta
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=7cm,keepaspectratio]{jflap-automatas/lexico.png}
-\caption{\label{fig:jflap-lexico} Analisador léxico}
+\includegraphics[width=14cm,keepaspectratio]{jflap-automatas/lexico.png}
+\caption{\label{fig:jflap-lexico} Transdutor - Analisador léxico}
 \end{figure}
 
 \section{Análise Sintática}
@@ -100,7 +100,7 @@ final: 1
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm,keepaspectratio]{jflap-automatas/program.png}
+\includegraphics[width=15cm,keepaspectratio]{jflap-automatas/program.png}
 \caption{\label{fig:jflap-program} Program}
 \end{figure}
 
@@ -136,7 +136,7 @@ final: 1, 2
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm,keepaspectratio]{jflap-automatas/expr.png}
+\includegraphics[width=15cm,keepaspectratio]{jflap-automatas/expr.png}
 \caption{\label{fig:jflap-expr} Expr}
 \end{figure}
 
@@ -172,6 +172,6 @@ final: 1, 2
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=12cm,keepaspectratio]{jflap-automatas/iotaexpr.png}
+\includegraphics[width=15cm,keepaspectratio]{jflap-automatas/iotaexpr.png}
 \caption{\label{fig:jflap-iotaexpr} IotaExpr}
 \end{figure}

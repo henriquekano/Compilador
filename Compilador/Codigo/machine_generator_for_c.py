@@ -10,7 +10,7 @@ def main(argv):
 
 	machine_output = "machine_generator_for_c_output.txt"
 
-	dont_replace = ["ID", "FLOAT", "INT", "TIPO", "STRING", "COMPARADOR", "BOOL"]
+	dont_replace = ["ID", "FLOAT", "INT", "TIPO", "STRING", "COMPARADOR", "BOOL"]	
 
 	machine_types = {}
 	machine_types["PROGRAMA"] = "MTYPE_PROGRAM"
@@ -70,7 +70,11 @@ def main(argv):
 	machine_token_types["TIPO"] = "MTTYPE_TYPE" 				
 	machine_token_types["STRING"] = "MTTYPE_STRING" 					
 	machine_token_types["COMPARADOR"] = "MTTYPE_COMPARATOR" 			
-	machine_token_types["BOOL"] = "MTTYPE_BOOL"				
+	machine_token_types["BOOL"] = "MTTYPE_BOOL"	
+
+	semantic_actions = True
+	
+	semantic_actions = []			
 
 	transition_table_file = open(transition_table_input, "r")
 

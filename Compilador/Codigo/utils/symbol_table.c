@@ -73,19 +73,11 @@ int symbol_table_get_position(SymbolTable *stable, char *symbolName){
   return symbol_table_get_info(stable, symbolName)[ST_POS];
 }
 
-<<<<<<< Updated upstream
 int symbol_table_get_papel(SymbolTable *stable, char *symbolName){
   return symbol_table_get_info(stable, symbolName)[ST_PAPEL];
 }
 
 int symbol_table_get_type(SymbolTable *stable, char *symbolName){
-=======
-Symbol_papel symbol_table_get_papel(SymbolTable *stable, char *symbolName){
-  return symbol_table_get_info(stable, symbolName)[ST_PAPEL];
-}
-
-Symbol_type symbol_table_get_type(SymbolTable *stable, char *symbolName){
->>>>>>> Stashed changes
   return symbol_table_get_info(stable, symbolName)[ST_TYPE];
 }
 
