@@ -11,7 +11,9 @@ typedef enum{
   ST_PAPEL = 1,
   ST_TYPE = 2,
   ST_DIMENSION = 3,
-  ST_ADDRESS = 4
+  ST_ADDRESS = 4,
+  ST_ROWS = 5,
+  ST_COLUMNS = 6
 }Table_info;
 
 typedef enum{
@@ -24,6 +26,7 @@ typedef enum{
 typedef enum{
   ST_PAPEL_FUNCTION = 0,
   ST_PAPEL_VAR = 1,
+  ST_PAPEL_STRUCT = 2
 }Symbol_papel;
 
 typedef struct _symboltable_symbol{
@@ -44,8 +47,10 @@ void symbol_table_pretty_print(SymbolTable *stable);
 int *symbol_table_get_info(SymbolTable *stable, char *symbolName);
 
 int symbol_table_get_position(SymbolTable *stable, char *symbolName);
-int symbol_table_get_papel(SymbolTable *stable, char *symbolName);
-int symbol_table_get_type(SymbolTable *stable, char *symbolName);
+
+Symbol_papel symbol_table_get_papel(SymbolTable *stable, char *symbolName);
+Symbol_type symbol_table_get_type(SymbolTable *stable, char *symbolName);
+
 int symbol_table_get_dimension(SymbolTable *stable, char *symbolName);
 int symbol_table_get_address(SymbolTable *stable, char *symbolName);
 

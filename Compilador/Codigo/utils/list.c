@@ -3,6 +3,10 @@
 #include <string.h>
 #include "list.h"
  
+void list_free_string(void *data){
+  free(*(char **)data);
+}
+
 void list_new(List *list, int elementSize, freeFunction freeFn){
   assert(elementSize > 0);
   list->logicalLength = 0;
@@ -107,6 +111,24 @@ void *list_get_first(List *list){
     list->head = listHead->next;
     list->logicalLength -= 1;
     return listHead->data;
+  }
+}
+
+void *list_peek_head(List *list){
+  listNode *listHead = list->head;
+  if(listHead == NULL){
+    return NULL;
+  }else{
+    return listHead->data;
+  }
+}
+
+void *list_peek_tail(List *list){
+  listNode *listTail = list->tail;
+  if(listTail == NULL){
+    return NULL;
+  }else{
+    return listTail->data;
   }
 }
 
