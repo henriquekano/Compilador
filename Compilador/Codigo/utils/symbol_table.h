@@ -50,6 +50,7 @@ int symbol_table_get_position(SymbolTable *stable, char *symbolName);
 
 Symbol_papel symbol_table_get_papel(SymbolTable *stable, char *symbolName);
 Symbol_type symbol_table_get_type(SymbolTable *stable, char *symbolName);
+
 int symbol_table_get_dimension(SymbolTable *stable, char *symbolName);
 int symbol_table_get_address(SymbolTable *stable, char *symbolName);
 

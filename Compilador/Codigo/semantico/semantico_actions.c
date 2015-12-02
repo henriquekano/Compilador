@@ -137,38 +137,50 @@ void program_end(FILE *file) {
 
 int operator_precedence(char * operator) {
   if(operator != NULL) {
-    if(strcmp(operator, "+") == 0) return 0;
-    if(strcmp(operator, "-") == 0) return 0;
-    if(strcmp(operator, "*") == 0) return 1;
-    if(strcmp(operator, "/") == 0) return 1;
-    if(strcmp(operator, "(") == 0) return 2;
-    if(strcmp(operator, ")") == 0) return 2;
+    if(strcmp(operator, "==") == 0) return 0;
+    if(strcmp(operator, ">=") == 0) return 0;
+    if(strcmp(operator, "<=") == 0) return 0;
+    if(strcmp(operator, ">") == 0) return 0;
+    if(strcmp(operator, "<") == 0) return 0;
+    if(strcmp(operator, "+") == 0) return 1;
+    if(strcmp(operator, "-") == 0) return 1;
+    if(strcmp(operator, "*") == 0) return 2;
+    if(strcmp(operator, "/") == 0) return 2;
+    if(strcmp(operator, "(") == 0) return 3;
+    if(strcmp(operator, ")") == 0) return 3;
   }
   return -1;
 }
 
-char *apply(char *operation, char *operand1, char *operand2){
-  char *temp = (char *)malloc(6 * sizeof(char));
+char *apply(FILE *file,char *operation, char *operand1, char *operand2){
   bool op1_is_digit = isDigit(operand1);
   bool op2_is_digit = isDigit(operand2);
 
+  char *result_temp = get_temp_label();   
+  char *num1_temp = op1_is_digit? get_temp_label() : operand1;
+  char *num2_temp = op2_is_digit? get_temp_label() : operand2;
 
-  if(op1_is_digit && op2_is_digit){
-    list_append(&char_pointer_garbage, temp);
-    if(strcmp(operation, "+") == 0){
-      itoa(atoi(operand1) + atoi(operand2), temp, 10);
-    }else if(strcmp(operation, "-") == 0){
-      itoa(atoi(operand1) - atoi(operand2), temp, 10);
-    }else if(strcmp(operation, "*") == 0){
-      itoa(atoi(operand1) * atoi(operand2), temp, 10);
-    }else if(strcmp(operation, "/") == 0){
-      itoa(atoi(operand1) / atoi(operand2), temp, 10);
-    }else{
-      return NULL;
-    }
+  if(strcmp(operation, "+") == 0){
+    // itoa(atoi(operand1) + atoi(operand2), temp, 10);
+    sprintf(buffer, "LD %s\n + %s\nMM %s\n", num1_temp, num2_temp, result_temp);
+    write(file, buffer);
+    
+  }else if(strcmp(operation, "-") == 0){
+    // itoa(atoi(operand1) - atoi(operand2), temp, 10);
+    sprintf(buffer, "LD %s\n - %s\nMM %s\n", num1_temp, num2_temp, result_temp);
+    write(file, buffer);
+  }else if(strcmp(operation, "*") == 0){
+    // itoa(atoi(operand1) * atoi(operand2), temp, 10);
+    sprintf(buffer, "LD %s\n * %s\nMM %s\n", num1_temp, num2_temp, result_temp);
+    write(file, buffer);
+  }else if(strcmp(operation, "/") == 0){
+    // itoa(atoi(operand1) / atoi(operand2), temp, 10);
+    sprintf(buffer, "LD %s\n / %s\nMM %s\n", num1_temp, num2_temp, result_temp);
+    write(file, buffer);
   }
-  printf("%s\n", temp);
-  return temp;
+
+  printf("%s %s %s = %s\n", num1_temp, operation, num2_temp, result_temp);
+  return result_temp;
 }
 
 // https://en.wikipedia.org/wiki/Shunting-yard_algorithm 
@@ -181,7 +193,7 @@ void expression_print(FILE *file, Token token){
   if(token.type == TT_IDENTIFIER || token.type == TT_INT){
     list_prepend(&operands_stack, token.string);
 
-  } else if(token.type == TT_ARITH_SYMBOL){
+  } else if(token.type == TT_ARITH_SYMBOL || token.type == TT_COMPARATOR){
     char *last_operator = (char *)list_peek_head(&operator_stack);
     if(list_size(&operator_stack) <= 0 || strcmp(last_operator, "(") == 0 || operator_precedence(token.string) >= operator_precedence(last_operator)){
       list_prepend(&operator_stack, token.string);
@@ -190,7 +202,7 @@ void expression_print(FILE *file, Token token){
         operator = list_get_first(&operator_stack);
         operand2 = (char *)list_get_first(&operands_stack);
         operand1 = (char *)list_get_first(&operands_stack);
-        result = apply(operator, operand1, operand2);
+        result = apply(file, operator, operand1, operand2);
         list_prepend(&operands_stack, result);
       }
       list_prepend(&operator_stack, token.string);
@@ -202,7 +214,7 @@ void expression_print(FILE *file, Token token){
       operator = list_get_first(&operator_stack);
       operand2 = (char *)list_get_first(&operands_stack);
       operand1 = (char *)list_get_first(&operands_stack);
-      result = apply(operator, operand1, operand2);
+      result = apply(file, operator, operand1, operand2);
       list_prepend(&operands_stack, result);
     }
     list_get_first(&operator_stack);
@@ -211,9 +223,11 @@ void expression_print(FILE *file, Token token){
       operator = list_get_first(&operator_stack);
       operand2 = (char *)list_get_first(&operands_stack);
       operand1 = (char *)list_get_first(&operands_stack);
-      result = apply(operator, operand1, operand2);
+      result = apply(file, operator, operand1, operand2);
       list_prepend(&operands_stack, result);
     }
+  } else if(token.type == TT_SEPARATOR){
+
   }
 
 }

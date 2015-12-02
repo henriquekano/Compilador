@@ -3,6 +3,7 @@
 
 #include "automataPE.h"
 
+#include "semantic_actions.h"
 #include "../lexico/analisador.h"
 #include "machines.h"
 
@@ -39,23 +40,32 @@ void automataPE_destroy(AutomataPE *a){
   }
 }
 
-bool automataPE_run(AutomataPE *a, FILE *file, Token *t){
+bool automataPE_run(AutomataPE *a, FILE *input, FILE *output, Token *t){
   //Pega o token, transforma em um index da tabela de transicao e tenta achar o prox estado
 
   if(a->currentMachine.id == MTYPE_INVALID){
     return FALSE;
   }
 
-  // printf("Maquina atual: %s\n", machineid_to_name(a->currentMachine.id))
+  printf("\t---------- %s\n", machineid_to_name(a->currentMachine.id));
 
   int next_state = table_get(&(a->currentMachine.table), a->currentMachine.state, convert_token_to_machine_type(t));
   
   //verifica se tem uma transicao normal pra algum estado
   if(next_state != MINVALID_STATE){
+    actions_on_state_transition[a->currentMachine.id][a->currentMachine.state][convert_token_to_machine_type(t)](t);
     automata_goto_next_state2(&(a->currentMachine), convert_token_to_machine_type(t));
-    Token t2 = find_possible_token(file);
+    Token t2 = find_possible_token(input);
     t->string = t2.string;
     t->type = t2.type;
+
+    // eh o atual ou o proximo?
+    fprintf(output, "This is testing for fprintf...\n");
+
+
+
+
+
 
   //verifica se tem alguma transicao para uma maquina
   }else if(next_state == MINVALID_STATE){
@@ -77,6 +87,8 @@ bool automataPE_run(AutomataPE *a, FILE *file, Token *t){
           int temp_state = table_get(&(a->afterCallStates[pop_automata->id]), 
                                 automata_current_state2(pop_automata),
                                 a->currentMachine.id);
+          // acao semantica quando desempilho a maquina
+          actions_on_machine_return[a->currentMachine.id][a->currentMachine.state](t);
           a->currentMachine = *pop_automata;
           a->currentMachine.state = temp_state;
         }else{

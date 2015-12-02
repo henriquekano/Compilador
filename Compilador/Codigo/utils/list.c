@@ -32,7 +32,7 @@ void list_destroy(List *list){
  
 void list_prepend(List *list, void *element){
   listNode *node = malloc(sizeof(listNode));
-  node->data = malloc(list->elementSize);
+  node->data = element;
   memcpy(node->data, element, list->elementSize);
 
   node->next = list->head;
