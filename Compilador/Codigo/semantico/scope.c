@@ -39,9 +39,8 @@ void scope_enter_new(){
 }
 
 void scope_exit_scope(){
-  Scope *exited_scope = current_scope;
+  symbol_table_destroy(&(current_scope->symbol_table));
   current_scope = current_scope->father;
-  scope_destroy(exited_scope);
 }
 
 bool scope_var_exists(char *var_name){
