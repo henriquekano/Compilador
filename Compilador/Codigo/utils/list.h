@@ -42,6 +42,7 @@ void *list_peak_head(List *list);
 void *list_get(List *list, void *data, listComparator comparator);
 
 char *list_to_char_array(List *list);
+void list_print(List *list);
 
 //Funcoes de free comuns
 void list_free_string(void *data);

@@ -44,7 +44,67 @@ int main(){
 
   // symbol_table_destroy(&s);
 
-  printf("%s", get_number_hex_string(16));
+  init_semantic();
+
+  char  one[2] = {'1', '\0'}, 
+        plus[2] = {'+', '\0'}, 
+        end[2] = {';', '\0'}, 
+        mult[2] = {'*', '\0'},
+        rpar[2] = {')', '\0'},
+        lpar[2] = {'(', '\0'};
+  
+  // (1 + (1 + 1 + 1) * (1 * (1 + 1 + 1)) * (1 + 1))
+
+  Token oneT, plusT, endT, multT, rparT, lparT;
+  oneT = token_create(one, TT_INT, NULL);
+  plusT = token_create(plus, TT_ARITH_SYMBOL, NULL);
+  multT = token_create(mult, TT_ARITH_SYMBOL, NULL);
+  endT = token_create(end, TT_END_OF_COMMAND, NULL);
+  rparT = token_create(rpar, TT_R_PARENTHESIS, NULL);
+  lparT = token_create(lpar, TT_L_PARENTHESIS, NULL);
+  
+  // // printf("%s", get_number_hex_string(16));
+
+  expression_print(NULL, lparT);
+  expression_print(NULL, oneT);
+  expression_print(NULL, plusT);
+  
+  expression_print(NULL, lparT);
+    expression_print(NULL, oneT);
+    expression_print(NULL, plusT);
+    expression_print(NULL, oneT);
+    expression_print(NULL, plusT);
+    expression_print(NULL, oneT);
+  expression_print(NULL, rparT);
+
+  expression_print(NULL, multT);
+
+    expression_print(NULL, lparT);
+    expression_print(NULL, oneT);
+    expression_print(NULL, multT);
+
+      expression_print(NULL, lparT);
+        expression_print(NULL, oneT);
+        expression_print(NULL, plusT);
+        expression_print(NULL, oneT);
+        expression_print(NULL, plusT);
+        expression_print(NULL, oneT);
+      expression_print(NULL, rparT);
+
+    expression_print(NULL, rparT);
+
+    expression_print(NULL, multT);
+    expression_print(NULL, lparT);
+      expression_print(NULL, oneT);
+      expression_print(NULL, plusT);
+      expression_print(NULL, oneT);
+    expression_print(NULL, rparT);
+
+  expression_print(NULL, rparT);
+
+  expression_print(NULL, endT);
+
+  end_semantic();
 
   return 0;
 }
