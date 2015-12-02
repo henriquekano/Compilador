@@ -66,7 +66,10 @@ int *symbol_table_get_info(SymbolTable *stable, char *symbolName){
 
   _symboltable_symbol *symbol = (_symboltable_symbol*)list_get(&(stable->list), symbolName, symbol_table_symbol_comparator);
 
-  return symbol->symbolInfo;
+  if(symbol != NULL)
+    return symbol->symbolInfo;
+  else
+    return NULL;
 }
 
 int symbol_table_get_position(SymbolTable *stable, char *symbolName){

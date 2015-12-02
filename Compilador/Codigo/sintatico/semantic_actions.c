@@ -7,6 +7,8 @@
 #include "../utils/file_manager.h"
 #include "../utils/string_utils.h"
 
+#include "../semantico/scope.h"
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>

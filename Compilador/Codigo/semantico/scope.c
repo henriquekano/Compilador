@@ -43,9 +43,19 @@ void scope_exit_scope(){
   current_scope = current_scope->father;
 }
 
-bool scope_var_exists(char *var_name){
+bool scope_var_exists_recursive(Scope *scope, char *var_name){
   int *var_info = symbol_table_get_info(&(current_scope->symbol_table), var_name);
-  return var_info != NULL;
+  if(var_info == NULL && scope->father != NULL){
+    return scope_var_exists_recursive(scope->father, var_name) ;
+  }else if(var_info == NULL && scope->father == NULL){
+    return FALSE;
+  }else if(var_info != NULL){
+    return TRUE;
+  }
+}
+
+bool scope_var_exists(char *var_name){
+  return scope_var_exists_recursive(current_scope, var_name);
 }
 
 void scope_add_var(char *symbolName, int symbolInfo[SYMBOL_TABLE_SYMBOL_INFO]){
