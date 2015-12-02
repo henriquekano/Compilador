@@ -18,6 +18,8 @@
 #include "semantico/semantico_actions.h"
 
 #define FILENAME "ENTRADA.txt"
+#define OUTPUT_FILENAME "SAIDA.txt"
+
 
 void semantic_tbd(AutomataPE *aPE, Token *t, FILE *file){
   printf("TODO\n");
@@ -44,6 +46,8 @@ int main(){
 
   // symbol_table_destroy(&s);
 
+  FILE *file = fopen(OUTPUT_FILENAME, "w+");
+
   init_semantic();
 
   char  one[2] = {'1', '\0'}, 
@@ -53,7 +57,6 @@ int main(){
         rpar[2] = {')', '\0'},
         lpar[2] = {'(', '\0'};
   
-  // (1 + (1 + 1 + 1) * (1 * (1 + 1 + 1)) * (1 + 1))
 
   Token oneT, plusT, endT, multT, rparT, lparT;
   oneT = token_create(one, TT_INT, NULL);
@@ -65,46 +68,51 @@ int main(){
   
   // // printf("%s", get_number_hex_string(16));
 
-  expression_print(NULL, lparT);
-  expression_print(NULL, oneT);
-  expression_print(NULL, plusT);
+  // (1 + (1 + 1 + 1) * (1 * (1 + 1 + 1)) * (1 + 1))
+  expression_print(file, lparT);
+  expression_print(file, oneT);
+  expression_print(file, plusT);
   
-  expression_print(NULL, lparT);
-    expression_print(NULL, oneT);
-    expression_print(NULL, plusT);
-    expression_print(NULL, oneT);
-    expression_print(NULL, plusT);
-    expression_print(NULL, oneT);
-  expression_print(NULL, rparT);
+  expression_print(file, lparT);
+    expression_print(file, oneT);
+    expression_print(file, plusT);
+    expression_print(file, oneT);
+    expression_print(file, plusT);
+    expression_print(file, oneT);
+  expression_print(file, rparT);
 
-  expression_print(NULL, multT);
+  expression_print(file, multT);
 
-    expression_print(NULL, lparT);
-    expression_print(NULL, oneT);
-    expression_print(NULL, multT);
+    expression_print(file, lparT);
+    expression_print(file, oneT);
+    expression_print(file, multT);
 
-      expression_print(NULL, lparT);
-        expression_print(NULL, oneT);
-        expression_print(NULL, plusT);
-        expression_print(NULL, oneT);
-        expression_print(NULL, plusT);
-        expression_print(NULL, oneT);
-      expression_print(NULL, rparT);
+      expression_print(file, lparT);
+        expression_print(file, oneT);
+        expression_print(file, plusT);
+        expression_print(file, oneT);
+        expression_print(file, plusT);
+        expression_print(file, oneT);
+      expression_print(file, rparT);
 
-    expression_print(NULL, rparT);
+    expression_print(file, rparT);
 
-    expression_print(NULL, multT);
-    expression_print(NULL, lparT);
-      expression_print(NULL, oneT);
-      expression_print(NULL, plusT);
-      expression_print(NULL, oneT);
-    expression_print(NULL, rparT);
+    expression_print(file, multT);
+    expression_print(file, lparT);
+      expression_print(file, oneT);
+      expression_print(file, plusT);
+      expression_print(file, oneT);
+    expression_print(file, rparT);
 
-  expression_print(NULL, rparT);
+  expression_print(file, rparT);
 
-  expression_print(NULL, endT);
+  expression_print(file, endT);
+
+
 
   end_semantic();
+
+  fclose(file);
 
   return 0;
 }
