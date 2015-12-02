@@ -14,23 +14,28 @@
 static int if_counter			= 0;
 static int else_counter			= 0;
 static int while_counter		= 0;
+static int temp_count = 0;
 static int last_id 				= 333;
 static int TAMANHO 				= 4;
 static char* ADDR 				= "/0300";
 
 static struct List operands_stack;
 static struct List operator_stack;
+static struct List char_pointer_garbage;
 
+static char buffer[100];
 
+typedef enum{
+	WHILE = 0,
+	IF = 1,
+	ELSIF = 2,
+	ELSE = 3,
+	OTHER = 4
+}action;
 
-void init_semantic(){
-  list_new(&char_pointer_garbage, sizeof(char*), list_free_string);
+static action current_action = OTHER;
 
-  list_new(&operands_stack, sizeof(char *), list_free_string);
-  list_new(&operator_stack, sizeof(char *), list_free_string);
-}
-
-void end_semantic(){
+void semantic_actions_end(){
   list_destroy(&operator_stack);
   list_destroy(&operands_stack);
   
@@ -165,8 +170,13 @@ void resolve_print(Token * token) {
 	printf("\t\tSC\t\tPRINT\t\t; print()\n");
 }
 
-void init_semantic_actions() {
+void semantic_actions_init() {
 	int n, i, j;
+
+	list_new(&char_pointer_garbage, sizeof(char*), list_free_string);
+
+  list_new(&operands_stack, sizeof(char *), list_free_string);
+  list_new(&operator_stack, sizeof(char *), list_free_string);
 
 	for (n = 0; n < N_MACHINE_TYPES; n++) {
 		for(i=0; i < MAX_STATES; i++){

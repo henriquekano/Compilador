@@ -8,6 +8,8 @@
 void (*actions_on_state_transition[N_MACHINE_TYPES][MAX_STATES][N_MACHINE_TOKEN_TYPES])();
 void (*actions_on_machine_return[N_MACHINE_TYPES][MAX_STATES])();
 
-void init_semantic_actions();
+void semantic_actions_init();
+void semantic_actions_end();
+
 
 #endif /* SEMANTIC_ACTIONS_H_ */
