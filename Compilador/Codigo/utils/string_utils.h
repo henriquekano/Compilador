@@ -5,6 +5,6 @@
 
 bool isDigit(char *string);
 bool startsWith(const char *pre, const char *str);
-
+char * strip(char *s);
 
 #endif

@@ -15,3 +15,16 @@ bool startsWith(const char *pre, const char *str)
            lenstr = strlen(str);
     return lenstr < lenpre ? FALSE : strncmp(pre, str, lenpre) == 0;
 }
+
+char * strip(char *s) {
+    char *p2 = s;
+    while(*s != '\0') {
+    	if(*s != '\t' && *s != '\n') {
+    		*p2++ = *s++;
+    	} else {
+    		++s;
+    	}
+    }
+    *p2 = '\0';
+    return p2;
+}

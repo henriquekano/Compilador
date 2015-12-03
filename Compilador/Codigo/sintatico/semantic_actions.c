@@ -17,7 +17,7 @@ static List if_stack; 			// pilha de if, else, elsif, endif
 static List output_stack; 		// pilha para despejar o if_stack para saida, depois das labels consertadas
 static char last_else_label[50]; 			
 static bool inside_if  			= FALSE;
-static char buffer[50]; 			
+static char buffer[150]; 			
 
 void nop(Token * token) {
 	// DOES NOTHING
@@ -28,9 +28,8 @@ void get_id(Token * token) {
 }
 
 // se estiver dentro de um if, imprime na stack
-void custom_print(char pr_buffer[50]){
+void custom_print(char * pr_buffer){
 	if(inside_if == TRUE){
-		printf("%s", pr_buffer);
 		list_prepend(&if_stack, pr_buffer);
 	} else {
 		printf(pr_buffer);
@@ -114,10 +113,10 @@ char * get_condition_label() {
 
 void if_stack_to_output() {
 	bool havent_found_if = TRUE;
-	char stack_buffer[1000];
+	char * stack_buffer;
 
 	while(havent_found_if){
-		list_head(&if_stack, &stack_buffer, TRUE);
+		stack_buffer = (char *)list_get_first(&if_stack);
 
 		printf("stack_buffer: %s\n", stack_buffer);
 		// nao sei se funfa
@@ -137,7 +136,7 @@ void if_stack_to_output() {
 			list_prepend(&output_stack, buffer);
 
 		} else if(startsWith("elsif", stack_buffer)){
-			sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", stack_buffer);
+			sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", strip(stack_buffer));
 			list_prepend(&output_stack, buffer);
 			sprintf(buffer, "\t\tJN\t\t%s\t\t\n", last_else_label);
 			list_prepend(&output_stack, buffer);
@@ -145,7 +144,7 @@ void if_stack_to_output() {
 			memcpy(last_else_label, stack_buffer, strlen(stack_buffer));
 
 		} else if(startsWith("else", stack_buffer)){
-			sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", stack_buffer);
+			sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", strip(stack_buffer));
 			list_prepend(&output_stack, buffer);
 
 			memcpy(last_else_label, stack_buffer, strlen(stack_buffer));
@@ -274,8 +273,8 @@ void init_semantic_actions() {
 		}
 	}
 
-	list_new(&if_stack, sizeof(char*), list_free_string);
-	list_new(&output_stack, sizeof(char*), list_free_string);
+	list_new(&if_stack, 100*sizeof(char*), list_free_string);
+	list_new(&output_stack, 100*sizeof(char*), list_free_string);
 
 	// TRANSITION TABLE --------------------------------------
 
