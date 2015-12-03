@@ -20,12 +20,9 @@
 #include "semantico/semantico_actions.h"
 
 #define FILENAME "ENTRADA.txt"
-#define ASM_FILENAME "SAIDA.asm"
 
 int main(){
 	FILE *input = fopen(FILENAME, "r");
-  FILE *output = fopen(ASM_FILENAME, "w");
-
   
  //  Token t;
  //  Automata automata = automata_create(S0);
@@ -46,10 +43,9 @@ int main(){
   init_semantic_actions();
    
   while(!reached_eof(input)){
-    automataPE_run(&aPE, input, output, &t);
+    automataPE_run(&aPE, input, &t);
   }
 
-  fclose(output);
   fclose(input);
 
   return 0;

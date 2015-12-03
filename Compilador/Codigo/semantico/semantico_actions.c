@@ -21,11 +21,13 @@ static struct List char_pointer_garbage;
 static struct List operands_stack;
 static struct List operator_stack;
 
+
+
 void init_semantic(){
   list_new(&char_pointer_garbage, sizeof(char*), list_free_string);
 
   list_new(&operands_stack, sizeof(char *), list_free_string);
-  list_new(&operator_stack, sizeof(char *), list_free_string);
+  list_new(&operator_sta  ck, sizeof(char *), list_free_string);
 }
 
 void end_semantic(){

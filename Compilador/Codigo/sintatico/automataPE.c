@@ -40,7 +40,7 @@ void automataPE_destroy(AutomataPE *a){
   }
 }
 
-bool automataPE_run(AutomataPE *a, FILE *input, FILE *output, Token *t){
+bool automataPE_run(AutomataPE *a, FILE *input, Token *t){
   //Pega o token, transforma em um index da tabela de transicao e tenta achar o prox estado
 
   if(a->currentMachine.id == MTYPE_INVALID){
@@ -58,13 +58,6 @@ bool automataPE_run(AutomataPE *a, FILE *input, FILE *output, Token *t){
     Token t2 = find_possible_token(input);
     t->string = t2.string;
     t->type = t2.type;
-
-    // eh o atual ou o proximo?
-    fprintf(output, "This is testing for fprintf...\n");
-
-
-
-
 
 
   //verifica se tem alguma transicao para uma maquina
