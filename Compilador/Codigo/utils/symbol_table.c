@@ -1,6 +1,6 @@
 #include "symbol_table.h"
 #include "bool.h"
-#include <stdio.h>
+#include "file_manager.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -70,6 +70,19 @@ int *symbol_table_get_info(SymbolTable *stable, char *symbolName){
     return symbol->symbolInfo;
   else
     return NULL;
+}
+
+void symbol_table_fprintf(SymbolTable *stable, FILE *file){
+  int i = 0;
+  int symbols_nmr = list_size(&(stable->list));
+  char buffer[30];
+  _symboltable_symbol *temp;
+  for(i = 0; i < symbols_nmr; i++){
+    temp = (_symboltable_symbol*)list_get_nth(&(stable->list), i);
+    sprintf(buffer, "%s   K   =0\n", temp->name);
+    write(file, buffer);
+  }
+  
 }
 
 int symbol_table_get_position(SymbolTable *stable, char *symbolName){

@@ -10,6 +10,6 @@ void (*actions_on_machine_return[N_MACHINE_TYPES][MAX_STATES])();
 
 void semantic_actions_init();
 void semantic_actions_end();
-
+void expression_print(FILE *file, Token token);
 
 #endif /* SEMANTIC_ACTIONS_H_ */

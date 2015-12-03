@@ -156,3 +156,16 @@ void *list_get(List *list, void *data, listComparator comparator){
   }
   return NULL;
 }
+
+void *list_get_nth(List *list, int n){
+  listNode *node = list->head;
+  int i;
+  for(i = 0; i < n && node != NULL; i++) {
+    node = node->next;
+  }
+  if(i == n){
+    return node->data;
+  }else{
+    return NULL;
+  }
+}
