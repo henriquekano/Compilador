@@ -3,8 +3,9 @@
 
 #include "bool.h"
 #include "list.h"
+#include <stdio.h>
 
-#define SYMBOL_TABLE_SYMBOL_INFO 5
+#define SYMBOL_TABLE_SYMBOL_INFO 7
 
 typedef enum{
   ST_POS = 0,
@@ -53,5 +54,7 @@ Symbol_type symbol_table_get_type(SymbolTable *stable, char *symbolName);
 
 int symbol_table_get_dimension(SymbolTable *stable, char *symbolName);
 int symbol_table_get_address(SymbolTable *stable, char *symbolName);
+
+void symbol_table_fprintf(SymbolTable *stable, FILE *file);
 
 #endif

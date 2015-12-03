@@ -32,7 +32,7 @@ void list_destroy(List *list){
  
 void list_prepend(List *list, void *element){
   listNode *node = malloc(sizeof(listNode));
-  node->data = malloc(list->elementSize);
+  node->data = element;
   memcpy(node->data, element, list->elementSize);
 
   node->next = list->head;
@@ -155,4 +155,17 @@ void *list_get(List *list, void *data, listComparator comparator){
     }
   }
   return NULL;
+}
+
+void *list_get_nth(List *list, int n){
+  listNode *node = list->head;
+  int i;
+  for(i = 0; i < n && node != NULL; i++) {
+    node = node->next;
+  }
+  if(i == n){
+    return node->data;
+  }else{
+    return NULL;
+  }
 }

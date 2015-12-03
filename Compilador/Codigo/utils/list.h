@@ -38,8 +38,9 @@ void list_head(List *list, void *element, bool removeFromList);
 void list_tail(List *list, void *element);
 
 void *list_peek_tail(List *list);
-void *list_peak_head(List *list);
+void *list_peek_head(List *list);
 void *list_get(List *list, void *data, listComparator comparator);
+void *list_get_nth(List *list, int n);
 
 char *list_to_char_array(List *list);
 void list_print(List *list);
