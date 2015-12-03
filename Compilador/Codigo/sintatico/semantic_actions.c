@@ -201,7 +201,7 @@ void if_stack_to_output() {
 			list_prepend(&output_stack, buffer);
 
 		} else if(startsWith("elsif", stack_buffer)){
-			sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", stack_buffer);
+			sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", trimwhitespace(stack_buffer));
 			list_prepend(&output_stack, buffer);
 			sprintf(buffer, "\t\tJN\t\t%s\t\t\n", last_else_label);
 			list_prepend(&output_stack, buffer);
@@ -209,14 +209,14 @@ void if_stack_to_output() {
 			memcpy(last_else_label, stack_buffer, strlen(stack_buffer));
 
 		} else if(startsWith("else", stack_buffer)){
-			sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", stack_buffer);
+			sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", trimwhitespace(stack_buffer));
 			list_prepend(&output_stack, buffer);
 
 			memcpy(last_else_label, stack_buffer, strlen(stack_buffer));
 
 		} else if(startsWith("do_elsif", stack_buffer)){
 			// acho que vai dar pau aqui
-			sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", stack_buffer);
+			sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", trimwhitespace(stack_buffer));
 			list_prepend(&output_stack, buffer);
 
 		} else {
@@ -356,7 +356,7 @@ void semantic_actions_init() {
 
 	actions_on_state_transition[MTYPE_COMMAND][27][MTTYPE_ELSIF] = resolve_elsif;
 	actions_on_state_transition[MTYPE_COMMAND][27][MTTYPE_ELSE] = resolve_else;
-	
+
 	actions_on_state_transition[MTYPE_COMMAND][27][MTTYPE_ENDIF] = resolve_endif;
 	actions_on_state_transition[MTYPE_COMMAND][39][MTTYPE_RIGHT_PARENTHESIS] = resolve_while;
 	actions_on_state_transition[MTYPE_COMMAND][41][MTTYPE_DO] = resolve_do_while;
