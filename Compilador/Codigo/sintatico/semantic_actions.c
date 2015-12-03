@@ -353,21 +353,10 @@ void semantic_actions_init() {
 	actions_on_state_transition[MTYPE_COMMAND][12][MTTYPE_RIGHT_PARENTHESIS] = resolve_print;
 	actions_on_state_transition[MTYPE_COMMAND][22][MTTYPE_RIGHT_PARENTHESIS] = resolve_if;
 	actions_on_state_transition[MTYPE_COMMAND][23][MTTYPE_DO] = resolve_do_if;
-<<<<<<< HEAD
-	// actions_on_state_transition[MTYPE_COMMAND][24][MTTYPE_RIGHT_BRACKET] = 26;
-	// rawSubmachineCallTables[MTYPE_COMMAND][25] = MTYPE_COMMAND;
-	// actions_on_machine_return[MTYPE_COMMAND][25] = resolve_do_if;
-
-	// actions_on_state_transition[MTYPE_COMMAND][26][MTTYPE_LEFT_BRACKET] = 28;
-	// actions_on_state_transition[MTYPE_COMMAND][26][MTTYPE_RIGHT_PARENTHESIS] = 11;
-	// actions_on_state_transition[MTYPE_COMMAND][26][MTTYPE_COMMA] = 18;
-	// rawSubmachineCallTables[MTYPE_COMMAND][27] = MTYPE_COMMAND;
-	// actions_on_machine_return[MTYPE_COMMAND][27][MTYPE_COMMAND] = 27;
 
 	actions_on_state_transition[MTYPE_COMMAND][27][MTTYPE_ELSIF] = resolve_elsif;
 	actions_on_state_transition[MTYPE_COMMAND][27][MTTYPE_ELSE] = resolve_else;
-=======
->>>>>>> 30990ccc4cfde1fea42ab0511bf6c0fae7471389
+	
 	actions_on_state_transition[MTYPE_COMMAND][27][MTTYPE_ENDIF] = resolve_endif;
 	actions_on_state_transition[MTYPE_COMMAND][39][MTTYPE_RIGHT_PARENTHESIS] = resolve_while;
 	actions_on_state_transition[MTYPE_COMMAND][41][MTTYPE_DO] = resolve_do_while;
