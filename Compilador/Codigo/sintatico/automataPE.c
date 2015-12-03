@@ -64,7 +64,7 @@ bool automataPE_run(AutomataPE *a, FILE *input, FILE *output, Token *t){
 
 
 
-
+    
 
 
   //verifica se tem alguma transicao para uma maquina
