@@ -10,6 +10,7 @@
 #include "./sintatico/semantic_actions.h"
 
 #include "./utils/list.h"
+#include "./utils/string_utils.h"
 
 #include "utils/automata2.h"
 #include <limits.h>

@@ -2,6 +2,8 @@
 #include "machines.h"
 #include "automataPE.h"
 #include "../utils/token.h"
+#include "../utils/list.h"
+#include "../utils/string_utils.h"
 #include "semantic_actions.h"
 
 static int if_counter			= 0;
@@ -9,7 +11,13 @@ static int else_counter			= 0;
 static int while_counter		= 0;
 static int last_id 				= 333;
 static int TAMANHO 				= 4;
-static char* ADDR 				= "/0300";
+static char * ADDR 				= "/0300";
+
+static List if_stack; 			// pilha de if, else, elsif, endif
+static List output_stack; 		// pilha para despejar o if_stack para saida, depois das labels consertadas
+static char last_else_label[50]; 			
+static bool inside_if  			= FALSE;
+static char buffer[50]; 			
 
 void nop(Token * token) {
 	// DOES NOTHING
@@ -19,8 +27,19 @@ void get_id(Token * token) {
 	last_id = 123123;
 }
 
+// se estiver dentro de um if, imprime na stack
+void custom_print(char pr_buffer[50]){
+	if(inside_if == TRUE){
+		printf("%s", pr_buffer);
+		list_prepend(&if_stack, pr_buffer);
+	} else {
+		printf(pr_buffer);
+	}
+}
+
 char * get_if_label() {
 	if_counter++;
+	else_counter = 0;
 	char * if_label = (char *)malloc(10*sizeof(char));
 	sprintf(if_label, "if_%d", if_counter);
 
@@ -36,11 +55,25 @@ char * get_do_if_label() {
 
 char * get_else_label() {
 	else_counter++;
-	// zerar depois
 	char * else_label = (char *)malloc(10*sizeof(char));
 	sprintf(else_label, "else_%d", if_counter);
 
 	return else_label;
+}
+
+char * get_elsif_label() {
+	else_counter++;
+	char * else_label = (char *)malloc(10*sizeof(char));
+	sprintf(else_label, "elsif_%d_%d", if_counter, else_counter);
+
+	return else_label;
+}
+
+char * get_do_elsif_label() {
+	char * do_elsif_label = (char *)malloc(10*sizeof(char));
+	sprintf(do_elsif_label, "do_elsif_%d_%d", if_counter, else_counter);
+
+	return do_elsif_label;
 }
 
 char * get_endif_label() {
@@ -79,48 +112,153 @@ char * get_condition_label() {
 	return condition_label;
 }
 
+void if_stack_to_output() {
+	bool havent_found_if = TRUE;
+	char stack_buffer[1000];
+
+	while(havent_found_if){
+		list_head(&if_stack, &stack_buffer, TRUE);
+
+		printf("stack_buffer: %s\n", stack_buffer);
+		// nao sei se funfa
+		if(startsWith("if", stack_buffer)){
+			sprintf(buffer, "\t\tJN\t\t%s\n", last_else_label);
+			list_prepend(&output_stack, buffer);
+
+			// não sei se funciona
+			custom_print(list_to_char_array(&output_stack));
+			list_destroy(&output_stack);
+			havent_found_if = FALSE;
+
+			printf("desempilhei if");
+
+		} else if(startsWith("do_if", stack_buffer)){
+			sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", get_do_if_label());
+			list_prepend(&output_stack, buffer);
+
+		} else if(startsWith("elsif", stack_buffer)){
+			sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", stack_buffer);
+			list_prepend(&output_stack, buffer);
+			sprintf(buffer, "\t\tJN\t\t%s\t\t\n", last_else_label);
+			list_prepend(&output_stack, buffer);
+
+			memcpy(last_else_label, stack_buffer, strlen(stack_buffer));
+
+		} else if(startsWith("else", stack_buffer)){
+			sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", stack_buffer);
+			list_prepend(&output_stack, buffer);
+
+			memcpy(last_else_label, stack_buffer, strlen(stack_buffer));
+
+		} else if(startsWith("do_elsif", stack_buffer)){
+			// acho que vai dar pau aqui
+			sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", stack_buffer);
+			list_prepend(&output_stack, buffer);
+
+		} else {
+			list_prepend(&output_stack, stack_buffer);
+		}
+
+		printf("tamanho da if_stack: %d\n", list_size(&if_stack));
+
+		if(list_size(&if_stack) == 0){
+			printf("passei por aqui no inside_if = FALSE");
+			inside_if = FALSE;
+		}
+	}
+}
+
 void resolve_if(Token * token) {
-	printf("%s\t\tLD\t\t%s\n", get_if_label(), get_condition_label());
-	printf("\t\tJN\t\t%s\n", get_endif_label());
-	printf("\t\tJP\t\t%s\n", get_do_if_label());
+	printf("passei pelo resolve if");
+	inside_if = TRUE;
+	sprintf(buffer, "%s\t\tLD\t\t%s\n", get_if_label(), get_condition_label());
+	custom_print(buffer);
 }
 
 void resolve_do_if(Token * token) {
-	printf("%s\t\tOS\t\t=0\t\t\n", get_do_if_label());
+	sprintf(buffer, "\t\tJP\t\t%s\n", get_do_if_label());
+	custom_print(buffer);
+	sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", get_do_if_label());
+	custom_print(buffer);
+}
+
+void resolve_else(Token * token) {
+	sprintf(buffer, "\t\tJP\t\t%s\n", get_endif_label());
+	custom_print(buffer);
+	sprintf(buffer, "%s\n", get_else_label());
+	custom_print(buffer);
+}
+
+void resolve_elsif(Token * token) {
+	sprintf(buffer, "\t\tJP\t\t%s\n", get_endif_label());
+	custom_print(buffer);
+	sprintf(buffer, "\t\tLD\t\t%s\n", get_condition_label());
+	custom_print(buffer);
+	sprintf(buffer, "%s\n", get_elsif_label());
+	custom_print(buffer);
+	sprintf(buffer, "\t\tJN\t\t%s\n", "empty");
+	custom_print(buffer);
+	sprintf(buffer, "\t\tJP\t\t%s\n", get_do_elsif_label());
+	custom_print(buffer);
+}
+
+void resolve_do_elsif(Token * token) {
+	sprintf(buffer, "\t\tJP\t\t%s\n", get_do_elsif_label());
+	custom_print(buffer);
+	sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", get_do_elsif_label());
+	custom_print(buffer);
 }
 
 void resolve_endif(Token * token) {
-	printf("%s\t\tOS\t\t=0\n", get_endif_label());
+	sprintf(buffer, "%s\t\tOS\t\t=0\n", get_endif_label());
+	custom_print(buffer);
+
+	if_stack_to_output();
 }
 
 void resolve_while(Token * token) {
-	printf("%s\t\tLD\t\t%s\n", get_while_label(), get_condition_label());
-	printf("\t\tJN\t\t%s\n", get_endwhile_label());
-	printf("\t\tJP\t\t%s\n", get_do_while_label());
+	sprintf(buffer, "%s\t\tLD\t\t%s\n", get_while_label(), get_condition_label());
+	custom_print(buffer);
+	sprintf(buffer, "\t\tJN\t\t%s\n", get_endwhile_label());
+	custom_print(buffer);
+	sprintf(buffer, "\t\tJP\t\t%s\n", get_do_while_label());
+	custom_print(buffer);
 }
 
 void resolve_do_while(Token * token) {
-	printf("%s\t\tOS\t\t=0\t\t\n", get_do_while_label());
+	sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", get_do_while_label());
+	custom_print(buffer);
 }
 
 void resolve_endwhile(Token * token) {
-	printf("%s\t\tOS\t\t=0\n", get_endwhile_label());
+	sprintf(buffer, "%s\t\tOS\t\t=0\n", get_endwhile_label());
+	custom_print(buffer);
 }
 
 void resolve_scan(Token * token) {
-	printf("\t\tLV\t\t%s\n", ADDR);
-	printf("\t\tMM\t\t_TEMP_1\n");
-	printf("\t\tLV\t\t=%d\n", TAMANHO);
-	printf("\t\tSC\t\tREAD\t\t; scan()\n");
+	sprintf(buffer, "\t\tLV\t\t%s\n", ADDR);
+	custom_print(buffer);
+	sprintf(buffer, "\t\tMM\t\t_TEMP_1\n");
+	custom_print(buffer);
+	sprintf(buffer, "\t\tLV\t\t=%d\n", TAMANHO);
+	custom_print(buffer);
+	sprintf(buffer, "\t\tSC\t\tREAD\t\t; scan()\n");
+	custom_print(buffer);
 }
 
 void resolve_print(Token * token) {
-	printf("\t\tLV\t\t/FFFF\n");
-	printf("\t\tMM\t\t_TEMP_7\n");
-	printf("\t\tLV\t\t%s\n", ADDR);
-	printf("\t\tMM\t\t_TEMP_1\n");
-	printf("\t\tLV\t\t=%d\n", TAMANHO);
-	printf("\t\tSC\t\tPRINT\t\t; print()\n");
+	sprintf(buffer, "\t\tLV\t\t/FFFF\n");
+	custom_print(buffer);
+	sprintf(buffer, "\t\tMM\t\t_TEMP_7\n");
+	custom_print(buffer);
+	sprintf(buffer, "\t\tLV\t\t%s\n", ADDR);
+	custom_print(buffer);
+	sprintf(buffer, "\t\tMM\t\t_TEMP_1\n");
+	custom_print(buffer);
+	sprintf(buffer, "\t\tLV\t\t=%d\n", TAMANHO);
+	custom_print(buffer);
+	sprintf(buffer, "\t\tSC\t\tPRINT\t\t; print()\n");
+	custom_print(buffer);
 }
 
 void init_semantic_actions() {
@@ -135,6 +273,9 @@ void init_semantic_actions() {
 			actions_on_machine_return[n][i] = nop;
 		}
 	}
+
+	list_new(&if_stack, sizeof(char*), list_free_string);
+	list_new(&output_stack, sizeof(char*), list_free_string);
 
 	// TRANSITION TABLE --------------------------------------
 
@@ -192,8 +333,8 @@ void init_semantic_actions() {
 	// rawSubmachineCallTables[MTYPE_COMMAND][27] = MTYPE_COMMAND;
 	// actions_on_machine_return[MTYPE_COMMAND][27][MTYPE_COMMAND] = 27;
 
-	// actions_on_state_transition[MTYPE_COMMAND][27][MTTYPE_ELSIF] = 3;
-	// actions_on_state_transition[MTYPE_COMMAND][27][MTTYPE_ELSE] = 29;
+	actions_on_state_transition[MTYPE_COMMAND][27][MTTYPE_ELSIF] = resolve_elsif;
+	actions_on_state_transition[MTYPE_COMMAND][27][MTTYPE_ELSE] = resolve_else;
 	actions_on_state_transition[MTYPE_COMMAND][27][MTTYPE_ENDIF] = resolve_endif;
 	// actions_on_state_transition[MTYPE_COMMAND][28][MTTYPE_INT] = 30;
 	// actions_on_state_transition[MTYPE_COMMAND][29][MTTYPE_DO] = 32;

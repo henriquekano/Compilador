@@ -3,16 +3,18 @@ begin
   int num;
   int fat;
 ##  
+  if(num == 0) do
+    fat = 0;
+  elsif(num == 1) do
+    fat = 1;
+  elsif(num == 2) do
+    fat = 2;
+  else
+    fat = 3;
+  endif
+##
   scan(num);
   if(num < 0) do
-    fat = 0;
-    print(id);
-  endif
-
-  while(num > 2) do
-    fat = 2;
-  endwhile
-##
     fat = 0;
   else do
     fat = 1;
