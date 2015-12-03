@@ -18,6 +18,8 @@
 static int if_counter			= 0;
 static int while_counter		= 0;
 static int temp_count = 0;
+static int else_counter = 0;
+
 static int last_id 				= 333;
 static int TAMANHO 				= 4;
 static char * ADDR 				= "/0300";
@@ -25,8 +27,7 @@ static char * ADDR 				= "/0300";
 static List if_stack; 			// pilha de if, else, elsif, endif
 static List output_stack; 		// pilha para despejar o if_stack para saida, depois das labels consertadas
 static char last_else_label[50]; 			
-static bool inside_if  			= FALSE;
-static char buffer[50]; 			
+static bool inside_if  			= FALSE;			
 
 static struct List operands_stack;
 static struct List operator_stack;
@@ -67,6 +68,7 @@ void custom_print(char pr_buffer[50]){
 	} else {
 		printf(pr_buffer);
 	}
+}
 
 char *get_begin_program_label(){
 	return "";
@@ -126,13 +128,6 @@ char * get_elsif_label() {
 	sprintf(else_label, "elsif_%d_%d", if_counter, else_counter);
 
 	return else_label;
-}
-
-char * get_do_elsif_label() {
-	char * do_elsif_label = (char *)malloc(10*sizeof(char));
-	sprintf(do_elsif_label, "do_elsif_%d_%d", if_counter, else_counter);
-
-	return do_elsif_label;
 }
 
 char * get_endif_label() {
@@ -516,8 +511,6 @@ void expression_print(FILE *file, Token token){
       result = apply(file, operator, operand1, operand2);
       list_prepend(&operands_stack, result);
     }
-  } else if(token.type == TT_SEPARATOR){
-
   }
 
 }
