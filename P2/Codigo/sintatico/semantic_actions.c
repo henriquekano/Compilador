@@ -29,7 +29,7 @@ static struct List operands_stack;
 static struct List operator_stack;
 static struct List char_pointer_garbage;
 
-void expression_print(FILE *output, Token *token);
+// void expression_print(FILE *output, Token *token);
 
 typedef enum{
 	ACTION_WHILE = 0,
@@ -71,7 +71,7 @@ void nop(Token * token) {
 }
 
 void resolve_expression(Token * token){
-	expression_print(output, token);
+	// expression_print(output, token);
 }
 
 void resolve_declaration(Token * token) {
@@ -340,268 +340,6 @@ void init_semantic_actions() {
 	list_new(&if_stack, 100*sizeof(char*), list_free_string);
 	list_new(&output_stack, 100*sizeof(char*), list_free_string);
 	output = fopen(ASM_FILENAME, "w");
-
-	// TRANSITION TABLE --------------------------------------
-		// rawFinalStatesTables[MTYPE_PROGRAM][0] = 3;
-
-	// TRANSITION TABLE --------------------------------------
-	actions_on_state_transition[MTYPE_PROGRAM][0][MTTYPE_BEGIN] = resolve_begin;
-	// rawSubmachineCallTables[MTYPE_PROGRAM][1] = MTYPE_COMMAND;
-	// rawAfterCallTables[MTYPE_PROGRAM][1][MTYPE_COMMAND] = 2;
-
-	// rawSubmachineCallTables[MTYPE_PROGRAM][2] = MTYPE_COMMAND;
-	// rawAfterCallTables[MTYPE_PROGRAM][2][MTYPE_COMMAND] = 2;
-
-	actions_on_state_transition[MTYPE_PROGRAM][2][MTTYPE_END] = resolve_end;
-
-
-	actions_on_state_transition[MTYPE_COMMAND][0][MTTYPE_ID] = resolve_declaration;
-	// rawSubmachineCallTables[MTYPE_COMMAND][0] = MTYPE_DECLARATION;
-	// actions_on_machine_return[MTYPE_COMMAND][0][MTYPE_DECLARATION] = 2;
-
-	actions_on_state_transition[MTYPE_COMMAND][0][MTTYPE_IF] = resolve_if;
-	// actions_on_state_transition[MTYPE_COMMAND][0][MTTYPE_WHILE] = 4;
-	// actions_on_state_transition[MTYPE_COMMAND][0][MTTYPE_WHEN] = 5;
-	actions_on_state_transition[MTYPE_COMMAND][0][MTTYPE_SCAN] = resolve_scan;
-	// actions_on_state_transition[MTYPE_COMMAND][0][MTTYPE_PRINT] = 7;
-	// actions_on_state_transition[MTYPE_COMMAND][1][MTTYPE_LEFT_BRACKET] = 8;
-	// actions_on_state_transition[MTYPE_COMMAND][1][MTTYPE_EQUAL] = 9;
-	// actions_on_state_transition[MTYPE_COMMAND][3][MTTYPE_LEFT_PARENTHESIS] = 21;
-	// actions_on_state_transition[MTYPE_COMMAND][4][MTTYPE_LEFT_PARENTHESIS] = 37;
-	// actions_on_state_transition[MTYPE_COMMAND][5][MTTYPE_LEFT_PARENTHESIS] = 34;
-	// actions_on_state_transition[MTYPE_COMMAND][6][MTTYPE_LEFT_PARENTHESIS] = 18;
-	// actions_on_state_transition[MTYPE_COMMAND][7][MTTYPE_LEFT_PARENTHESIS] = 10;
-	// actions_on_state_transition[MTYPE_COMMAND][8][MTTYPE_INT] = 13;
-	// rawSubmachineCallTables[MTYPE_COMMAND][9] = MTYPE_EXPRESSION;
-	// actions_on_machine_return[MTYPE_COMMAND][9][MTYPE_EXPRESSION] = 11;
-
-	// actions_on_state_transition[MTYPE_COMMAND][9][MTTYPE_STRING] = 11;
-	// rawSubmachineCallTables[MTYPE_COMMAND][10] = MTYPE_EXPRESSION;
-	actions_on_machine_return[MTYPE_COMMAND][10] = resolve_expression;
-
-	// actions_on_state_transition[MTYPE_COMMAND][10][MTTYPE_STRING] = 12;
-	actions_on_state_transition[MTYPE_COMMAND][11][MTTYPE_SEMICOLON] = resolve_expression;
-	actions_on_state_transition[MTYPE_COMMAND][12][MTTYPE_RIGHT_PARENTHESIS] = resolve_print;
-	// actions_on_state_transition[MTYPE_COMMAND][12][MTTYPE_COMMA] = 10;
-	// actions_on_state_transition[MTYPE_COMMAND][13][MTTYPE_RIGHT_BRACKET] = 14;
-	// actions_on_state_transition[MTYPE_COMMAND][14][MTTYPE_LEFT_BRACKET] = 15;
-	// actions_on_state_transition[MTYPE_COMMAND][14][MTTYPE_EQUAL] = 9;
-	// actions_on_state_transition[MTYPE_COMMAND][15][MTTYPE_INT] = 16;
-	// actions_on_state_transition[MTYPE_COMMAND][16][MTTYPE_RIGHT_BRACKET] = 17;
-	// actions_on_state_transition[MTYPE_COMMAND][17][MTTYPE_EQUAL] = 9;
-	// actions_on_state_transition[MTYPE_COMMAND][18][MTTYPE_ID] = 19;
-	// actions_on_state_transition[MTYPE_COMMAND][19][MTTYPE_LEFT_BRACKET] = 20;
-	// actions_on_state_transition[MTYPE_COMMAND][19][MTTYPE_RIGHT_PARENTHESIS] = 11;
-	// actions_on_state_transition[MTYPE_COMMAND][19][MTTYPE_COMMA] = 18;
-	// actions_on_state_transition[MTYPE_COMMAND][20][MTTYPE_INT] = 24;
-	// rawSubmachineCallTables[MTYPE_COMMAND][21] = MTYPE_CONDITION;
-	// actions_on_machine_return[MTYPE_COMMAND][21] = resolve_if;
-
-	// actions_on_state_transition[MTYPE_COMMAND][22][MTTYPE_RIGHT_PARENTHESIS] = resolve_if;
-	actions_on_state_transition[MTYPE_COMMAND][23][MTTYPE_DO] = resolve_if_else_do;
-	// actions_on_state_transition[MTYPE_COMMAND][24][MTTYPE_RIGHT_BRACKET] = 26;
-	// rawSubmachineCallTables[MTYPE_COMMAND][25] = MTYPE_COMMAND;
-	// actions_on_machine_return[MTYPE_COMMAND][25] = resolve_do_if;
-
-	// actions_on_state_transition[MTYPE_COMMAND][26][MTTYPE_LEFT_BRACKET] = 28;
-	// actions_on_state_transition[MTYPE_COMMAND][26][MTTYPE_RIGHT_PARENTHESIS] = 11;
-	// actions_on_state_transition[MTYPE_COMMAND][26][MTTYPE_COMMA] = 18;
-	// rawSubmachineCallTables[MTYPE_COMMAND][27] = MTYPE_COMMAND;
-	// actions_on_machine_return[MTYPE_COMMAND][27][MTYPE_COMMAND] = 27;
-
-	actions_on_state_transition[MTYPE_COMMAND][27][MTTYPE_ELSIF] = resolve_elsif;
-	actions_on_state_transition[MTYPE_COMMAND][27][MTTYPE_ELSE] = resolve_else;
-	actions_on_state_transition[MTYPE_COMMAND][27][MTTYPE_ENDIF] = resolve_endif;
-	// actions_on_state_transition[MTYPE_COMMAND][28][MTTYPE_INT] = 30;
-	// actions_on_state_transition[MTYPE_COMMAND][29][MTTYPE_DO] = 32;
-	// actions_on_state_transition[MTYPE_COMMAND][30][MTTYPE_RIGHT_BRACKET] = 31;
-	// actions_on_state_transition[MTYPE_COMMAND][31][MTTYPE_RIGHT_PARENTHESIS] = 11;
-	// actions_on_state_transition[MTYPE_COMMAND][31][MTTYPE_COMMA] = 18;
-	// rawSubmachineCallTables[MTYPE_COMMAND][32] = MTYPE_COMMAND;
-	// actions_on_machine_return[MTYPE_COMMAND][32][MTYPE_COMMAND] = 33;
-
-	// rawSubmachineCallTables[MTYPE_COMMAND][33] = MTYPE_COMMAND;
-	// actions_on_machine_return[MTYPE_COMMAND][33][MTYPE_COMMAND] = 33;
-
-	actions_on_state_transition[MTYPE_COMMAND][33][MTTYPE_ENDIF] = resolve_endif;
-	// rawSubmachineCallTables[MTYPE_COMMAND][34] = MTYPE_EXPRESSION;
-	// actions_on_machine_return[MTYPE_COMMAND][34][MTYPE_EXPRESSION] = 35;
-
-	// actions_on_state_transition[MTYPE_COMMAND][35][MTTYPE_RIGHT_PARENTHESIS] = 36;
-	// actions_on_state_transition[MTYPE_COMMAND][36][MTTYPE_IS] = 38;
-	// rawSubmachineCallTables[MTYPE_COMMAND][37] = MTYPE_CONDITION;
-	// actions_on_machine_return[MTYPE_COMMAND][37] = resolve_while;
-
-	// actions_on_state_transition[MTYPE_COMMAND][38][MTTYPE_LEFT_PARENTHESIS] = 40;
-	actions_on_state_transition[MTYPE_COMMAND][39][MTTYPE_RIGHT_PARENTHESIS] = resolve_while;
-	// rawSubmachineCallTables[MTYPE_COMMAND][40] = MTYPE_EXPRESSION;
-	// actions_on_machine_return[MTYPE_COMMAND][40][MTYPE_EXPRESSION] = 42;
-
-	actions_on_state_transition[MTYPE_COMMAND][41][MTTYPE_DO] = resolve_do_while;
-	// actions_on_state_transition[MTYPE_COMMAND][42][MTTYPE_RIGHT_PARENTHESIS] = 44;
-	// rawSubmachineCallTables[MTYPE_COMMAND][43] = MTYPE_COMMAND;
-	// actions_on_machine_return[MTYPE_COMMAND][43][MTYPE_COMMAND] = 45;
-
-	// actions_on_state_transition[MTYPE_COMMAND][44][MTTYPE_DO] = 46;
-	// rawSubmachineCallTables[MTYPE_COMMAND][45] = MTYPE_COMMAND;
-	// actions_on_machine_return[MTYPE_COMMAND][45][MTYPE_COMMAND] = 45;
-
-	actions_on_state_transition[MTYPE_COMMAND][45][MTTYPE_ENDWHILE] = resolve_endwhile;
-	// rawSubmachineCallTables[MTYPE_COMMAND][46] = MTYPE_COMMAND;
-	// actions_on_machine_return[MTYPE_COMMAND][46][MTYPE_COMMAND] = 47;
-
-	// rawSubmachineCallTables[MTYPE_COMMAND][47] = MTYPE_COMMAND;
-	// actions_on_machine_return[MTYPE_COMMAND][47][MTYPE_COMMAND] = 47;
-
-	// actions_on_state_transition[MTYPE_COMMAND][47][MTTYPE_CONTINUE] = 48;
-	// actions_on_state_transition[MTYPE_COMMAND][48][MTTYPE_SEMICOLON] = 49;
-	// actions_on_state_transition[MTYPE_COMMAND][49][MTTYPE_IS] = 38;
-	// actions_on_state_transition[MTYPE_COMMAND][49][MTTYPE_ENDWHEN] = 2;
-
-	// // MTYPE_DECLARATION ||||||||||||||||||||||||||||||||||||||||
-	// rawFinalStatesTables[MTYPE_DECLARATION][0] = 7;
-
-	// // TRANSITION TABLE --------------------------------------
-	// actions_on_state_transition[MTYPE_DECLARATION][0][MTTYPE_TYPE] = 1;
-	// actions_on_state_transition[MTYPE_DECLARATION][0][MTTYPE_FUNCTION] = 2;
-	// actions_on_state_transition[MTYPE_DECLARATION][0][MTTYPE_STRUCT] = 3;
-	// actions_on_state_transition[MTYPE_DECLARATION][1][MTTYPE_ID] = 4;
-	// actions_on_state_transition[MTYPE_DECLARATION][2][MTTYPE_TYPE] = 25;
-	// actions_on_state_transition[MTYPE_DECLARATION][3][MTTYPE_ID] = 5;
-	// actions_on_state_transition[MTYPE_DECLARATION][4][MTTYPE_LEFT_BRACKET] = 6;
-	// actions_on_state_transition[MTYPE_DECLARATION][4][MTTYPE_COMMA] = 1;
-	// actions_on_state_transition[MTYPE_DECLARATION][4][MTTYPE_SEMICOLON] = 7;
-	// actions_on_state_transition[MTYPE_DECLARATION][5][MTTYPE_DO] = 8;
-	// actions_on_state_transition[MTYPE_DECLARATION][6][MTTYPE_INT] = 12;
-	// actions_on_state_transition[MTYPE_DECLARATION][8][MTTYPE_TYPE] = 9;
-	// actions_on_state_transition[MTYPE_DECLARATION][8][MTTYPE_FUNCTION] = 10;
-	// actions_on_state_transition[MTYPE_DECLARATION][8][MTTYPE_ENDSTRUCT] = 7;
-	// actions_on_state_transition[MTYPE_DECLARATION][9][MTTYPE_ID] = 34;
-	// actions_on_state_transition[MTYPE_DECLARATION][10][MTTYPE_TYPE] = 11;
-	// actions_on_state_transition[MTYPE_DECLARATION][11][MTTYPE_ID] = 13;
-	// actions_on_state_transition[MTYPE_DECLARATION][12][MTTYPE_RIGHT_BRACKET] = 14;
-	// actions_on_state_transition[MTYPE_DECLARATION][13][MTTYPE_LEFT_PARENTHESIS] = 15;
-	// actions_on_state_transition[MTYPE_DECLARATION][14][MTTYPE_LEFT_BRACKET] = 16;
-	// actions_on_state_transition[MTYPE_DECLARATION][14][MTTYPE_COMMA] = 1;
-	// actions_on_state_transition[MTYPE_DECLARATION][14][MTTYPE_SEMICOLON] = 7;
-	// actions_on_state_transition[MTYPE_DECLARATION][15][MTTYPE_TYPE] = 17;
-	// actions_on_state_transition[MTYPE_DECLARATION][15][MTTYPE_RIGHT_PARENTHESIS] = 18;
-	// actions_on_state_transition[MTYPE_DECLARATION][16][MTTYPE_INT] = 19;
-	// actions_on_state_transition[MTYPE_DECLARATION][17][MTTYPE_ID] = 26;
-	// actions_on_state_transition[MTYPE_DECLARATION][18][MTTYPE_DO] = 20;
-	// actions_on_state_transition[MTYPE_DECLARATION][19][MTTYPE_RIGHT_BRACKET] = 21;
-	// rawSubmachineCallTables[MTYPE_DECLARATION][20] = MTYPE_COMMAND;
-	// actions_on_machine_return[MTYPE_DECLARATION][20][MTYPE_COMMAND] = 20;
-
-	// actions_on_state_transition[MTYPE_DECLARATION][20][MTTYPE_RETURN] = 22;
-	// actions_on_state_transition[MTYPE_DECLARATION][20][MTTYPE_ENDFUNCTION] = 8;
-	// actions_on_state_transition[MTYPE_DECLARATION][21][MTTYPE_COMMA] = 1;
-	// actions_on_state_transition[MTYPE_DECLARATION][21][MTTYPE_SEMICOLON] = 7;
-	// actions_on_state_transition[MTYPE_DECLARATION][22][MTTYPE_SEMICOLON] = 23;
-	// rawSubmachineCallTables[MTYPE_DECLARATION][22] = MTYPE_EXPRESSION;
-	// actions_on_machine_return[MTYPE_DECLARATION][22][MTYPE_EXPRESSION] = 24;
-
-	// actions_on_state_transition[MTYPE_DECLARATION][23][MTTYPE_ENDFUNCTION] = 8;
-	// actions_on_state_transition[MTYPE_DECLARATION][24][MTTYPE_SEMICOLON] = 23;
-	// actions_on_state_transition[MTYPE_DECLARATION][25][MTTYPE_ID] = 27;
-	// actions_on_state_transition[MTYPE_DECLARATION][26][MTTYPE_COMMA] = 28;
-	// actions_on_state_transition[MTYPE_DECLARATION][26][MTTYPE_RIGHT_PARENTHESIS] = 18;
-	// actions_on_state_transition[MTYPE_DECLARATION][27][MTTYPE_LEFT_PARENTHESIS] = 29;
-	// actions_on_state_transition[MTYPE_DECLARATION][28][MTTYPE_TYPE] = 17;
-	// actions_on_state_transition[MTYPE_DECLARATION][29][MTTYPE_TYPE] = 30;
-	// actions_on_state_transition[MTYPE_DECLARATION][29][MTTYPE_RIGHT_PARENTHESIS] = 31;
-	// actions_on_state_transition[MTYPE_DECLARATION][30][MTTYPE_ID] = 41;
-	// actions_on_state_transition[MTYPE_DECLARATION][31][MTTYPE_DO] = 32;
-	// rawSubmachineCallTables[MTYPE_DECLARATION][32] = MTYPE_COMMAND;
-	// actions_on_machine_return[MTYPE_DECLARATION][32][MTYPE_COMMAND] = 32;
-
-	// actions_on_state_transition[MTYPE_DECLARATION][32][MTTYPE_RETURN] = 33;
-	// actions_on_state_transition[MTYPE_DECLARATION][32][MTTYPE_ENDFUNCTION] = 7;
-	// actions_on_state_transition[MTYPE_DECLARATION][33][MTTYPE_SEMICOLON] = 36;
-	// rawSubmachineCallTables[MTYPE_DECLARATION][33] = MTYPE_EXPRESSION;
-	// actions_on_machine_return[MTYPE_DECLARATION][33][MTYPE_EXPRESSION] = 37;
-
-	// actions_on_state_transition[MTYPE_DECLARATION][34][MTTYPE_LEFT_BRACKET] = 35;
-	// actions_on_state_transition[MTYPE_DECLARATION][34][MTTYPE_COMMA] = 9;
-	// actions_on_state_transition[MTYPE_DECLARATION][34][MTTYPE_SEMICOLON] = 8;
-	// actions_on_state_transition[MTYPE_DECLARATION][35][MTTYPE_INT] = 38;
-	// actions_on_state_transition[MTYPE_DECLARATION][36][MTTYPE_ENDFUNCTION] = 7;
-	// actions_on_state_transition[MTYPE_DECLARATION][37][MTTYPE_SEMICOLON] = 36;
-	// actions_on_state_transition[MTYPE_DECLARATION][38][MTTYPE_RIGHT_BRACKET] = 39;
-	// actions_on_state_transition[MTYPE_DECLARATION][39][MTTYPE_LEFT_BRACKET] = 40;
-	// actions_on_state_transition[MTYPE_DECLARATION][39][MTTYPE_COMMA] = 9;
-	// actions_on_state_transition[MTYPE_DECLARATION][39][MTTYPE_SEMICOLON] = 8;
-	// actions_on_state_transition[MTYPE_DECLARATION][40][MTTYPE_INT] = 42;
-	// actions_on_state_transition[MTYPE_DECLARATION][41][MTTYPE_COMMA] = 43;
-	// actions_on_state_transition[MTYPE_DECLARATION][41][MTTYPE_RIGHT_PARENTHESIS] = 31;
-	// actions_on_state_transition[MTYPE_DECLARATION][42][MTTYPE_RIGHT_BRACKET] = 44;
-	// actions_on_state_transition[MTYPE_DECLARATION][43][MTTYPE_TYPE] = 30;
-	// actions_on_state_transition[MTYPE_DECLARATION][44][MTTYPE_COMMA] = 9;
-	// actions_on_state_transition[MTYPE_DECLARATION][44][MTTYPE_SEMICOLON] = 8;
-
-	// // MTYPE_CONDITION ||||||||||||||||||||||||||||||||||||||||
-	// rawFinalStatesTables[MTYPE_CONDITION][0] = 1;
-	// rawFinalStatesTables[MTYPE_CONDITION][1] = 3;
-
-	// // TRANSITION TABLE --------------------------------------
-	// rawSubmachineCallTables[MTYPE_CONDITION][0] = MTYPE_EXPRESSION;
-	// actions_on_machine_return[MTYPE_CONDITION][0][MTYPE_EXPRESSION] = 1;
-
-	// actions_on_state_transition[MTYPE_CONDITION][1][MTTYPE_COMPARATOR] = 2;
-	// rawSubmachineCallTables[MTYPE_CONDITION][2] = MTYPE_EXPRESSION;
-	// actions_on_machine_return[MTYPE_CONDITION][2][MTYPE_EXPRESSION] = 3;
-
-
-	// // MTYPE_EXPRESSION ||||||||||||||||||||||||||||||||||||||||
-	// // TRANSITION TABLE --------------------------------------
-	// actions_on_state_transition[MTYPE_EXPRESSION][0][MTTYPE_NOT] = 1;
-	actions_on_state_transition[MTYPE_EXPRESSION][0][MTTYPE_LEFT_PARENTHESIS] = resolve_expression;
-	// actions_on_state_transition[MTYPE_EXPRESSION][0][MTTYPE_BOOL] = 3;
-	actions_on_state_transition[MTYPE_EXPRESSION][0][MTTYPE_ID] = resolve_expression;
-	actions_on_state_transition[MTYPE_EXPRESSION][0][MTTYPE_INT] = resolve_expression;
-	// actions_on_state_transition[MTYPE_EXPRESSION][0][MTTYPE_FLOAT] = 3;
-	// actions_on_state_transition[MTYPE_EXPRESSION][1][MTTYPE_LEFT_PARENTHESIS] = 2;
-	// actions_on_state_transition[MTYPE_EXPRESSION][1][MTTYPE_BOOL] = 3;
-	// actions_on_state_transition[MTYPE_EXPRESSION][1][MTTYPE_ID] = 4;
-	// rawSubmachineCallTables[MTYPE_EXPRESSION][2] = MTYPE_EXPRESSION;
-	actions_on_machine_return[MTYPE_EXPRESSION][2] = resolve_expression;
-
-	actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_MULTIPLICATION] = resolve_expression;
-	actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_DIVISION] = resolve_expression;
-	// actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_AND] = 0;
-	actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_PLUS] = resolve_expression;
-	actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_MINUS] = resolve_expression;
-	// actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_OR] = 0;
-	// actions_on_state_transition[MTYPE_EXPRESSION][4][MTTYPE_LEFT_PARENTHESIS] = 6;
-	// actions_on_state_transition[MTYPE_EXPRESSION][4][MTTYPE_LEFT_BRACKET] = 7;
-	// actions_on_state_transition[MTYPE_EXPRESSION][4][MTTYPE_DOT] = 8;
-	// actions_on_state_transition[MTYPE_EXPRESSION][4][MTTYPE_MULTIPLICATION] = 0;
-	// actions_on_state_transition[MTYPE_EXPRESSION][4][MTTYPE_DIVISION] = 0;
-	// actions_on_state_transition[MTYPE_EXPRESSION][4][MTTYPE_AND] = 0;
-	// actions_on_state_transition[MTYPE_EXPRESSION][4][MTTYPE_PLUS] = 0;
-	// actions_on_state_transition[MTYPE_EXPRESSION][4][MTTYPE_MINUS] = 0;
-	// actions_on_state_transition[MTYPE_EXPRESSION][4][MTTYPE_OR] = 0;
-	actions_on_state_transition[MTYPE_EXPRESSION][5][MTTYPE_RIGHT_PARENTHESIS] = resolve_expression;
-	// rawSubmachineCallTables[MTYPE_EXPRESSION][6] = MTYPE_EXPRESSION;
-	// actions_on_machine_return[MTYPE_EXPRESSION][6][MTYPE_EXPRESSION] = 13;
-
-	// actions_on_state_transition[MTYPE_EXPRESSION][6][MTTYPE_RIGHT_PARENTHESIS] = 3;
-	// actions_on_state_transition[MTYPE_EXPRESSION][7][MTTYPE_INT] = 9;
-	// actions_on_state_transition[MTYPE_EXPRESSION][8][MTTYPE_ID] = 3;
-	// actions_on_state_transition[MTYPE_EXPRESSION][9][MTTYPE_RIGHT_BRACKET] = 10;
-	// actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_LEFT_BRACKET] = 11;
-	actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_MULTIPLICATION] = resolve_expression;
-	actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_DIVISION] = resolve_expression;
-	// actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_AND] = 0;
-	actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_PLUS] = resolve_expression;
-	actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_MINUS] = resolve_expression;
-	// actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_OR] = 0;
-	// actions_on_state_transition[MTYPE_EXPRESSION][11][MTTYPE_INT] = 12;
-	// actions_on_state_transition[MTYPE_EXPRESSION][12][MTTYPE_RIGHT_BRACKET] = 3;
-	// actions_on_state_transition[MTYPE_EXPRESSION][13][MTTYPE_RIGHT_PARENTHESIS] = 3;
-	// actions_on_state_transition[MTYPE_EXPRESSION][13][MTTYPE_COMMA] = 14;
-	// rawSubmachineCallTables[MTYPE_EXPRESSION][14] = MTYPE_EXPRESSION;
-	// actions_on_machine_return[MTYPE_EXPRESSION][14][MTYPE_EXPRESSION] = 13;
 }
 
 //EXPRESSIONS
@@ -713,55 +451,55 @@ char *apply(FILE *output,char *operation, char *operand1, char *operand2){
 }
 
 // https://en.wikipedia.org/wiki/Shunting-yard_algorithm 
-void expression_print(FILE *output, Token *token){
-  char *operand1;
-  char *operand2;
-  char *operator;
-  char *result;
+// void expression_print(FILE *output, Token *token){
+//   char *operand1;
+//   char *operand2;
+//   char *operator;
+//   char *result;
 
-  if(token->type == TT_IDENTIFIER || token->type == TT_INT){
-  	sprintf(buffer, "%s", token->string);
-    list_prepend(&operands_stack, buffer);
+//   if(token->type == TT_IDENTIFIER || token->type == TT_INT){
+//   	sprintf(buffer, "%s", token->string);
+//     list_prepend(&operands_stack, buffer);
 
-  } else if(token->type == TT_ARITH_SYMBOL || token->type == TT_COMPARATOR){
-    char *last_operator = (char *)list_peek_head(&operator_stack);
-    if(list_size(&operator_stack) <= 0 || strcmp(last_operator, "(") == 0 || operator_precedence(token->string) >= operator_precedence(last_operator)){
-      sprintf(buffer, "%s", token->string);
-      list_prepend(&operator_stack, buffer);
-    }else if(operator_precedence(token->string) < operator_precedence(last_operator)){
-      while(list_size(&operator_stack) > 0){
-        operator = list_get_first(&operator_stack);
-        operand2 = (char *)list_get_first(&operands_stack);
-        operand1 = (char *)list_get_first(&operands_stack);
-        result = apply(output, operator, operand1, operand2);
-        sprintf(buffer, "%s", result);
-        list_prepend(&operands_stack, buffer);
-      }
-      sprintf(buffer, "%s", token->string);
-      list_prepend(&operator_stack, buffer);
-    }
-  } else if(token->type == TT_L_PARENTHESIS){
-    sprintf(buffer, "%s", token->string);
-    list_prepend(&operator_stack, buffer);
-  } else if(token->type == TT_R_PARENTHESIS){
-    while(list_size(&operator_stack) > 0 && strcmp((char *)list_peek_head(&operator_stack), "(") != 0){
-      operator = list_get_first(&operator_stack);
-      operand2 = (char *)list_get_first(&operands_stack);
-      operand1 = (char *)list_get_first(&operands_stack);
-      result = apply(output, operator, operand1, operand2);
-      sprintf(buffer, "%s", result);
-      list_prepend(&operands_stack, buffer);
-    }
-    list_get_first(&operator_stack);
-  } else if(token->type == TT_END_OF_COMMAND){
-    while(list_size(&operator_stack) > 0){
-      operator = list_get_first(&operator_stack);
-      operand2 = (char *)list_get_first(&operands_stack);
-      operand1 = (char *)list_get_first(&operands_stack);
-      result = apply(output, operator, operand1, operand2);
-      sprintf(buffer, "%s", result);
-      list_prepend(&operands_stack, buffer);
-    }
-  }
+//   } else if(token->type == TT_ARITH_SYMBOL || token->type == TT_COMPARATOR){
+//     char *last_operator = (char *)list_peek_head(&operator_stack);
+//     if(list_size(&operator_stack) <= 0 || strcmp(last_operator, "(") == 0 || operator_precedence(token->string) >= operator_precedence(last_operator)){
+//       sprintf(buffer, "%s", token->string);
+//       list_prepend(&operator_stack, buffer);
+//     }else if(operator_precedence(token->string) < operator_precedence(last_operator)){
+//       while(list_size(&operator_stack) > 0){
+//         operator = list_get_first(&operator_stack);
+//         operand2 = (char *)list_get_first(&operands_stack);
+//         operand1 = (char *)list_get_first(&operands_stack);
+//         result = apply(output, operator, operand1, operand2);
+//         sprintf(buffer, "%s", result);
+//         list_prepend(&operands_stack, buffer);
+//       }
+//       sprintf(buffer, "%s", token->string);
+//       list_prepend(&operator_stack, buffer);
+//     }
+//   } else if(token->type == TT_L_PARENTHESIS){
+//     sprintf(buffer, "%s", token->string);
+//     list_prepend(&operator_stack, buffer);
+//   } else if(token->type == TT_R_PARENTHESIS){
+//     while(list_size(&operator_stack) > 0 && strcmp((char *)list_peek_head(&operator_stack), "(") != 0){
+//       operator = list_get_first(&operator_stack);
+//       operand2 = (char *)list_get_first(&operands_stack);
+//       operand1 = (char *)list_get_first(&operands_stack);
+//       result = apply(output, operator, operand1, operand2);
+//       sprintf(buffer, "%s", result);
+//       list_prepend(&operands_stack, buffer);
+//     }
+//     list_get_first(&operator_stack);
+//   } else if(token->type == TT_END_OF_COMMAND){
+//     while(list_size(&operator_stack) > 0){
+//       operator = list_get_first(&operator_stack);
+//       operand2 = (char *)list_get_first(&operands_stack);
+//       operand1 = (char *)list_get_first(&operands_stack);
+//       result = apply(output, operator, operand1, operand2);
+//       sprintf(buffer, "%s", result);
+//       list_prepend(&operands_stack, buffer);
+//     }
+//   }
 
-}
+// }
