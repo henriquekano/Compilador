@@ -59,9 +59,6 @@ bool automataPE_run(AutomataPE *a, FILE *input, Token *t){
     Token t2 = find_possible_token(input);
     t->string = t2.string;
     t->type = t2.type;
-    if(strcmp(t->string, "end") == 0){
-      actions_on_state_transition[MTYPE_PROGRAM][2][MTTYPE_END](t);
-    }
 
   //verifica se tem alguma transicao para uma maquina
   }else if(next_state == MINVALID_STATE){
