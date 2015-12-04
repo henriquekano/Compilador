@@ -3,15 +3,7 @@
 
   #include <stdio.h>
   #include "../utils/token.h"
-  #include "automata.h"
   #include "../utils/bool.h"
-
-  // Lista tokenize(char *file);
-  // token get_token(char *file);
-
-  typedef struct{
-    Automata a;
-  }Lexic;
 
 	void tokenize(FILE *file);
 	Token find_possible_token(FILE *file);
