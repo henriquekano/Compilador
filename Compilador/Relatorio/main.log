@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2015.11.25)  3 DEC 2015 22:45
+This is XeTeX, Version 3.14159265-2.6-0.99992 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2015.11.25)  4 DEC 2015 02:22
 entering extended mode
 **main.tex
 (main.tex
@@ -722,4 +722,10 @@ Requested font "ectt1000" at 10.0pt
 
 ]
 Requested font "ecsi1200" at 12.0pt
- [2]) [3
+ [2]) [3]
+(2-lexico/main.tex
+Cap\'{\i }tulo 2.
+[4
+
+
+

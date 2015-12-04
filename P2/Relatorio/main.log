@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2015.11.25)  1 DEC 2015 11:45
+This is XeTeX, Version 3.14159265-2.6-0.99992 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2015.11.25)  4 DEC 2015 02:52
 entering extended mode
 **main.tex
 (main.tex
@@ -634,7 +634,7 @@ Package caption3 Info: TeX engine: e-TeX on input line 57.
 Package caption Info: float package is loaded.
 Package caption Info: listings package is loaded.
 )) (main.aux
-(rosto.aux) (1-reconhecedor/main.aux) (6-traducoes/main.aux))
+(rosto.aux) (1-reconhecedor/main.aux) (2/main.aux))
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
 LaTeX Font Info:    ... okay on input line 3.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 3.
@@ -751,22 +751,38 @@ Overfull \hbox (36.79134pt too wide) in paragraph at lines 175--176
  [][] 
  []
 
-) [6] [7]
-No file 6-traducoes/main.tex.
-(main.bbl) [8
+) [6] (2/main.tex
+Cap\'{\i }tulo 2.
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 7.
+LaTeX Font Info:    No file OMScmss.fd. on input line 7.
+
+LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textbullet' on input line 7.
+
+[7
 
 
+
+]) [8] (main.bbl) [9
 
 
 ] (main.aux (rosto.aux) (1-reconhecedor/main.aux)
-(6-traducoes/main.aux)) ) 
+(2/main.aux))
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 15895 strings out of 428755
- 291789 string characters out of 3164219
- 411067 words of memory out of 3000000
- 18901 multiletter control sequences out of 15000+200000
+ 15911 strings out of 428755
+ 291919 string characters out of 3164219
+ 410066 words of memory out of 3000000
+ 18913 multiletter control sequences out of 15000+200000
  20680 words of font info for 47 fonts, out of 3000000 for 9000
  1096 hyphenation exceptions out of 8191
- 64i,12n,92p,465b,1516s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 64i,12n,92p,512b,1516s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on main.pdf (10 pages).
+Output written on main.pdf (11 pages).

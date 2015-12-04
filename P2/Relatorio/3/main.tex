@@ -1,27 +1,3 @@
-\mychapter{Reconhecedor sintático}
-\label{Cap:Sintático}
-
-\section{Introdução}
-Em um compilador, o analisador sintático tem a função de verificar se uma  sequência de tokens, gerado pelo analisador léxico, faz sentido para a dada linguagem que o compilador reconhece.\\
-
-Para a construção do reconhecedor sintático, a descrição da linguagem Cimplex na notação de Wirth foi reduzida para a seguinte: 
-
-\lstinputlisting[caption=reduced\_wirth.txt, label={lst:reduced_wirth}]{4-reconhecedor-sintatico/reduced_wirth.txt}
-
-\section{Autômato de Pilha estruturado}
-\subsection{Lista de Transições}
-
-Utilizando o site http://mc-barau.herokuapp.com/, a descrição da linguagem em notação de Wirth foi transformada em Autômatos Finitos Determinísticos:
-
-\lstinputlisting[caption=submaquinas\_geradas\_online.txt, label={lst:submaquinas}]{4-reconhecedor-sintatico/submaquinas_geradas_online.txt}
-
-\subsection{Lista de autômatos}
-
-A lista seguinte de autômatos foi gerada a partir do programa JFLAP
-
-(http://www.cs.duke.edu/csed/jflap/):
-\input{4-reconhecedor-sintatico/automata_list}
-
 \section{Implementação}
 Com os automatos de pilha prontos, bastou fazer a implementação. Para isso, foi criado uma struct (AutomataPE) que representa um tipo de monitor. Esse monitor é responsável por gerenciar a pilha (empilhando e desempilhando quando necessário os sub-autômatos), criar os sub-autômatos chamados, e gererenciar as transições dos autômatos. Para isso, são guardadas várias tabelas auxiliares que informam pontos importantes dos autômatos, que foram identificados com um id próprio cada um:
 \begin{itemize}

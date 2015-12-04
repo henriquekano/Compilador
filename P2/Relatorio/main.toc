@@ -8,3 +8,5 @@
 \contentsline {subsubsection}{Program}{3}
 \contentsline {subsubsection}{Expr}{4}
 \contentsline {subsubsection}{IotaExpr}{5}
+\contentsline {chapter}{\numberline {2}Rotinas}{7}
+\contentsline {section}{\numberline {2.1}Implementação}{7}
