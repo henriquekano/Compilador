@@ -1,0 +1,706 @@
+				;	            @   /0000 ; Início do programa
+0000 0418		;	            JP    MAIN  ; Jump para o código que invocará a subrotina
+
+0002 00ff		;	IN                K   /00FF
+0004 ff00		;	CTE               K   /FF00
+
+0006 8000		;	LOAD_PREFIX       LD    /0
+0008 9000		;	WRITE_PREFIX      MM    /0
+
+000a 072d		;	ASCII_MINUS       K     /072D
+000c 0030		;	ASCII_0           k     /30
+000e 0039		;	ASCII_9           k     /39
+0010 0d0a		;	ASCII_BR          k     /0D0A
+0012 000d		;	ASCII_BELL        k     /000D
+
+0014 1000		;	SHIFT3            k     /1000
+0016 0100		;	SHIFT2            k     /100
+0018 0010		;	SHIFT1            k     /10
+001a 0037		;	HEX_LETTER_TO_ASCII     K     /37
+001c 00c8		;	RA_SIZE           K     =200
+
+001e 0001		;	ONE               K     /1
+0020 000a		;	A                 K     /a
+0022 8000		;	8MIL              K     /8000
+0024 3132		;	TRTR              K     /3132
+0026 ffff		;	FFFF              K     /FFFF
+
+
+0028 0010		;	_RESERVED_BITS_ON_WORD  K   /10
+
+;
+;  Espaco reservado para funcoes internas, tambem servem de entrada e saida das mesmas (ver def de cada funcao)
+;
+002a 0000		;	_TEMP_1     K   /0
+002c 0000		;	_TEMP_2     K   /0
+002e 0000		;	_TEMP_3     K   /0
+0030 0000		;	_TEMP_4     K   /0
+0032 0000		;	_TEMP_5     K   /0
+0034 0000		;	_TEMP_6     K   /0
+0036 0000		;	_TEMP_7     K   /0
+0038 0000		;	_TEMP_8     K   /0
+003a 0000		;	_TEMP_9     K   /0
+003c 0000		;	_TEMP_10     K   /0
+003e 0000		;	_TEMP_11     K   /0
+0040 0000		;	_TEMP_12     K   /0
+
+
+0042 0000		;	_GD_INPUT   $     =50   0
+0044 0000		;	_GD_INPUT   $     =50   2
+0046 0000		;	_GD_INPUT   $     =50   4
+0048 0000		;	_GD_INPUT   $     =50   6
+004a 0000		;	_GD_INPUT   $     =50   8
+004c 0000		;	_GD_INPUT   $     =50   a
+004e 0000		;	_GD_INPUT   $     =50   c
+0050 0000		;	_GD_INPUT   $     =50   e
+0052 0000		;	_GD_INPUT   $     =50   10
+0054 0000		;	_GD_INPUT   $     =50   12
+0056 0000		;	_GD_INPUT   $     =50   14
+0058 0000		;	_GD_INPUT   $     =50   16
+005a 0000		;	_GD_INPUT   $     =50   18
+005c 0000		;	_GD_INPUT   $     =50   1a
+005e 0000		;	_GD_INPUT   $     =50   1c
+0060 0000		;	_GD_INPUT   $     =50   1e
+0062 0000		;	_GD_INPUT   $     =50   20
+0064 0000		;	_GD_INPUT   $     =50   22
+0066 0000		;	_GD_INPUT   $     =50   24
+0068 0000		;	_GD_INPUT   $     =50   26
+006a 0000		;	_GD_INPUT   $     =50   28
+006c 0000		;	_GD_INPUT   $     =50   2a
+006e 0000		;	_GD_INPUT   $     =50   2c
+0070 0000		;	_GD_INPUT   $     =50   2e
+0072 0000		;	_GD_INPUT   $     =50   30
+0074 0000		;	_GD_INPUT   $     =50   32
+0076 0000		;	_GD_INPUT   $     =50   34
+0078 0000		;	_GD_INPUT   $     =50   36
+007a 0000		;	_GD_INPUT   $     =50   38
+007c 0000		;	_GD_INPUT   $     =50   3a
+007e 0000		;	_GD_INPUT   $     =50   3c
+0080 0000		;	_GD_INPUT   $     =50   3e
+0082 0000		;	_GD_INPUT   $     =50   40
+0084 0000		;	_GD_INPUT   $     =50   42
+0086 0000		;	_GD_INPUT   $     =50   44
+0088 0000		;	_GD_INPUT   $     =50   46
+008a 0000		;	_GD_INPUT   $     =50   48
+008c 0000		;	_GD_INPUT   $     =50   4a
+008e 0000		;	_GD_INPUT   $     =50   4c
+0090 0000		;	_GD_INPUT   $     =50   4e
+0092 0000		;	_GD_INPUT   $     =50   50
+0094 0000		;	_GD_INPUT   $     =50   52
+0096 0000		;	_GD_INPUT   $     =50   54
+0098 0000		;	_GD_INPUT   $     =50   56
+009a 0000		;	_GD_INPUT   $     =50   58
+009c 0000		;	_GD_INPUT   $     =50   5a
+009e 0000		;	_GD_INPUT   $     =50   5c
+00a0 0000		;	_GD_INPUT   $     =50   5e
+00a2 0000		;	_GD_INPUT   $     =50   60
+00a4 0000		;	_GD_INPUT   $     =50   62
+				;	_GD_INPUT   $     =50
+
+
+;----------------------------
+; Faz AND de duas entradas
+; IN1: AC
+; IN2: _TEMP_1
+; VARS: _TEMP_2 (temporario da entrada do AC), _TEMP_3 (construcao da saida), _TEMP_4 (contador para leitura de todos os bits)
+; OUT:  AC
+;----------------------------{
+00a6 0000		;	      AND         K   /0
+00a8 902c		;	                  MM  _TEMP_2
+00aa 3000		;	                  LV  /0
+00ac 902e		;	                  MM  _TEMP_3
+00ae 9030		;	                  MM  _TEMP_4
+00b0 9030		;	                  MM  _TEMP_4
+
+00b2 3002		;	      AND_BEGIN   LV  /2
+00b4 602e		;	                  *   _TEMP_3
+00b6 902e		;	                  MM  _TEMP_3
+00b8 802c		;	                  LD  _TEMP_2
+00ba 20be		;	                  JN  AND_AC_NEG
+00bc 00c4		;	                  JP  AND_AC_POS
+00be 802a		;	      AND_AC_NEG  LD  _TEMP_1
+00c0 20c8		;	                  JN  AND_ONE
+00c2 00c6		;	                  JP  AND_ZERO
+00c4 00c6		;	      AND_AC_POS  JP  AND_ZERO
+00c6 00d0		;	      AND_ZERO    JP  AND_END
+00c8 3001		;	      AND_ONE     LV  /1
+00ca 402e		;	                  +   _TEMP_3
+00cc 902e		;	                  MM  _TEMP_3
+00ce 00d0		;	                  JP  AND_END
+00d0 3002		;	      AND_END     LV  /2
+00d2 602c		;	                  *   _TEMP_2
+00d4 902c		;	                  MM  _TEMP_2
+00d6 3002		;	                  LV  /2
+00d8 602a		;	                  *   _TEMP_1
+00da 902a		;	                  MM  _TEMP_1
+00dc 3001		;	                  LV  /1
+00de 4030		;	                  +   _TEMP_4
+00e0 9030		;	                  MM  _TEMP_4
+00e2 5028		;	                  -   _RESERVED_BITS_ON_WORD
+00e4 20b2		;	                  JN  AND_BEGIN
+00e6 802e		;	                  LD  _TEMP_3
+00e8 b0a6		;	                  RS  AND
+;}
+
+;----------------------------
+; Faz OR de duas entradas
+; IN1: AC
+; IN2: _TEMP_1
+; VARS: _TEMP_2 (temporario da entrada do AC), _TEMP_3 (construcao da saida), _TEMP_4 (contador para leitura de todos os bits)
+; OUT:  AC
+;----------------------------{
+00ea 0000		;	      OR         K   /0
+00ec 902c		;	                  MM  _TEMP_2
+00ee 3000		;	                  LV  /0
+00f0 902e		;	                  MM  _TEMP_3
+00f2 9030		;	                  MM  _TEMP_4
+00f4 9030		;	                  MM  _TEMP_4
+
+00f6 3002		;	      OR_BEGIN    LV  /2
+00f8 602e		;	                  *   _TEMP_3
+00fa 902e		;	                  MM  _TEMP_3
+00fc 802c		;	                  LD  _TEMP_2
+00fe 2102		;	                  JN  OR_AC_NEG
+0100 0104		;	                  JP  OR_AC_POS
+0102 010c		;	      OR_AC_NEG   JP  OR_ONE
+0104 802a		;	      OR_AC_POS   LD  _TEMP_1
+0106 210c		;	                  JN  OR_ONE
+0108 010a		;	                  JP  OR_ZERO
+010a 0114		;	      OR_ZERO     JP  OR_END
+010c 3001		;	      OR_ONE      LV  /1
+010e 402e		;	                  +   _TEMP_3
+0110 902e		;	                  MM  _TEMP_3
+0112 0114		;	                  JP  OR_END
+0114 3002		;	      OR_END      LV  /2
+0116 602c		;	                  *   _TEMP_2
+0118 902c		;	                  MM  _TEMP_2
+011a 3002		;	                  LV  /2
+011c 602a		;	                  *   _TEMP_1
+011e 902a		;	                  MM  _TEMP_1
+0120 3001		;	                  LV  /1
+0122 4030		;	                  +   _TEMP_4
+0124 9030		;	                  MM  _TEMP_4
+0126 5028		;	                  -   _RESERVED_BITS_ON_WORD
+0128 20f6		;	                  JN  OR_BEGIN
+012a 802e		;	                  LD  _TEMP_3
+012c b0ea		;	                  RS  OR
+;}
+
+;----------------------------
+; Faz o output de entradas ascii
+; IN1: _TEMP_1 (endereco base da entrada)
+; IN2: AC (Tamanho desses dados)
+; IN3: _TEMP_7 (ler como ascii(nao-negativo) ou nao(negativo))
+; VARS: 
+;      _TEMP_2 (contagem do tamanho para condicao de parada), 
+;      _TEMP_3 (temporario para o tamanho dos dados), 
+;      _TEMP_4 (DADO ATUAL -> 0x1234), 
+;      _TEMP_5 (primeiro byte ou primeiro numero), 
+;      _TEMP_6 (segundo byte ou segundo numero), 
+;      _TEMP_8, (terceiro numero)
+;      _TEMP_9, (quarto numero)
+;      _TEMP_10 (offset do endereco base para fazer o load da prox word)
+; OUT: Na tela
+; OBS: há dois modos de impressao: as-is e ascii. As-is imprime o valor da word em hexa, adicionando sinal negativo quando necessario. ascci interpreta a entrada como ascii
+; GOTCHA: em modo ASCII, eh considerado que a word nunca sera negativo, pois caracteres ASCII vao ate 7E
+; GOTCHA2: o tamanho de dados tem significados diferentes nos dois modos: em ASCII, significa numero de bytes e em AS-IS, words
+;----------------------------{
+012e 0000		;	      PRINT_BASE              K     /0
+0130 0000		;	      PRINT_TYPE              K     /0
+
+0132 0000		;	      PRINT_COUNT             k     /0
+0134 0000		;	      PRINT_SIZE              k     /0
+0136 0000		;	      PRINT_DATA              k     /0
+0138 0000		;	      PRINT_FIRST             k     /0
+013a 0000		;	      PRINT_SECOND            k     /0
+013c 0000		;	      PRINT_THIRD             k     /0
+013e 0000		;	      PRINT_FOURTH            k     /0
+0140 0000		;	      PRINT_OFFSET            k     /0
+
+0142 0000		;	      PRINT                   K     /0
+                              
+0144 9134		;	                              MM    PRINT_SIZE
+
+0146 3000		;	                              LV    /0
+0148 9132		;	                              MM    PRINT_COUNT
+014a 9140		;	                              MM    PRINT_OFFSET
+
+
+014c 812e		;	      PRINT_BEGIN             LD    PRINT_BASE
+014e 4140		;	                              +     PRINT_OFFSET
+0150 4006		;	                              +     LOAD_PREFIX
+0152 9154		;	                              MM    PRINT_LOAD_DATA
+0154 0000		;	      PRINT_LOAD_DATA         K     /0
+0156 9136		;	                              MM    PRINT_DATA
+
+0158 8130		;	                              LD    PRINT_TYPE
+
+015a 118c		;	                              JZ    PRINT_AS_IS
+015c 015e		;	                              JP    PRINT_AS_ASCII
+
+      ;/---------------------------------------------------\
+015e 3001		;	      PRINT_AS_ASCII          LV    /1
+0160 4132		;	                              +     PRINT_COUNT
+0162 9132		;	                              MM    PRINT_COUNT
+0164 5134		;	                              -     PRINT_SIZE
+0166 1170		;	                              JZ    PRINT_AS_ASCII_ODD
+
+0168 3001		;	                              LV    /1
+016a 4132		;	                              +     PRINT_COUNT
+016c 9132		;	                              MM    PRINT_COUNT
+016e 017a		;	                              JP    PRINT_AS_ASCII_EVEN
+
+0170 8136		;	      PRINT_AS_ASCII_ODD      LD    PRINT_DATA                 ;SEPARA OS BYTES
+0172 7016		;	                              /     SHIFT2
+0174 6016		;	                              *     SHIFT2
+0176 e100		;	                              PD    /0100
+0178 0248		;	                              JP    PRINT_END
+
+017a 8136		;	      PRINT_AS_ASCII_EVEN     LD    PRINT_DATA
+017c e100		;	                              PD    /0100
+
+017e 3002		;	                              LV    /2
+0180 4140		;	                              +     PRINT_OFFSET
+0182 9140		;	                              MM    PRINT_OFFSET
+
+0184 8132		;	                              LD    PRINT_COUNT
+0186 5134		;	                              -     PRINT_SIZE
+0188 1248		;	                              JZ    PRINT_END
+018a 014c		;	                              JP    PRINT_BEGIN
+      ;\---------------------------------------------------/
+      ;/---------------------------------------------------\
+018c 8136		;	      PRINT_AS_IS             LD    PRINT_DATA
+018e 2192		;	                              JN    PRINT_NEG
+0190 019c		;	                              JP    PRINT_POS
+0192 800a		;	      PRINT_NEG               LD    ASCII_MINUS
+0194 e100		;	                              PD    /0100
+0196 8136		;	                              LD    PRINT_DATA
+0198 6026		;	                              *     FFFF
+019a 9136		;	                              MM    PRINT_DATA
+
+019c 7014		;	      PRINT_POS               /     SHIFT3            ;Separa todos os numeros
+019e 6014		;	                              *     SHIFT3
+01a0 9138		;	                              MM    PRINT_FIRST
+
+01a2 8136		;	                              LD    PRINT_DATA
+01a4 5138		;	                              -     PRINT_FIRST
+01a6 7016		;	                              /     SHIFT2
+01a8 6016		;	                              *     SHIFT2
+01aa 913a		;	                              MM    PRINT_SECOND
+
+01ac 8136		;	                              LD    PRINT_DATA
+01ae 5138		;	                              -     PRINT_FIRST
+01b0 513a		;	                              -     PRINT_SECOND
+01b2 7018		;	                              /     SHIFT1
+01b4 6018		;	                              *     SHIFT1
+01b6 913c		;	                              MM    PRINT_THIRD
+
+01b8 8136		;	                              LD    PRINT_DATA
+01ba 5138		;	                              -     PRINT_FIRST
+01bc 513a		;	                              -     PRINT_SECOND
+01be 513c		;	                              -     PRINT_THIRD
+01c0 913e		;	                              MM    PRINT_FOURTH           ;separado (0x1234 viraria: 0x1000, 0x0200, 0x0030 e 0x0004)
+                              
+01c2 8138		;	                              LD    PRINT_FIRST
+01c4 7014		;	                              /     SHIFT3
+01c6 9138		;	                              MM    PRINT_FIRST
+01c8 5020		;	                              -     A
+01ca 21ce		;	                              JN    PRINT_SUM_NUMBER_1
+01cc 01d6		;	                              JP    PRINT_SUM_LETTER_1
+01ce 8138		;	      PRINT_SUM_NUMBER_1      LD    PRINT_FIRST 
+01d0 400c		;	                              +     ASCII_0
+01d2 9138		;	                              MM    PRINT_FIRST
+01d4 01dc		;	                              JP    PRINT_AS_IS_1
+01d6 8138		;	      PRINT_SUM_LETTER_1      LD    PRINT_FIRST 
+01d8 401a		;	                              +     HEX_LETTER_TO_ASCII
+01da 9138		;	                              MM    PRINT_FIRST
+01dc 813a		;	      PRINT_AS_IS_1           LD    PRINT_SECOND
+01de 7016		;	                              /     SHIFT2
+01e0 913a		;	                              MM    PRINT_SECOND
+01e2 5020		;	                              -     A
+01e4 21e8		;	                              JN    PRINT_SUM_NUMBER_2
+01e6 01f0		;	                              JP    PRINT_SUM_LETTER_2
+01e8 813a		;	      PRINT_SUM_NUMBER_2      LD    PRINT_SECOND
+01ea 400c		;	                              +     ASCII_0
+01ec 913a		;	                              MM    PRINT_SECOND
+01ee 01f6		;	                              JP    PRINT_AS_IS_2
+01f0 813a		;	      PRINT_SUM_LETTER_2      LD    PRINT_SECOND
+01f2 401a		;	                              +     HEX_LETTER_TO_ASCII
+01f4 913a		;	                              MM    PRINT_SECOND
+01f6 8138		;	      PRINT_AS_IS_2           LD    PRINT_FIRST
+01f8 6016		;	                              *     SHIFT2
+01fa 413a		;	                              +     PRINT_SECOND
+01fc e100		;	                              PD    /0100
+
+01fe 813c		;	                              LD    PRINT_THIRD
+0200 7018		;	                              /     SHIFT1
+0202 913c		;	                              MM    PRINT_THIRD
+0204 5020		;	                              -     A
+0206 220a		;	                              JN    PRINT_SUM_NUMBER_3
+0208 0212		;	                              JP    PRINT_SUM_LETTER_3
+020a 813c		;	      PRINT_SUM_NUMBER_3      LD    PRINT_THIRD 
+020c 400c		;	                              +     ASCII_0
+020e 913c		;	                              MM    PRINT_THIRD
+0210 0218		;	                              JP    PRINT_AS_IS_3
+0212 813c		;	      PRINT_SUM_LETTER_3      LD    PRINT_THIRD 
+0214 401a		;	                              +     HEX_LETTER_TO_ASCII
+0216 913c		;	                              MM    PRINT_THIRD
+0218 813e		;	      PRINT_AS_IS_3           LD    PRINT_FOURTH
+021a 5020		;	                              -     A
+021c 2220		;	                              JN    PRINT_SUM_NUMBER_4
+021e 0228		;	                              JP    PRINT_SUM_LETTER_4
+0220 813e		;	      PRINT_SUM_NUMBER_4      LD    PRINT_FOURTH
+0222 400c		;	                              +     ASCII_0
+0224 913e		;	                              MM    PRINT_FOURTH
+0226 022e		;	                              JP    PRINT_AS_IS_4
+0228 813e		;	      PRINT_SUM_LETTER_4      LD    PRINT_FOURTH
+022a 401a		;	                              +     HEX_LETTER_TO_ASCII
+022c 913e		;	                              MM    PRINT_FOURTH
+022e 813c		;	      PRINT_AS_IS_4           LD    PRINT_THIRD
+0230 6016		;	                              *     SHIFT2
+0232 413e		;	                              +     PRINT_FOURTH
+0234 e100		;	                              PD    /0100
+
+0236 3001		;	                              LV    /1
+0238 4132		;	                              +     PRINT_COUNT
+023a 9132		;	                              MM    PRINT_COUNT
+023c 5134		;	                              -     PRINT_SIZE
+023e 1248		;	                              JZ    PRINT_END
+
+0240 3002		;	                              LV    /2
+0242 4140		;	                              +     PRINT_OFFSET
+0244 9140		;	                              MM    PRINT_OFFSET
+
+0246 014c		;	                              JP    PRINT_BEGIN
+      ;\---------------------------------------------------/
+
+0248 b142		;	      PRINT_END               RS    PRINT
+;}
+
+;----------------------------
+; Faz o carregamento de um valor a partir de um endereco base e um offset
+; IN1: LOAD_BASE (endereco base da entrada)
+; IN2: AC (offset)
+; OUT: Valor no AC
+;----------------------------{
+024a 0000		;	      LOAD_BASE   K     /0
+024c 0000		;	      LOAD        K     /0
+024e 402a		;	                  +    _TEMP_1
+0250 4006		;	                  +     LOAD_PREFIX
+0252 9254		;	                  MM    LOAD_DO
+0254 0000		;	      LOAD_DO     K     /0
+0256 b24c		;	                  RS    LOAD
+;}
+
+;----------------------------
+; Faz a escrita de um valor em um endereco base e um offset
+; IN1: WRITE_BASE (endereco base da entrada)
+; IN2: AC (offset)
+; IN3: WRITE_DATA
+;----------------------------{
+0258 0000		;	      WRITE_BASE  K     /0
+025a 0000		;	      WRITE_DATA  K     /0
+025c 0000		;	      WRITE       K     /0
+025e 4258		;	                  +     WRITE_BASE
+0260 4008		;	                  +     WRITE_PREFIX
+0262 9266		;	                  MM    WRITE_DO
+0264 825a		;	                  LD    WRITE_DATA
+0266 0000		;	      WRITE_DO    K     /0
+0268 b25c		;	                  RS    WRITE
+;}
+
+;----------------------------
+; Faz a separação de bytes de uma word
+; IN1: AC (word)
+; OUT1: BYTIFY_FIRST - primeiro byte
+; OUT2: BYTIFY_SECOND - segundo byte
+;----------------------------{
+026a 0000		;	      BYTIFY_ORIGINAL   K     /0
+026c 0000		;	      BYTIFY_FIRST      K     /0
+026e 0000		;	      BYTIFY_SECOND      K     /0
+
+
+      
+0270 0000		;	      BYTIFY      K     /0
+0272 926a		;	                  MM    BYTIFY_ORIGINAL
+0274 2278		;	                  JN    BYTIFY_NEG
+0276 0284		;	                  JP    BYTIFY_POS
+0278 6026		;	      BYTIFY_NEG  *     FFFF
+027a 7016		;	                  /     SHIFT2
+027c 401e		;	                  +     ONE
+027e 6016		;	                  *     SHIFT2
+0280 926c		;	                  MM    BYTIFY_FIRST
+0282 028a		;	                  JP    BYTIFY_SB
+0284 7016		;	      BYTIFY_POS  /     SHIFT2
+0286 6016		;	                  *     SHIFT2
+0288 926c		;	                  MM    BYTIFY_FIRST
+028a 826a		;	      BYTIFY_SB   LD    BYTIFY_ORIGINAL
+028c 526c		;	                  -     BYTIFY_FIRST
+028e 926e		;	                  MM    BYTIFY_SECOND
+0290 826c		;	                  LD    BYTIFY_FIRST
+0292 7016		;	                  /     SHIFT2
+0294 926c		;	                  MM    BYTIFY_FIRST
+0296 b270		;	                  RS    BYTIFY
+;}
+
+;----------------------------
+; Faz a unificacao de bytes em uma word
+; IN1: AC (high byte)
+; IN2: WORDFY_LOW_BYTE (low byte) 
+; OUT: AC
+;----------------------------{
+0298 0000		;	      WORDFY_LOW_BYTE      K     /0
+      
+029a 0000		;	      WORDFY      K     /0
+029c 6016		;	                  *     SHIFT2
+029e 4298		;	                  +     WORDFY_LOW_BYTE
+02a0 b29a		;	                  RS    WORDFY
+;}
+
+;----------------------------
+; Faz o carregamento de dados do programador
+; IN1: _TEMP_1: endereço base do buffer
+; IN2: AC: buffer limit em words
+; VAR: _TEMP_2 (buffer limit temp), _TEMP_3 (contagem de inputs recebidos), _TEMP_4(dado recebido)
+; OUT: dados no buffer
+; OBS: Premissa: todas as entradas do teclado são e serão "positivas"
+;----------------------------{
+02a2 0000		;	      READ_BUFFER_LIMIT K           /0
+02a4 0000		;	      READ_COUNT        K           /0
+02a6 0000		;	      READ_DATA         K           /0
+02a8 0000		;	      READ_BASE         K           /0
+
+02aa 0000		;	      READ              K           /0
+02ac 92a2		;	                        MM          READ_BUFFER_LIMIT
+02ae 3000		;	                        LV          /0
+02b0 92a4		;	                        MM          READ_COUNT
+02b2 92a6		;	                        MM          READ_DATA
+                        
+
+02b4 d000		;	      READ_DO           GD          /0000
+02b6 92a6		;	                        MM          READ_DATA
+02b8 5010		;	                        -           ASCII_BR
+02ba 12fc		;	                        JZ          READ_END
+02bc 82a6		;	                        LD          READ_DATA
+02be a270		;	                        SC          BYTIFY
+02c0 826e		;	                        LD          BYTIFY_SECOND     
+02c2 5012		;	                        -           ASCII_BELL
+02c4 12c8		;	                        JZ          READ_FIRST
+02c6 02de		;	                        JP          READ_ALL
+
+02c8 82a2		;	      READ_FIRST        LD          READ_BUFFER_LIMIT
+02ca 9258		;	                        MM          WRITE_BASE
+02cc 826c		;	                        LD          BYTIFY_FIRST
+02ce 925a		;	                        MM          WRITE_DATA
+02d0 3002		;	                        LV          /2
+02d2 62a4		;	                        *           READ_COUNT
+02d4 a25c		;	                        SC          WRITE
+02d6 3001		;	                        LV          /1
+02d8 42a4		;	                        +           READ_COUNT
+02da 92a4		;	                        MM          READ_COUNT
+02dc 02f4		;	                        JP          READ_TEST_LIMIT
+
+02de 82a8		;	      READ_ALL          LD          READ_BASE
+02e0 9258		;	                        MM          WRITE_BASE
+02e2 82a6		;	                        LD          READ_DATA
+02e4 925a		;	                        MM          WRITE_DATA
+02e6 3002		;	                        LV          /2
+02e8 62a4		;	                        *           READ_COUNT
+02ea a25c		;	                        SC          WRITE
+02ec 3001		;	                        LV          /1
+02ee 42a4		;	                        +           READ_COUNT
+02f0 92a4		;	                        MM          READ_COUNT
+02f2 02f4		;	                        JP          READ_TEST_LIMIT
+
+02f4 82a4		;	      READ_TEST_LIMIT   LD          READ_COUNT
+02f6 52a2		;	                        -           READ_BUFFER_LIMIT
+02f8 12fc		;	                        JZ          READ_END
+02fa 02b4		;	                        JP          READ_DO
+
+02fc b2aa		;	      READ_END          RS          READ
+;}
+      
+;----------------------------
+; Faz a reserva de espaço para um registro de ativação a partir de um endereco base (base da "pilha")
+; IN1: AC base da pilha
+; IN2: RA_TAM - tamanho do RA
+;----------------------------{
+02fe 0000		;	      RA_TAM            K           /0
+0300 0000		;	      END               K           /0 ; valor do fim da pilha
+
+0302 0000		;	      RA_CREATE         K           /0
+                        
+;}
+
+0304 0001		;	SOME.yay  k /1
+0306 0002		;	k /2
+0308 0003		;	k /3
+030a 0004		;	k /4
+030c 0005		;	k /5
+030e 0006		;	k /6
+0310 0007		;	k /7
+0312 0008		;	k /8
+0314 0009		;	k /9
+0316 000a		;	k /a
+0318 000b		;	k /b
+031a 000c		;	k /c
+031c 000d		;	k /d
+031e 000e		;	k /e
+0320 000f		;	k /f
+0322 0010		;	k /10
+0324 0011		;	k /11
+0326 0012		;	k /12
+0328 0013		;	k /13
+032a 0014		;	k /14
+032c 0015		;	k /15
+032e 0016		;	k /16
+0330 0017		;	k /17
+0332 0018		;	k /18
+0334 0019		;	k /19
+0336 001a		;	k /1a
+0338 001b		;	k /1b
+033a 001c		;	k /1c
+033c 001d		;	k /1d
+033e 001e		;	k /1e
+0340 001f		;	k /1f
+0342 0020		;	k /20
+0344 0021		;	k /21
+0346 0022		;	k /22
+0348 0023		;	k /23
+034a 0024		;	k /24
+034c 0025		;	k /25
+034e 0026		;	k /26
+0350 0027		;	k /27
+0352 0028		;	k /28
+0354 0029		;	k /29
+0356 002a		;	k /2a
+0358 002b		;	k /2b
+035a 002c		;	k /2c
+035c 002d		;	k /2d
+035e 002e		;	k /2e
+0360 002f		;	k /2f
+0362 0030		;	k /30
+0364 0031		;	k /31
+0366 0032		;	k /32
+0368 0033		;	k /33
+036a 0034		;	k /34
+036c 0035		;	k /35
+036e 0036		;	k /36
+0370 0037		;	k /37
+0372 0038		;	k /38
+0374 0039		;	k /39
+0376 003a		;	k /3a
+0378 003b		;	k /3b
+037a 003c		;	k /3c
+037c 003d		;	k /3d
+037e 003e		;	k /3e
+0380 003f		;	k /3f
+0382 0040		;	k /40
+0384 0041		;	k /41
+0386 0042		;	k /42
+0388 0043		;	k /43
+038a 0044		;	k /44
+038c 0045		;	k /45
+038e 0046		;	k /46
+0390 0047		;	k /47
+0392 0048		;	k /48
+0394 0049		;	k /49
+0396 004a		;	k /4a
+0398 004b		;	k /4b
+039a 004c		;	k /4c
+039c 004d		;	k /4d
+039e 004e		;	k /4e
+03a0 004f		;	k /4f
+03a2 0050		;	k /50
+03a4 0051		;	k /51
+03a6 0052		;	k /52
+03a8 0053		;	k /53
+03aa 0054		;	k /54
+03ac 0055		;	k /55
+03ae 0056		;	k /56
+03b0 0057		;	k /57
+03b2 0058		;	k /58
+03b4 0059		;	k /59
+03b6 005a		;	k /5a
+03b8 005b		;	k /5b
+03ba 005c		;	k /5c
+03bc 005d		;	k /5d
+03be 005e		;	k /5e
+03c0 005f		;	k /5f
+03c2 0060		;	k /60
+03c4 0061		;	k /61
+03c6 0062		;	k /62
+03c8 0063		;	k /63
+03ca 0064		;	k /64
+03cc 0065		;	k /65
+03ce 0066		;	k /66
+03d0 0067		;	k /67
+03d2 0068		;	k /68
+03d4 0069		;	k /69
+03d6 006a		;	k /6a
+03d8 006b		;	k /6b
+03da 006c		;	k /6c
+03dc 006d		;	k /6d
+03de 006e		;	k /6e
+03e0 006f		;	k /6f
+03e2 0070		;	k /70
+03e4 0071		;	k /71
+03e6 0072		;	k /72
+03e8 0073		;	k /73
+03ea 0074		;	k /74
+03ec 0075		;	k /75
+03ee 0076		;	k /76
+03f0 0077		;	k /77
+03f2 0078		;	k /78
+03f4 0079		;	k /79
+03f6 007a		;	k /7a
+03f8 007b		;	k /7b
+03fa 007c		;	k /7c
+03fc 007d		;	k /7d
+03fe 007e		;	k /7e
+
+0400 0000		;	buffer      $           =10   0
+0402 0000		;	buffer      $           =10   2
+0404 0000		;	buffer      $           =10   4
+0406 0000		;	buffer      $           =10   6
+0408 0000		;	buffer      $           =10   8
+040a 0000		;	buffer      $           =10   a
+040c 0000		;	buffer      $           =10   c
+040e 0000		;	buffer      $           =10   e
+0410 0000		;	buffer      $           =10   10
+0412 0000		;	buffer      $           =10   12
+				;	buffer      $           =10
+
+0414 8020		;	yaya  K     /8020
+0416 ff00		;	FF00  K     /FF00      
+0418 8024		;	MAIN  LD    TRTR
+      ;LD  CTE
+      ;MM  _TEMP_1
+      ;LD  IN
+      ;SC  OR
+      ;JP    LOL
+      ;GD     /0000
+      
+      ;GD    /0000
+
+041a 3400		;	      LV    buffer
+041c 92a8		;	      MM    READ_BASE
+041e 3fff		;	      LV    /0FFF
+0420 a2aa		;	      SC    READ
+
+
+0422 8400		;	      LD    buffer
+
+
+
+
+
+
+0424 3400		;	      LV    buffer
+0426 902a		;	      MM    _TEMP_1
+0428 3026		;	      LV    FFFF
+042a 9036		;	      MM    _TEMP_7
+042c 30fc		;	      LV    =252
+042e a142		;	      SC    PRINT
+
+0430 c000		;	      HM    /0000 ; Término de programa

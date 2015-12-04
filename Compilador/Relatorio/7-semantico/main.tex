@@ -1,0 +1,29 @@
+\mychapter{Ações semânticas}
+\label{Cap:Ações semânticas}
+
+Para enfim transformar o código da linguagem em um código legível para a MVN, foram injetadas funções semânticas no autômato de pilha construído no reconhecedor sintático. Também foram desenvolvidas funções auxiliares para a geração de código. As funções auxiliares incluem:
+
+\begin{itemize}
+\item{get\_x\_label: geração de rótulos para a MVN, como rótulo de "if", "end\_while" e outros que foram previstos no capítulo anterior.}
+\item{resolve\_x: geração de código para os comandos básicos de "while" e "if". Essas utilizam as funções a cima.}
+\item{expression\_print: geração de código para expressões. utiliza o algoritmo Shunting yard adaptado para gerar a expressão adequada. Usa uma abordagem ingênua, utilizando variáveis temporárias para guardar constantes (números) e resultados intermediários presentes na expressão}
+\end{itemize}
+
+Para inserir as ações no autômato de pilha foi construída uma matriz de três dimensões (máquina atual x estado atual x token lido) que indica para cada transição ou saída de máquina qual a ação (função) deve ser tomada. 
+
+\section{Geração de código}
+
+Para a fase de geração de código, foram implementadas para comandos while, print, scan e expressoes
+
+Porém, como não foi possível implementar comandos de decisão à tempo, a capacidade da linguagem ficou muito limitada. 
+
+\subsection{Comandos}
+
+O problema da implementação dos comandos de decisão estava na possibilidade de existir múltiplos caminhos ("elsif"s e "else") que dificultava a escrita do código final, pois para escrever o código era necessário saber se existiam tais condições para escrever os rótulos de jump nas confições desses. A estratégia adotada foi o uso de uma pilha para descobrir se existiam tais caminhos alternativos e ao ler a palavra reservada "endif" começar a desempilhar os comandos da pilha até um "if" escrevendo o código de MVN.
+E para a implementação de expressões e condições foram utilizadas duas pilhas para operandos e operadores utilizando o algoritmo a cima comentado.
+
+\subsection{Variáveis}
+
+As variáveis foram guardadas em uma estrutura chamada "Scope" que possuía uma tabela (no caso, uma lista de strings), uma lista de escopos (Scope) filhos e um ponteiro ao pai para possibilitar a procura de variáveis já definidas.
+
+Para a geração de variáveis foi adicionada na tabela de símbolos uma função para imprimir em um arquivo todas as variáveis que esta possui. Essa função é então chamada no fim do programa possibilitando separar uma área de programa e dados. Porém, como só foram implementadas variáveis inteiras, todas as variáveis foram consideradas como tal e foram reservadas uma word para cada variável.

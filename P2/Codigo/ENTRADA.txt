@@ -1,0 +1,25 @@
+begin
+  int num;
+  int fat;
+  if(num == 0) do
+    fat = 0;
+  elsif(num == 1) do
+    fat = 1;
+  elsif(num == 2) do
+    fat = 2;
+  else do
+    fat = 3;
+  endif
+  scan(num);
+  print(fat);
+  if(num < 0) do
+    fat = 0;
+  else do
+    fat = 1;
+    while(num > 1) do
+      fat = fat * num;
+      num = num - 1;
+    endwhile
+
+  endif
+end

@@ -1,0 +1,63 @@
+				;	    @   /0000 ; Início do programa
+0000 005c		;	    JP    MAIN  ; Jump para o código que invocará a subrotina
+0002 8123		;	IN    K   /8123 ; Entrada com o número a ser decomposto
+0004 0000		;	OUT1  K   /0000 ; Possuirá o valor dos dois dígitos mais significativos
+0006 0000		;	OUT2  K   /0000 ; Possuirá o valor dos dois dígitos menos significativos
+0008 0100		;	VAR   K   /100  ; Constante utilizada nas operações de multiplicação e divisão
+
+000a 0000		;	_TRUE       K   /0
+000c 0001		;	_FALSE      K   /1
+
+000e ffff		;	_NEGATIVE_ONE K   /FFFF
+0010 8000		;	_NEGATIVE  K   /8000
+
+0012 0010		;	_RESERVED_BITS_ON_WORD  K   /10
+0014 0000		;	_RESERVED_TEMP_1  K   /0
+0016 0000		;	_RESERVED_TEMP_2  K   /0
+0018 0000		;	_RESERVED_TEMP_3  K   /0
+001a 0000		;	_RESERVED_TEMP_4  K   /0
+
+
+001c ff00		;	HIGH_MASK K   /FF00
+001e 00ff		;	LOW_MASK  K   /00FF
+
+
+0020 0000		;	UNPACK  K   /0000 ; Início de subrotina
+0022 9018		;	    MM  _RESERVED_TEMP_3
+0024 2028		;	    JN  UNPACK_NEG
+0026 0034		;	    JP  UNPACK_POS
+;Levanta uma flag se for negativo
+
+0028 8018		;	UNPACK_NEG  LD  _RESERVED_TEMP_3
+002a 5010		;	    -   _NEGATIVE
+002c 9018		;	    MM  _RESERVED_TEMP_3
+002e 800a		;	    LD  _TRUE
+0030 901a		;	    MM  _RESERVED_TEMP_4
+0032 0038		;	    JP  UNPACK_CORE
+0034 800c		;	UNPACK_POS  LD  _FALSE
+0036 901a		;	    MM  _RESERVED_TEMP_4
+
+0038 8018		;	UNPACK_CORE LD _RESERVED_TEMP_3
+003a 7008		;	    /   VAR   ; Toma-se os dois dígitos mais a esquerda da entrada
+003c 6008		;	    *   VAR   ; Multiplica-se por /100 para se obter os dois dígitos mais a direita, em OUT1 teremos agora /XX00
+003e 9014		;	    MM  _RESERVED_TEMP_1  ; Salva /XX00 em OUT1
+0040 8018		;	    LD  _RESERVED_TEMP_3    ; Recarrega o valor da entrada no acumulador
+0042 5014		;	    -   _RESERVED_TEMP_1  ; Obtém-se os dois dígitos mais a direita
+0044 9016		;	    MM  _RESERVED_TEMP_2  ; Salva o valor dos dois digitos mais a direita em OUT2
+0046 8014		;	    LD  _RESERVED_TEMP_1  ; Recarrega o valor de OUT1 para que o valor verdadeiro de OUT1 seja recuperado
+0048 7008		;	    /   VAR   ; Agora tem-se /00XX no acumulador
+004a 9014		;	    MM  _RESERVED_TEMP_1  ; Salva o valor dos dois dígitos mais a esquerda em OUT1
+
+004c 801a		;	    LD  _RESERVED_TEMP_4
+004e 500c		;	    -   _FALSE
+0050 2054		;	    JN  UNPACK_NEG_END
+0052 005a		;	    JP  UNPACK_POS_END
+0054 3080		;	UNPACK_NEG_END LV  /80
+0056 4014		;	    +   _RESERVED_TEMP_1
+0058 9014		;	    MM  _RESERVED_TEMP_1
+005a b020		;	UNPACK_POS_END RS  UNPACK  ; Fim de subrotina
+    
+005c 8002		;	MAIN LD   IN 
+005e a020		;	    SC    UNPACK  ; Chamada da subrotina UNPACK
+0060 3000		;	    LV    /0000 ; Carrega no acumulador o valor /0000
+0062 c000		;	    HM    /0000 ; Término de programa

@@ -1,0 +1,126 @@
+				;	@     /0000                   ; origem do código
+0000 0082		;	INIT        JP    MAIN
+0002 0002		;	TWO         K     /0002
+0004 0000		;	ZERO        K     /0000
+0006 8000		;	LD_INSTR    LD    /0000       ; para fabricar instrucao de LD 
+0008 9000		;	MM_INSTR    MM    /0000       ; para fabricar instrucao de MM
+
+000a 0300		;	PARAM_1     K     /0300       ; parametro 1 da funcao
+000c 0100		;	PARAM_2     K     /0100       ; parametro 2 da funcao
+
+000e 0400		;	FP          K     /0400       ; frame pointer
+0010 0400		;	SP          K     /0400       ; stack pointer
+
+; subrotina SUB ---------------------------------------
+0012 0000		;	F_PARAM_1   K     /0000
+0014 0000		;	F_PARAM_2   K     /0000
+0016 0000		;	F_RESULT    K     /0000
+; corpo da subrotina
+0018 0000		;	SUB         K     /0000
+001a 8018		;	            LD    SUB    ; endereco de retorno
+001c 905a		;	            MM    PUSH_P   
+001e a05c		;	            SC    PUSH_RA     ; push ADDR na pilha de ra
+            
+0020 8010		;	            LD    SP
+0022 900e		;	            MM    FP          ; fp aponta para o ADDR na pilha de ra
+
+0024 3006		;	            LV    =6
+0026 9072		;	            MM    GET_P       
+0028 a074		;	            SC    GET_RA      ; carrega param 1 partir de endereco relativo no ra
+002a 9012		;	            MM    F_PARAM_1
+            
+002c 3004		;	            LV    =4
+002e 9072		;	            MM    GET_P       
+0030 a074		;	            SC    GET_RA      ; carrega param 2 a partir de endereco relativo no ra
+0032 9014		;	            MM    F_PARAM_2
+
+0034 8012		;	            LD    F_PARAM_1   ; carrega o primeiro param
+0036 5014		;	            -     F_PARAM_2   ; 
+0038 903c		;	            MM    RTRN_RSLT   ; subtrai e guarda para return
+
+003a 0040		;	            JP    RETURN
+
+; fim SUB -----------------------------------------------
+
+; RETURN ---------------------------------------
+003c 0000		;	RTRN_RSLT   K     /0000
+003e 0000		;	RTRN_ADDR   K     /0000
+; corpo da subrotina
+0040 803c		;	RETURN      LD    RTRN_RSLT
+0042 905a		;	            MM    PUSH_P   
+0044 a05c		;	            SC    PUSH_RA     ; push RESULT na pilha de ra
+
+0046 3000		;	            LV    =0
+0048 9072		;	            MM    GET_P
+004a a074		;	            SC    GET_RA
+004c 903e		;	            MM    RTRN_ADDR   ; endereco de retorno recuperado da pilha
+
+004e 8002		;	            LD    TWO
+0050 9072		;	            MM    GET_P
+0052 a074		;	            SC    GET_RA
+0054 9010		;	            MM    SP          ; dropa a ra atual
+0056 900e		;	            MM    FP          ; volta a fp antiga
+
+0058 b03e		;	            RS    RTRN_ADDR   ; retorna para o escopo anterior
+; fim RETURN --------------------------------------------
+
+; subrotina PUSH_RA ---------------------------------------
+005a 0000		;	PUSH_P      K     /0000
+; corpo da subrotina
+005c 0000		;	PUSH_RA     K     /0000
+005e 8008		;	            LD    MM_INSTR    ; composicao do comando de carregar na pilha
+0060 4010		;	            +     SP
+0062 5002		;	            -     TWO
+0064 9068		;	            MM    _NEW_INSTR1
+0066 805a		;	            LD    PUSH_P
+0068 0000		;	_NEW_INSTR1 K     /0000       ; carrega na pilha de fato  
+006a 8010		;	            LD    SP          
+006c 5002		;	            -     TWO
+006e 9010		;	            MM    SP          ; sp, aponte para o vazio 
+0070 b05c		;	            RS    PUSH_RA
+; fim PUSH_RA --------------------------------------------
+
+; subrotina GET_RA ---------------------------------------
+0072 0000		;	GET_P       K     /0000       ; endereco relativo na ra
+; corpo da subrotina
+0074 0000		;	GET_RA      K     /0000
+0076 8006		;	            LD    LD_INSTR
+0078 400e		;	            +     FP          ; 
+007a 4072		;	            +     GET_P       ;
+007c 907e		;	            MM    _NEW_INSTR2 ;
+007e 0000		;	_NEW_INSTR2 K     /0000       ; carrega valor da ra no acumulador
+0080 b074		;	            RS    GET_RA
+; fim GET_RA --------------------------------------------
+
+; corpo do main -----------------------------------------
+;MAIN        LD    PARAM_1     
+;            MM    PUSH_P   
+;            SC    PUSH_RA     ; push PARAM_1 na pilha de ra
+;
+;            LD    PARAM_2     
+;            MM    PUSH_P   
+;            SC    PUSH_RA     ; push PARAM_2 na pilha de ra
+;
+;            LD    FP     
+;            MM    PUSH_P         
+;            SC    PUSH_RA     ; push old FP na pilha de ra
+;
+;            SC    SUB    ; chama SUB
+;
+;            HM    INIT        ; fim do programa inteiro
+;fim main -----------------------------------------------
+
+
+
+
+
+; corpo do main -----------------------------------------
+0082 8086		;	MAIN        LD    VAR_1    
+
+0084 c000		;	            HM    INIT        ; fim do programa inteiro
+;fim main -----------------------------------------------
+
+
+0086 7fff		;	VAR_1       K     =32767      ; declaracao
+
+
