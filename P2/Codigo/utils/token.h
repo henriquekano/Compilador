@@ -3,36 +3,28 @@
 
   #include "bool.h"
 
-  typedef void (*tokenFreeFunction)(char *);
-
   typedef enum{
-    TT_STRING = 0,
-    TT_ARITH_SYMBOL = 1,
-    TT_INT = 2,
-    TT_COMPARATOR = 3,
-    TT_RESERVED = 4,
-    TT_IDENTIFIER = 5,
-    TT_SEPARATOR = 6,
-    TT_END_OF_COMMAND = 7,
-    TT_UNKNOWN = 8,
-    TT_ASSIGNMENT = 9,
-    TT_FLOAT = 10,
-    TT_ARRAY = 11,
-    TT_MATRIX = 12,
-    TT_IGNORE = 13,
-    TT_R_SQ_BRACKET = 14,
-    TT_L_SQ_BRACKET = 15,
-    TT_R_PARENTHESIS = 16,
-    TT_L_PARENTHESIS = 17
+    TT_S = 0,
+    TT_s = 1,
+    TT_K = 2,
+    TT_k = 3,
+    TT_I = 4,
+    TT_i = 5,
+    TT_L_PARENTHESIS = 6,
+    TT_R_PARENTHESIS = 7,
+    TT_0 = 8,
+    TT_1 = 9,
+    TT_S_QUOTE = 10,
+    TT_ASTERISK = 11,
+    TT_UNKNOWN = 12
   }Token_type;
 
   typedef struct{
     char *string;
     Token_type type;
-    tokenFreeFunction freeFn;
   }Token;
 
-  Token token_create(char *string, Token_type type, tokenFreeFunction freeFn);
+  Token token_create(char *string, Token_type type);
   void token_destroy(Token *t);
   
   void token_pretty_print(Token *t);

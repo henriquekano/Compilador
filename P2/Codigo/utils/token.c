@@ -3,14 +3,13 @@
 #include <string.h>
 #include "token.h"
 
-Token token_create(char *string, Token_type type, tokenFreeFunction freeFn){
-  Token t = {string,type,freeFn};
+Token token_create(char *string, Token_type type){
+  Token t = {string,type};
   return t;
 }
 
 void token_destroy(Token *t){
-  if(t->freeFn)
-    t->freeFn(t->string);
+  free(t->string);
 }
 
 void token_pretty_print(Token *t){
@@ -27,37 +26,32 @@ bool token_is_empty(Token *t){
 
 char *token_type_to_string(Token_type token_type){
   switch(token_type){
-    case TT_STRING:
-      return "STRING";
-    case TT_ARITH_SYMBOL:
-      return "ARITH_SYMBOL";
-    case TT_INT:
-      return "INT";
-    case TT_COMPARATOR:
-      return "COMPARATOR";
-    case TT_RESERVED:
-      return "RESERVED";
-    case TT_IDENTIFIER:
-      return "IDENTIFIER";
-    case TT_END_OF_COMMAND:
-      return "END_OF_COMMAND";
-    case TT_ASSIGNMENT:
-      return "ASSIGNMENT";
-    case TT_UNKNOWN:
-      return "UNKNOWN";
-    case TT_FLOAT:
-      return "FLOAT";
-    case TT_SEPARATOR:
-      return "SEPARATOR";
-    case TT_R_SQ_BRACKET:
-      return "R_SQ_BRACKET";
-    case TT_L_SQ_BRACKET:
-      return "L_SQ_BRACKET";
-    case TT_R_PARENTHESIS:
-      return "R_PARENTHESIS";
+    case TT_S:
+      return "TT_S";
+    case TT_s:
+      return "TT_s";
+    case TT_K:
+      return "TT_K";
+    case TT_k:
+      return "TT_k";
+    case TT_I:
+      return "TT_I";
+    case TT_i:
+      return "TT_i";
     case TT_L_PARENTHESIS:
-      return "L_PARENTHESIS";
+      return "TT_L_PARENTHESIS";
+    case TT_R_PARENTHESIS:
+      return "TT_R_PARENTHESIS";
+    case TT_0:
+      return "TT_0";
+    case TT_1:
+      return "TT_1";
+    case TT_S_QUOTE:
+      return "TT_S_QUOTE";
+    case TT_ASTERISK:
+      return "TT_ASTERISK";
     default:
       return "???";
-  }
+
+    }
 }
