@@ -10,71 +10,31 @@ def main(argv):
 
 	machine_output = "machine_generator_for_c_output.txt"
 
-	dont_replace = ["ID", "FLOAT", "INT", "TIPO", "STRING", "COMPARADOR", "BOOL"]	
+	dont_replace = []	
 
 	machine_types = {}
-	machine_types["PROGRAMA"] = "MTYPE_PROGRAM"
-	machine_types["COMANDO"] = "MTYPE_COMMAND"
-	machine_types["DECLARACAO"] = "MTYPE_DECLARATION"
-	machine_types["CONDICAO"] = "MTYPE_CONDITION"
-	machine_types["EXPRESSAO"] = "MTYPE_EXPRESSION"
+	machine_types["Program"] = "MTYPE_PROGRAM"
+	machine_types["Expr"] = "MTYPE_EXPR"
+	machine_types["IotaExpr"] = "MTYPE_IOTAEXPR"
 
 	machine_translations = {}
-	machine_translations["PROGRAMA"] = "program"
-	machine_translations["COMANDO"] = "command"
-	machine_translations["DECLARACAO"] = "declaration"
-	machine_translations["CONDICAO"] = "condition"
-	machine_translations["EXPRESSAO"] = "expression"
+	machine_translations["Program"] = "program"
+	machine_translations["Expr"] = "expression"
+	machine_translations["IotaExpr"] = "iotaExpression"
 
 	machine_token_types = {}
-	machine_token_types["begin"] = "MTTYPE_BEGIN" 				
-	machine_token_types["end"] = "MTTYPE_END" 					
-	machine_token_types["do"] = "MTTYPE_DO" 					
-	machine_token_types["if"] = "MTTYPE_IF" 					
-	machine_token_types["elsif"] = "MTTYPE_ELSIF" 				
-	machine_token_types["endif"] = "MTTYPE_ENDIF" 				
-	machine_token_types["else"] = "MTTYPE_ELSE" 				
-	machine_token_types["while"] = "MTTYPE_WHILE" 				
-	machine_token_types["endwhile"] = "MTTYPE_ENDWHILE" 			
-	machine_token_types["when"] = "MTTYPE_WHEN" 				
-	machine_token_types["endwhen"] = "MTTYPE_ENDWHEN" 				
-	machine_token_types["is"] = "MTTYPE_IS" 					
-	machine_token_types["continue"] = "MTTYPE_CONTINUE" 			
-	machine_token_types["struct"] = "MTTYPE_STRUCT" 			
-	machine_token_types["endstruct"] = "MTTYPE_ENDSTRUCT" 			
-	machine_token_types["function"] = "MTTYPE_FUNCTION" 			
-	machine_token_types["return"] = "MTTYPE_RETURN" 				
-	machine_token_types["endfunction"] = "MTTYPE_ENDFUNCTION" 			
-	machine_token_types["scan"] = "MTTYPE_SCAN" 				
-	machine_token_types["print"] = "MTTYPE_PRINT" 				
-	machine_token_types[";"] = "MTTYPE_SEMICOLON" 			
-	machine_token_types[","] = "MTTYPE_COMMA" 				
-	machine_token_types["."] = "MTTYPE_DOT" 					
-	machine_token_types["["] = "MTTYPE_LEFT_BRACKET" 		
-	machine_token_types["]"] = "MTTYPE_RIGHT_BRACKET" 		
-	machine_token_types["("] = "MTTYPE_LEFT_PARENTHESIS" 	
-	machine_token_types[")"] = "MTTYPE_RIGHT_PARENTHESIS" 
-	machine_token_types["="] = "MTTYPE_EQUAL" 				
-	machine_token_types["+"] = "MTTYPE_PLUS" 				
-	machine_token_types["-"] = "MTTYPE_MINUS" 				
-	machine_token_types["*"] = "MTTYPE_MULTIPLICATION" 		
-	machine_token_types["/"] = "MTTYPE_DIVISION" 			
-	machine_token_types["and"] = "MTTYPE_AND" 					
-	machine_token_types["not"] = "MTTYPE_NOT" 					
-	machine_token_types["or"] = "MTTYPE_OR" 					
-	machine_token_types["'"] = "MTTYPE_SINGLE_QUOTE" 		
-	machine_token_types['"'] = "MTTYPE_DOUBLE_QUOTE" 		
-	machine_token_types["ID"] = "MTTYPE_ID" 					
-	machine_token_types["FLOAT"] = "MTTYPE_FLOAT" 					
-	machine_token_types["INT"] = "MTTYPE_INT" 					
-	machine_token_types["TIPO"] = "MTTYPE_TYPE" 				
-	machine_token_types["STRING"] = "MTTYPE_STRING" 					
-	machine_token_types["COMPARADOR"] = "MTTYPE_COMPARATOR" 			
-	machine_token_types["BOOL"] = "MTTYPE_BOOL"	
-
-	semantic_actions = True
-	
-	semantic_actions = []			
+	machine_token_types["i"] = "MTTYPE_i"
+	machine_token_types["I"] = "MTTYPE_I"
+	machine_token_types["K"] = "MTTYPE_k"
+	machine_token_types["k"] = "MTTYPE_K"
+	machine_token_types["S"] = "MTTYPE_S"
+	machine_token_types["s"] = "MTTYPE_s"
+	machine_token_types["1"] = "MTTYPE_1"
+	machine_token_types["0"] = "MTTYPE_0"
+	machine_token_types["`"] = "MTTYPE_S_QUOTE"
+	machine_token_types["*"] = "MTTYPE_ASTERISK"
+	machine_token_types["("] = "MTTYPE_L_PARENTHESIS"
+	machine_token_types[")"] = "MTTYPE_R_PARENTHESIS"
 
 	transition_table_file = open(transition_table_input, "r")
 
@@ -84,7 +44,6 @@ def main(argv):
 	buffer = ""
 
 	for line in transition_table_file:
-
 		if line.strip().startswith("Sub-maquina"):
 			machine_type_br = line.split(" ")[1].replace(":","")
 			machine_type = machine_types[machine_type_br]

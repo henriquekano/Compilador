@@ -1,0 +1,44 @@
+			
+if_1 		<condicao-1>
+			JN  		elsif_1_1
+			JP 			do_if_1
+do_if_1 	OS 			=0
+			<comandos-1>
+			<comandos-1>
+			<comandos-1>
+			<comandos-1>
+			JP 			endif_1
+
+
+			<condicao-2>
+elsif_1_1 	OS 		=0
+			JN 			elsif_1_2
+			JP 			do_elsif_1_1
+do_elsif_1_1 	OS 			=0
+			<comandos-2>
+			<comandos-2>
+			<comandos-2>
+			<comandos-2>
+			JP 			endif_1
+
+
+			<condicao-3>
+elsif_1_2 	OS 			=0
+			JN 			else_1
+			JP 			do_elsif_1_2
+do_elsif_1_2 	OS 			=0
+			<comandos-3>
+			<comandos-3>
+			<comandos-3>
+			JP 			endif_1
+
+
+else_1 		OS 				=0
+			<comandos-4>
+			<comandos-4>
+			<comandos-4>
+			<comandos-4>
+			<comandos-4>
+			JP 			endif_1
+
+endif_1 	OS 				=0
