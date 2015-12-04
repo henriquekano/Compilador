@@ -10,7 +10,7 @@ static FILE *scope_output_file;
 
 void scope_destroy_recursive(void *scope){
   if(scope_output_file != NULL){
-    symbol_table_fprintf(&(((Scope *)scope)->symbol_table), scope_output_file);
+    // symbol_table_fprintf(&(((Scope *)scope)->symbol_table), scope_output_file);
   }
   symbol_table_destroy(&(((Scope *)scope)->symbol_table));
 

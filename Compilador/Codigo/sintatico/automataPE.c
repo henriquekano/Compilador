@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "automataPE.h"
 
@@ -47,7 +48,7 @@ bool automataPE_run(AutomataPE *a, FILE *input, Token *t){
     return FALSE;
   }
 
-  printf("\t---------- %s\n", machineid_to_name(a->currentMachine.id));
+  // printf("\t---------- %s\n", machineid_to_name(a->currentMachine.id));
 
   int next_state = table_get(&(a->currentMachine.table), a->currentMachine.state, convert_token_to_machine_type(t));
   
@@ -58,7 +59,9 @@ bool automataPE_run(AutomataPE *a, FILE *input, Token *t){
     Token t2 = find_possible_token(input);
     t->string = t2.string;
     t->type = t2.type;
-
+    if(strcmp(t->string, "end") == 0){
+      actions_on_state_transition[MTYPE_PROGRAM][2][MTTYPE_END](t);
+    }
 
   //verifica se tem alguma transicao para uma maquina
   }else if(next_state == MINVALID_STATE){

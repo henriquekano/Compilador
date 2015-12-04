@@ -1,19 +1,17 @@
 begin
-##
   int num;
   int fat;
-##  
   if(num == 0) do
     fat = 0;
   elsif(num == 1) do
     fat = 1;
   elsif(num == 2) do
     fat = 2;
-  else
+  else do
     fat = 3;
   endif
-##
   scan(num);
+  print(fat);
   if(num < 0) do
     fat = 0;
   else do
@@ -23,7 +21,5 @@ begin
       num = num - 1;
     endwhile
 
-    print(fat);
   endif
-##
 end

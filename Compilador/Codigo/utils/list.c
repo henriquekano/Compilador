@@ -2,6 +2,8 @@
 #include <assert.h>
 #include <string.h>
 #include "list.h"
+#include <stdio.h>
+#include "file_manager.h"
  
 void list_free_string(void *data){
   free(*(char **)data);
@@ -34,6 +36,7 @@ void list_prepend(List *list, void *element){
   listNode *node = malloc(sizeof(listNode));
   node->data = malloc(list->elementSize);
   memcpy(node->data, element, list->elementSize);
+  // node->data = element;
 
   node->next = list->head;
   list->head = node;
@@ -155,4 +158,10 @@ void *list_get(List *list, void *data, listComparator comparator){
     }
   }
   return NULL;
+}
+
+void print_list_on_file(List *list, FILE *file){
+  while(list_size(list) > 0){
+    write(file, (char *)list_get_first(list));
+  }
 }

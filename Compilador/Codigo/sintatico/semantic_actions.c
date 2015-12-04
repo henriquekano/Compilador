@@ -6,6 +6,7 @@
 #include "../utils/string_utils.h"
 #include "../utils/file_manager.h"
 #include "semantic_actions.h"
+#include "../semantico/scope.h"
 #define ASM_FILENAME "SAIDA.asm"
 
 static FILE *output;
@@ -14,9 +15,9 @@ static int if_counter			= 0;
 static int else_counter			= 0;
 static int while_counter		= 0;
 static int temp_count			= 0;
-static int last_id 				= 333;
 static int TAMANHO 				= 4;
 static char * ADDR 				= "/0300";
+static char * last_command;
 
 static List if_stack; 			// pilha de if, else, elsif, endif
 static List output_stack; 		// pilha para despejar o if_stack para saida, depois das labels consertadas
@@ -27,6 +28,8 @@ static char buffer[150];
 static struct List operands_stack;
 static struct List operator_stack;
 static struct List char_pointer_garbage;
+
+void expression_print(FILE *output, Token *token);
 
 typedef enum{
 	ACTION_WHILE = 0,
@@ -39,13 +42,12 @@ typedef enum{
 static action current_action = ACTION_IF;
 
 char *get_begin_program_label(){
-	return "";
+	return "begin";
 }
 
 char *get_end_program_label(){
-	return "";
+	return "end";
 }
-
 
 char *get_temp_label(){
   char *temp = (char *)malloc(20 * sizeof(char));
@@ -56,19 +58,25 @@ char *get_temp_label(){
 }
 
 void semantic_actions_end(){
+	scope_destroy();
   list_destroy(&operator_stack);
   list_destroy(&operands_stack);
-  
+  list_destroy(&if_stack); 			// pilha de if, else, elsif, endif
+	list_destroy(&output_stack);
   list_destroy(&char_pointer_garbage);
 }
-
 
 void nop(Token * token) {
 	// DOES NOTHING
 }
 
-void get_id(Token * token) {
-	last_id = 123123;
+void resolve_expression(Token * token){
+	expression_print(output, token);
+}
+
+void resolve_declaration(Token * token) {
+	int var_info[7] = {0, 1, 0, 0, 0, 0, 0};
+	scope_add_var(token->string, var_info);
 }
 
 // se estiver dentro de um if, imprime na stack
@@ -162,18 +170,17 @@ void if_stack_to_output() {
 	while(havent_found_if){
 		stack_buffer = (char *)list_get_first(&if_stack);
 
-		printf("stack_buffer: %s\n", stack_buffer);
-		// nao sei se funfa
 		if(startsWith("if", stack_buffer)){
 			sprintf(buffer, "\t\tJN\t\t%s\n", last_else_label);
 			list_prepend(&output_stack, buffer);
 
-			// não sei se funciona
-			custom_print(list_to_char_array(&output_stack));
+			if(list_size(&if_stack) == 0){
+				inside_if = FALSE;
+			}
+
+			print_list_on_file(&output_stack, output);
 			list_destroy(&output_stack);
 			havent_found_if = FALSE;
-
-			printf("desempilhei if");
 
 		} else if(startsWith("do_if", stack_buffer)){
 			sprintf(buffer, "%s\t\tOS\t\t=0\t\t\n", get_do_if_label());
@@ -201,20 +208,23 @@ void if_stack_to_output() {
 		} else {
 			list_prepend(&output_stack, stack_buffer);
 		}
-
-		printf("tamanho da if_stack: %d\n", list_size(&if_stack));
-
-		if(list_size(&if_stack) == 0){
-			printf("passei por aqui no inside_if = FALSE");
-			inside_if = FALSE;
-		}
 	}
 }
 
+void resolve_begin(Token * token) {
+	sprintf(buffer, "%s\t\tOS\t\t=0\n", get_begin_program_label());
+	custom_print(buffer);
+}
+
+void resolve_end(Token * token) {
+	sprintf(buffer, "%s\t\tOS\t\t=0\n", get_end_program_label());
+	custom_print(buffer);
+}
+
 void resolve_if(Token * token) {
-	printf("passei pelo resolve if");
 	inside_if = TRUE;
-	sprintf(buffer, "%s\t\tLD\t\t%s\n", get_if_label(), get_condition_label());
+	last_command = "if";
+	sprintf(buffer, "%s\t\tOS\t\t=0\n", get_if_label());
 	custom_print(buffer);
 }
 
@@ -226,6 +236,7 @@ void resolve_do_if(Token * token) {
 }
 
 void resolve_else(Token * token) {
+	printf("cheguei no else\n\n\n");
 	sprintf(buffer, "\t\tJP\t\t%s\n", get_endif_label());
 	custom_print(buffer);
 	sprintf(buffer, "%s\n", get_else_label());
@@ -233,9 +244,8 @@ void resolve_else(Token * token) {
 }
 
 void resolve_elsif(Token * token) {
+	last_command = "elsif";
 	sprintf(buffer, "\t\tJP\t\t%s\n", get_endif_label());
-	custom_print(buffer);
-	sprintf(buffer, "\t\tLD\t\t%s\n", get_condition_label());
 	custom_print(buffer);
 	sprintf(buffer, "%s\n", get_elsif_label());
 	custom_print(buffer);
@@ -260,7 +270,7 @@ void resolve_endif(Token * token) {
 }
 
 void resolve_while(Token * token) {
-	sprintf(buffer, "%s\t\tLD\t\t%s\n", get_while_label(), get_condition_label());
+	sprintf(buffer, "%s\t\tOS\t\t=0\n", get_while_label());
 	custom_print(buffer);
 	sprintf(buffer, "\t\tJN\t\t%s\n", get_endwhile_label());
 	custom_print(buffer);
@@ -304,6 +314,15 @@ void resolve_print(Token * token) {
 	custom_print(buffer);
 }
 
+void resolve_if_else_do(Token * token) {
+	printf("last_command= %s\n\n", last_command);
+	if(strcmp(last_command, "if") == 0){
+		resolve_do_if(token);
+	} else if(strcmp(last_command, "elsif") == 0){
+		resolve_do_elsif(token);
+	}
+}
+
 void init_semantic_actions() {
 	int n, i, j;
 
@@ -317,17 +336,30 @@ void init_semantic_actions() {
 		}
 	}
 
+	scope_init(output);
 	list_new(&if_stack, 100*sizeof(char*), list_free_string);
 	list_new(&output_stack, 100*sizeof(char*), list_free_string);
 	output = fopen(ASM_FILENAME, "w");
 
 	// TRANSITION TABLE --------------------------------------
+		// rawFinalStatesTables[MTYPE_PROGRAM][0] = 3;
 
-	actions_on_state_transition[MTYPE_COMMAND][0][MTTYPE_ID] = get_id;
+	// TRANSITION TABLE --------------------------------------
+	actions_on_state_transition[MTYPE_PROGRAM][0][MTTYPE_BEGIN] = resolve_begin;
+	// rawSubmachineCallTables[MTYPE_PROGRAM][1] = MTYPE_COMMAND;
+	// rawAfterCallTables[MTYPE_PROGRAM][1][MTYPE_COMMAND] = 2;
+
+	// rawSubmachineCallTables[MTYPE_PROGRAM][2] = MTYPE_COMMAND;
+	// rawAfterCallTables[MTYPE_PROGRAM][2][MTYPE_COMMAND] = 2;
+
+	actions_on_state_transition[MTYPE_PROGRAM][2][MTTYPE_END] = resolve_end;
+
+
+	actions_on_state_transition[MTYPE_COMMAND][0][MTTYPE_ID] = resolve_declaration;
 	// rawSubmachineCallTables[MTYPE_COMMAND][0] = MTYPE_DECLARATION;
 	// actions_on_machine_return[MTYPE_COMMAND][0][MTYPE_DECLARATION] = 2;
 
-	// actions_on_state_transition[MTYPE_COMMAND][0][MTTYPE_IF] = resolve_if;
+	actions_on_state_transition[MTYPE_COMMAND][0][MTTYPE_IF] = resolve_if;
 	// actions_on_state_transition[MTYPE_COMMAND][0][MTTYPE_WHILE] = 4;
 	// actions_on_state_transition[MTYPE_COMMAND][0][MTTYPE_WHEN] = 5;
 	actions_on_state_transition[MTYPE_COMMAND][0][MTTYPE_SCAN] = resolve_scan;
@@ -345,10 +377,10 @@ void init_semantic_actions() {
 
 	// actions_on_state_transition[MTYPE_COMMAND][9][MTTYPE_STRING] = 11;
 	// rawSubmachineCallTables[MTYPE_COMMAND][10] = MTYPE_EXPRESSION;
-	// actions_on_machine_return[MTYPE_COMMAND][10][MTYPE_EXPRESSION] = 12;
+	actions_on_machine_return[MTYPE_COMMAND][10] = resolve_expression;
 
 	// actions_on_state_transition[MTYPE_COMMAND][10][MTTYPE_STRING] = 12;
-	// actions_on_state_transition[MTYPE_COMMAND][11][MTTYPE_SEMICOLON] = 2;
+	actions_on_state_transition[MTYPE_COMMAND][11][MTTYPE_SEMICOLON] = resolve_expression;
 	actions_on_state_transition[MTYPE_COMMAND][12][MTTYPE_RIGHT_PARENTHESIS] = resolve_print;
 	// actions_on_state_transition[MTYPE_COMMAND][12][MTTYPE_COMMA] = 10;
 	// actions_on_state_transition[MTYPE_COMMAND][13][MTTYPE_RIGHT_BRACKET] = 14;
@@ -365,8 +397,8 @@ void init_semantic_actions() {
 	// rawSubmachineCallTables[MTYPE_COMMAND][21] = MTYPE_CONDITION;
 	// actions_on_machine_return[MTYPE_COMMAND][21] = resolve_if;
 
-	actions_on_state_transition[MTYPE_COMMAND][22][MTTYPE_RIGHT_PARENTHESIS] = resolve_if;
-	actions_on_state_transition[MTYPE_COMMAND][23][MTTYPE_DO] = resolve_do_if;
+	// actions_on_state_transition[MTYPE_COMMAND][22][MTTYPE_RIGHT_PARENTHESIS] = resolve_if;
+	actions_on_state_transition[MTYPE_COMMAND][23][MTTYPE_DO] = resolve_if_else_do;
 	// actions_on_state_transition[MTYPE_COMMAND][24][MTTYPE_RIGHT_BRACKET] = 26;
 	// rawSubmachineCallTables[MTYPE_COMMAND][25] = MTYPE_COMMAND;
 	// actions_on_machine_return[MTYPE_COMMAND][25] = resolve_do_if;
@@ -391,7 +423,7 @@ void init_semantic_actions() {
 	// rawSubmachineCallTables[MTYPE_COMMAND][33] = MTYPE_COMMAND;
 	// actions_on_machine_return[MTYPE_COMMAND][33][MTYPE_COMMAND] = 33;
 
-	// actions_on_state_transition[MTYPE_COMMAND][33][MTTYPE_ENDIF] = 2;
+	actions_on_state_transition[MTYPE_COMMAND][33][MTTYPE_ENDIF] = resolve_endif;
 	// rawSubmachineCallTables[MTYPE_COMMAND][34] = MTYPE_EXPRESSION;
 	// actions_on_machine_return[MTYPE_COMMAND][34][MTYPE_EXPRESSION] = 35;
 
@@ -521,28 +553,24 @@ void init_semantic_actions() {
 
 
 	// // MTYPE_EXPRESSION ||||||||||||||||||||||||||||||||||||||||
-	// rawFinalStatesTables[MTYPE_EXPRESSION][0] = 3;
-	// rawFinalStatesTables[MTYPE_EXPRESSION][1] = 4;
-	// rawFinalStatesTables[MTYPE_EXPRESSION][2] = 10;
-
 	// // TRANSITION TABLE --------------------------------------
 	// actions_on_state_transition[MTYPE_EXPRESSION][0][MTTYPE_NOT] = 1;
-	// actions_on_state_transition[MTYPE_EXPRESSION][0][MTTYPE_LEFT_PARENTHESIS] = 2;
+	actions_on_state_transition[MTYPE_EXPRESSION][0][MTTYPE_LEFT_PARENTHESIS] = resolve_expression;
 	// actions_on_state_transition[MTYPE_EXPRESSION][0][MTTYPE_BOOL] = 3;
-	// actions_on_state_transition[MTYPE_EXPRESSION][0][MTTYPE_ID] = 4;
-	// actions_on_state_transition[MTYPE_EXPRESSION][0][MTTYPE_INT] = 3;
+	actions_on_state_transition[MTYPE_EXPRESSION][0][MTTYPE_ID] = resolve_expression;
+	actions_on_state_transition[MTYPE_EXPRESSION][0][MTTYPE_INT] = resolve_expression;
 	// actions_on_state_transition[MTYPE_EXPRESSION][0][MTTYPE_FLOAT] = 3;
 	// actions_on_state_transition[MTYPE_EXPRESSION][1][MTTYPE_LEFT_PARENTHESIS] = 2;
 	// actions_on_state_transition[MTYPE_EXPRESSION][1][MTTYPE_BOOL] = 3;
 	// actions_on_state_transition[MTYPE_EXPRESSION][1][MTTYPE_ID] = 4;
 	// rawSubmachineCallTables[MTYPE_EXPRESSION][2] = MTYPE_EXPRESSION;
-	// actions_on_machine_return[MTYPE_EXPRESSION][2][MTYPE_EXPRESSION] = 5;
+	actions_on_machine_return[MTYPE_EXPRESSION][2] = resolve_expression;
 
-	// actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_MULTIPLICATION] = 0;
-	// actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_DIVISION] = 0;
+	actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_MULTIPLICATION] = resolve_expression;
+	actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_DIVISION] = resolve_expression;
 	// actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_AND] = 0;
-	// actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_PLUS] = 0;
-	// actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_MINUS] = 0;
+	actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_PLUS] = resolve_expression;
+	actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_MINUS] = resolve_expression;
 	// actions_on_state_transition[MTYPE_EXPRESSION][3][MTTYPE_OR] = 0;
 	// actions_on_state_transition[MTYPE_EXPRESSION][4][MTTYPE_LEFT_PARENTHESIS] = 6;
 	// actions_on_state_transition[MTYPE_EXPRESSION][4][MTTYPE_LEFT_BRACKET] = 7;
@@ -553,7 +581,7 @@ void init_semantic_actions() {
 	// actions_on_state_transition[MTYPE_EXPRESSION][4][MTTYPE_PLUS] = 0;
 	// actions_on_state_transition[MTYPE_EXPRESSION][4][MTTYPE_MINUS] = 0;
 	// actions_on_state_transition[MTYPE_EXPRESSION][4][MTTYPE_OR] = 0;
-	// actions_on_state_transition[MTYPE_EXPRESSION][5][MTTYPE_RIGHT_PARENTHESIS] = 3;
+	actions_on_state_transition[MTYPE_EXPRESSION][5][MTTYPE_RIGHT_PARENTHESIS] = resolve_expression;
 	// rawSubmachineCallTables[MTYPE_EXPRESSION][6] = MTYPE_EXPRESSION;
 	// actions_on_machine_return[MTYPE_EXPRESSION][6][MTYPE_EXPRESSION] = 13;
 
@@ -562,11 +590,11 @@ void init_semantic_actions() {
 	// actions_on_state_transition[MTYPE_EXPRESSION][8][MTTYPE_ID] = 3;
 	// actions_on_state_transition[MTYPE_EXPRESSION][9][MTTYPE_RIGHT_BRACKET] = 10;
 	// actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_LEFT_BRACKET] = 11;
-	// actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_MULTIPLICATION] = 0;
-	// actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_DIVISION] = 0;
+	actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_MULTIPLICATION] = resolve_expression;
+	actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_DIVISION] = resolve_expression;
 	// actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_AND] = 0;
-	// actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_PLUS] = 0;
-	// actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_MINUS] = 0;
+	actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_PLUS] = resolve_expression;
+	actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_MINUS] = resolve_expression;
 	// actions_on_state_transition[MTYPE_EXPRESSION][10][MTTYPE_OR] = 0;
 	// actions_on_state_transition[MTYPE_EXPRESSION][11][MTTYPE_INT] = 12;
 	// actions_on_state_transition[MTYPE_EXPRESSION][12][MTTYPE_RIGHT_BRACKET] = 3;
@@ -685,47 +713,54 @@ char *apply(FILE *output,char *operation, char *operand1, char *operand2){
 }
 
 // https://en.wikipedia.org/wiki/Shunting-yard_algorithm 
-void expression_print(FILE *output, Token token){
+void expression_print(FILE *output, Token *token){
   char *operand1;
   char *operand2;
   char *operator;
   char *result;
 
-  if(token.type == TT_IDENTIFIER || token.type == TT_INT){
-    list_prepend(&operands_stack, token.string);
+  if(token->type == TT_IDENTIFIER || token->type == TT_INT){
+  	sprintf(buffer, "%s", token->string);
+    list_prepend(&operands_stack, buffer);
 
-  } else if(token.type == TT_ARITH_SYMBOL || token.type == TT_COMPARATOR){
+  } else if(token->type == TT_ARITH_SYMBOL || token->type == TT_COMPARATOR){
     char *last_operator = (char *)list_peek_head(&operator_stack);
-    if(list_size(&operator_stack) <= 0 || strcmp(last_operator, "(") == 0 || operator_precedence(token.string) >= operator_precedence(last_operator)){
-      list_prepend(&operator_stack, token.string);
-    }else if(operator_precedence(token.string) < operator_precedence(last_operator)){
+    if(list_size(&operator_stack) <= 0 || strcmp(last_operator, "(") == 0 || operator_precedence(token->string) >= operator_precedence(last_operator)){
+      sprintf(buffer, "%s", token->string);
+      list_prepend(&operator_stack, buffer);
+    }else if(operator_precedence(token->string) < operator_precedence(last_operator)){
       while(list_size(&operator_stack) > 0){
         operator = list_get_first(&operator_stack);
         operand2 = (char *)list_get_first(&operands_stack);
         operand1 = (char *)list_get_first(&operands_stack);
         result = apply(output, operator, operand1, operand2);
-        list_prepend(&operands_stack, result);
+        sprintf(buffer, "%s", result);
+        list_prepend(&operands_stack, buffer);
       }
-      list_prepend(&operator_stack, token.string);
+      sprintf(buffer, "%s", token->string);
+      list_prepend(&operator_stack, buffer);
     }
-  } else if(token.type == TT_L_PARENTHESIS){
-    list_prepend(&operator_stack, token.string);
-  } else if(token.type == TT_R_PARENTHESIS){
+  } else if(token->type == TT_L_PARENTHESIS){
+    sprintf(buffer, "%s", token->string);
+    list_prepend(&operator_stack, buffer);
+  } else if(token->type == TT_R_PARENTHESIS){
     while(list_size(&operator_stack) > 0 && strcmp((char *)list_peek_head(&operator_stack), "(") != 0){
       operator = list_get_first(&operator_stack);
       operand2 = (char *)list_get_first(&operands_stack);
       operand1 = (char *)list_get_first(&operands_stack);
       result = apply(output, operator, operand1, operand2);
-      list_prepend(&operands_stack, result);
+      sprintf(buffer, "%s", result);
+      list_prepend(&operands_stack, buffer);
     }
     list_get_first(&operator_stack);
-  } else if(token.type == TT_END_OF_COMMAND){
+  } else if(token->type == TT_END_OF_COMMAND){
     while(list_size(&operator_stack) > 0){
       operator = list_get_first(&operator_stack);
       operand2 = (char *)list_get_first(&operands_stack);
       operand1 = (char *)list_get_first(&operands_stack);
       result = apply(output, operator, operand1, operand2);
-      list_prepend(&operands_stack, result);
+      sprintf(buffer, "%s", result);
+      list_prepend(&operands_stack, buffer);
     }
   }
 

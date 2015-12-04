@@ -1,6 +1,8 @@
 #ifndef LIST_H_DEFINED
 #define LIST_H_DEFINED
  #include "bool.h"
+#include <stdio.h>
+
 
 // a common function used to free malloc'd objects
 typedef void (*freeFunction)(void *);
@@ -42,6 +44,7 @@ void *list_peek_head(List *list);
 void *list_get(List *list, void *data, listComparator comparator);
 
 char *list_to_char_array(List *list);
+void print_list_on_file(List *list, FILE * file);
 void list_print(List *list);
 
 //Funcoes de free comuns
